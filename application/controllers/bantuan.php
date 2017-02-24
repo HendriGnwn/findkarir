@@ -34,7 +34,7 @@ class Bantuan extends CI_Controller {
 
 		$data['content']=$this->load->view('front/bantuan/bantuan', $tampil, true);
 		$data['footer']=$this->load->view('front/object/footer', $tampil, true);
-		$this->load->view('front/object/template_utama', $data);
+		$this->load->view('front/layouts/main', $data);
 	}
 
 		public function proses()

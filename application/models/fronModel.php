@@ -350,5 +350,5 @@ class fronModel extends CI_Model {
 			return null;
 		}
 	}
-
+	
 }

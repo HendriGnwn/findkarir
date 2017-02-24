@@ -109,7 +109,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('my_model', 'fronModel');
+$autoload['model'] = array('my_model', 'fronModel', 'Config_Model');
 
 
 /* End of file autoload.php */
