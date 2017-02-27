@@ -177,6 +177,17 @@
                         </div><!-- /input-group --></td>
                     </tr>
                     <tr>
+                      <td width="30%">Kategori Perusahaan</td>
+                      <td width="1%">:</td>
+                      <td><div class="input-group">
+                          <select name="category" id="category" class="form-control">
+                            <option value="">...</option>
+                            <option value="1">Umum</option>
+                            <option value="2">Partnership</option>
+                          </select>
+                        </div><!-- /input-group --></td>
+                    </tr>
+                    <tr>
                       <td></td>
                       <td></td>
                       <td colspan="3"><button type="submit" class="btn btn-primary btn-flat"><i class="fa fa-save"></i>&nbsp; &nbsp; <?php echo $button; ?></button></td>
@@ -230,6 +241,9 @@ $(document).ready(function() {
         minlength: 6,
         maxlength: 40
       },
+	  category: {
+        required: true,
+      },
       no_telp:{
         required: true,
         digits: true,
@@ -280,6 +294,9 @@ $(document).ready(function() {
         required: "Password harap di isi",
         minlength: "Minimal 6 Karakter",
         minlength: "Maksimal 30 Karakter",
+      },
+	  category: {
+        required: "Kategori harap di isi",
       },
 <?php if($title=="Tambah Perusahaan"){ ?>
       file: {

@@ -66,30 +66,8 @@
 			</div>
 			<!-- End Single Post Area -->
 
-
-
-
-			<!-- Sidebar -->
-			<div class="col-md-3 sidebar right-sidebar">
-
-                <!-- Categories Widget -->
-                <div class="widget widget-categories">
-					<h4>Kategori <span class="head-line"></span></h4>
-					<ul>
-						<li>
-							<a href="<?php echo base_url('berita'); ?>">Berita FindKarir.com</a>
-						</li>
-						<?php foreach ($kategoriData as $data) : ?>
-							<li>
-								<a href="<?php echo base_url('page/detail/'.$data->slug); ?>"><?php echo $data->name; ?></a>
-							</li>
-						<?php endforeach; ?>
-					</ul>
-                </div>
-
-			</div>
-			<!--End sidebar-->
-
+			<?php $this->load->view('front/layouts/_sidebar', array('kategoriData' => $kategoriData)) ?>
+			
 		</div>
 	</div>
 </div>

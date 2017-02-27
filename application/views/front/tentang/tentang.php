@@ -20,9 +20,6 @@
 		</div>
 		<!-- End Page Banner -->
 		
-		
-		
-		
 		<!-- Start Content -->
 		<div id="content">
 			<div class="container">
@@ -59,7 +56,7 @@
                 <div class="widget widget-categories">
                  <h4>Kategori <span class="head-line"></span></h4>
                  <ul>
-                  <li><a <?php if(uri_string()=='berita'){echo "class='active'";} ?> href="<?php echo base_url('berita'); ?>">Berita jeLoker.com</a></li>
+                  <li><a <?php if(uri_string()=='berita'){echo "class='active'";} ?> href="<?php echo base_url('berita'); ?>">Berita <?php echo $this->Config_Model->get_app_name_url() ?></a></li>
                   <?php
                     if($kategoriData!=''){
                       foreach($kategoriData as $data){

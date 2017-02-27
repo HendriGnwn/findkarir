@@ -15,28 +15,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
     <!-- Page Description and Author -->
-    <meta name="description" content="<?php echo isset($meta_deskripsi)? $meta_deskripsi:''; ?>">
-    <meta name="author" content="Hendri Gunawan">
+    <meta name="description" content="<?php echo isset($meta_deskripsi) ? $meta_deskripsi : '' ?>">
+    <meta name="author" content="Art Techno Corporation">
 
-    <meta property="og:title" content="JELOKER.COM | <?php echo strtoupper(isset($title_head)? $title_head:''); ?>" /> 
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="<?php echo base_url('assets/img/meta.jpg'); ?>" /> 
-    <meta property="og:image:type" content="image/jpg">
-    <meta property="og:description" content="<?php echo isset($meta_deskripsi)? $meta_deskripsi:''; ?>" /> 
-    <meta property="og:url" content="<?php echo base_url(uri_string()); ?>">
+	<meta property="og:title" content="<?php echo isset($page_title) ? $page_title : '' ?> | <?php echo $this->Config_Model->get_app_name() ?>" /> 
+	<meta property="og:type" content="website">
+	<meta property="og:image" content="<?php echo base_url('assets/img/meta.jpg'); ?>" /> 
+  	<meta property="og:image:type" content="image/jpg">
+	<meta property="og:description" content="<?php echo isset($meta_deskripsi) ? $meta_deskripsi : '' ?>" /> 
+	<meta property="og:url" content="<?php echo base_url(); ?>">
 
-    <!-- for Twitter -->          
+	<!-- for Twitter -->          
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@hendriGnwin">
-    <meta name="twitter:creator" content="Hendri Gunawan">
-    <meta name="twitter:title" content="JELOKER.COM | <?php echo strtoupper(isset($title_head)? $title_head:''); ?>">
-    <meta name="twitter:description" content="<?php echo isset($meta_deskripsi)? $meta_deskripsi:''; ?>">
-    <meta name="twitter:image:src" content="<?php echo base_url('assets/img/meta.jpg'); ?>"> 
-    
-    <!--for G+-->
-    <meta itemprop="name" content="JELOKER.COM | <?php echo strtoupper(isset($title_head)? $title_head:''); ?>" > 
-    <meta itemprop="description" content="<?php echo isset($meta_deskripsi)? $meta_deskripsi:''; ?>">
-    <meta itemprop="image" content="<?php echo base_url('assets/img/meta.jpg'); ?>">
+	<meta name="twitter:title" content="<?php echo isset($page_title) ? $page_title : '' ?> | <?php echo $this->Config_Model->get_app_name() ?>">
+	<meta name="twitter:description" content="<?php echo isset($meta_deskripsi) ? $meta_deskripsi : '' ?>">
+	<meta name="twitter:image:src" content="<?php echo base_url('assets/img/meta.jpg'); ?>"> 
+	
+	<!--for G+-->
+	<meta itemprop="name" content="<?php echo isset($page_title) ? $page_title : '' ?> | <?php echo $this->Config_Model->get_app_name() ?>">
+	<meta itemprop="description" content="<?php echo isset($meta_deskripsi) ? $meta_deskripsi : '' ?>">
+	<meta itemprop="image" content="<?php echo base_url('assets/img/meta.jpg'); ?>">
     
     <link rel="shortcut icon" href="<?php echo base_url('assets/img/icon_front.PNG') ?>" />
 
@@ -157,8 +155,8 @@
                     <div class="navbar-collapse collapse">
                         <!-- Start Navigation List -->
                         <div class="widget widget-search navbar-search">
-                            <form action="<?php echo base_url('lowongan/cari') ?>" method="POST">
-                                <input type="search" placeholder="Mencari berdasarkan Posisi . Keahlian . Perusahaan ..." name="search" />
+                            <form action="<?php echo base_url('lowongan/cari') ?>" method="get">
+								<input type="search" placeholder="Mencari berdasarkan Posisi . Keahlian . Perusahaan ..." name="search" value="<?php echo isset($_GET['search']) ? $_GET['search'] : '' ?>" />
                                 <button class="search-btn" type="submit"><i class="fa fa-search"></i></button>
                             </form>
                         </div>

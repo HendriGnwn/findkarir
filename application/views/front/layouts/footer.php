@@ -12,7 +12,7 @@ $pages3 = $this->fronModel->show('page WHERE category=3', 'name', 'ASC');
                 <div class="row footer-widgets">
                     <div class="col-md-3 col-xs-12">
                         <div class="footer-widget twitter-widget">
-                            <h4>Tentang jeLoker.com<span class="head-line"></span></h4>
+                            <h4>Tentang <?php echo $this->Config_Model->get_app_name_url() ?><span class="head-line"></span></h4>
                             <ul>
                                 <?php foreach ($pages1 as $page) : ?>
                                 <li>
@@ -86,7 +86,7 @@ $pages3 = $this->fronModel->show('page WHERE category=3', 'name', 'ASC');
                 <div class="copyright-section">
                     <div class="row">
                         <div class="col-md-6">
-                            <p>&copy; <?php echo date('Y') ?> <?php echo $config->get_app_name_url() ?> -  All Rights Reserved <a target="_BLANK" href="http://atc.co.id">Jeloker.Com</a> </p>
+                            <p>&copy; <?php echo date('Y') ?> <?php echo $config->get_app_name_url() ?> -  All Rights Reserved <a target="_BLANK" href="http://atc.co.id">www.atc.co.id</a> </p>
                         </div><!-- .col-md-6 -->
                         <div class="col-md-6">
                             <ul class="footer-nav">

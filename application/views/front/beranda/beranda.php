@@ -6,7 +6,7 @@
 <head>
 
     <!-- Basic -->
-    <title>jeLoker | Beranda</title>
+    <title><?php echo $this->Config_Model->get_app_name() ?> | <?php echo isset($page_title) ? $page_title : '' ?></title>
 
     <!-- Define Charset -->
     <meta charset="utf-8">
@@ -15,33 +15,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <!-- Page Description and Author -->
-    <meta name="description" content="jeLoker.com | Gudangnya Informasi Lowongan Kerja, 
-    Segala Informasi tentang Lowongan Kerja bisa Anda dapatkan di sini dari mulai Posisi Rentan Gaji dan Daerah yang Anda inginkan ada di jeLoker.com">
-    <meta name="author" content="Hendri Gunawan">
+    <meta name="description" content="<?php echo isset($meta_deskripsi) ? $meta_deskripsi : '' ?>">
+    <meta name="author" content="Art Techno Corporation">
 
-	<meta property="og:title" content="JELOKER.COM | Gudangnya Informasi Lowongan Kerja" /> 
+	<meta property="og:title" content="<?php echo $this->Config_Model->get_app_name() ?> | <?php echo isset($page_title) ? $page_title : '' ?>" /> 
 	<meta property="og:type" content="website">
 	<meta property="og:image" content="<?php echo base_url('assets/img/meta.jpg'); ?>" /> 
   	<meta property="og:image:type" content="image/jpg">
-	<meta property="og:description" content="jeLoker.com | Gudangnya Informasi Lowongan Kerja, 
-    Segala Informasi tentang Lowongan Kerja bisa Anda dapatkan di sini dari mulai Posisi Rentan Gaji dan Daerah yang Anda inginkan ada di jeLoker.com" /> 
+	<meta property="og:description" content="<?php echo isset($meta_deskripsi) ? $meta_deskripsi : '' ?>" /> 
 	<meta property="og:url" content="<?php echo base_url(); ?>">
 
 	<!-- for Twitter -->          
     <meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:site" content="@hendriGnwin">
-	<meta name="twitter:creator" content="Hendri Gunawan">
-	<meta name="twitter:title" content="JELOKER.COM | Gudangnya Informasi Lowongan Kerja">
-	<meta name="twitter:description" content="jeLoker.com | Gudangnya Informasi Lowongan Kerja, 
-    Segala Informasi tentang Lowongan Kerja bisa Anda dapatkan di sini dari mulai Posisi Rentan Gaji dan Daerah yang Anda inginkan ada di jeLoker.com">
+	<meta name="twitter:title" content="<?php echo $this->Config_Model->get_app_name() ?> | <?php echo isset($page_title) ? $page_title : '' ?>">
+	<meta name="twitter:description" content="<?php echo isset($meta_deskripsi) ? $meta_deskripsi : '' ?>">
 	<meta name="twitter:image:src" content="<?php echo base_url('assets/img/meta.jpg'); ?>"> 
 	
 	<!--for G+-->
-	<meta itemprop="name" content="JELOKER.COM | Gudangnya Informasi Lowongan Kerja">
-	<meta itemprop="description" content="jeLoker.com | Gudangnya Informasi Lowongan Kerja, 
-    Segala Informasi tentang Lowongan Kerja bisa Anda dapatkan di sini dari mulai Posisi Rentan Gaji dan Daerah yang Anda inginkan ada di jeLoker.com">
+	<meta itemprop="name" content="<?php echo $this->Config_Model->get_app_name() ?> | <?php echo isset($page_title) ? $page_title : '' ?>">
+	<meta itemprop="description" content="<?php echo isset($meta_deskripsi) ? $meta_deskripsi : '' ?>">
 	<meta itemprop="image" content="<?php echo base_url('assets/img/meta.jpg'); ?>">
-	
 
     <link rel="shortcut icon" href="<?php echo base_url('assets/img/icon_front.PNG') ?>" />
 
@@ -85,6 +78,10 @@
 
     <!--[if IE 8]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	
+<?php
+$config = $this->Config_Model;
+?>
 
 </head>
 
@@ -92,7 +89,6 @@
 
     <!-- Full Body Container -->
     <div id="container">
-        
         
         <!-- Start Header Section --> 
         <div class="hidden-header"></div>
@@ -105,11 +101,11 @@
                         <div class="col-md-7">
                             <!-- Start Contact Info -->
                             <ul class="contact-details">
-                                <li><a href="#"><i class="fa fa-map-marker"></i> <?php echo isset($alamat)? $alamat:''; ?></a>
+                                <li><a href="#"><i class="fa fa-map-marker"></i> <?php echo $config->get_app_contact_address() ? $config->get_app_contact_address():''; ?></a>
                                 </li>
-                                <li><a href="#"><i class="fa fa-envelope-o"></i> <?php echo isset($email)? $email:''; ?></a>
+                                <li><a href="#"><i class="fa fa-envelope-o"></i> <?php echo $config->get_app_contact_email() ? $config->get_app_contact_email():''; ?></a>
                                 </li>
-                                <li><a href="#"><i class="fa fa-phone"></i> <?php echo isset($no_telp)? $no_telp:''; ?></a>
+                                <li><a href="#"><i class="fa fa-phone"></i> <?php echo $config->get_app_contact_phone() ? $config->get_app_contact_phone():''; ?></a>
                                 </li>
                             </ul>
                             <!-- End Contact Info -->
@@ -117,50 +113,15 @@
                         <div class="col-md-5">
                             <!-- Start Social Links -->
                             <ul class="social-list">
-                                <?php
-                                    if(isset($facebook)? $facebook:''!=''){
-                                ?>
                                 <li>
-                                    <a class="facebook itl-tooltip" data-placement="bottom" title="Facebook" target="_BLANK" href="http://<?php echo isset($facebook)? $facebook:''; ?>"><i class="fa fa-facebook"></i></a>
+                                    <a class="facebook itl-tooltip" data-placement="bottom" title="Facebook" target="_BLANK" href="<?php echo $config->get_app_facebook() ? $config->get_app_facebook() : ''; ?>"><i class="fa fa-facebook"></i></a>
                                 </li>
-                                <?php
-                                    }
-                                    if(isset($twiter)? $twitter:''!=''){
-                                ?>
                                 <li>
-                                    <a class="twitter itl-tooltip" data-placement="bottom" title="Twitter" target="_BLANK" href="http://<?php echo isset($twitter)? $twitter:''; ?>"><i class="fa fa-twitter"></i></a>
+                                    <a class="twitter itl-tooltip" data-placement="bottom" title="Twitter" target="_BLANK" href="<?php echo $config->get_app_twitter() ? $config->get_app_twitter() : ''; ?>"><i class="fa fa-twitter"></i></a>
                                 </li>
-                                <?php
-                                    }
-                                    if(isset($google)? $google:''!=''){
-                                ?>
                                 <li>
-                                    <a class="google itl-tooltip" data-placement="bottom" title="Google Plus" target="_BLANK" href="http://<?php echo isset($google)? $google:''; ?>"><i class="fa fa-google-plus"></i></a>
+                                    <a class="google itl-tooltip" data-placement="bottom" title="Google Plus" target="_BLANK" href="<?php echo $config->get_app_google() ? $config->get_app_google() : ''; ?>"><i class="fa fa-google-plus"></i></a>
                                 </li>
-                                <?php
-                                    }
-                                    if(isset($dribbble)? $dribbble:''!=''){
-                                ?>
-                                <li>
-                                    <a class="dribbble itl-tooltip" data-placement="bottom" title="Dribble" target="_BLANK" href="http://<?php echo isset($dribbble)? $dribbble:''; ?>"><i class="fa fa-dribbble"></i></a>
-                                </li>
-                                <?php
-                                    }
-                                    if(isset($linkedin)? $linkedin:''!=''){
-                                ?>
-                                <li>
-                                    <a class="linkdin itl-tooltip" data-placement="bottom" title="Linkedin" target="_BLANK" href="http://<?php echo isset($linkedin)? $linkedin:''; ?>"><i class="fa fa-linkedin"></i></a>
-                                </li>
-                                <?php
-                                    }
-                                    if(isset($skype)? $skype:''!=''){
-                                ?>
-                                <li>
-                                    <a class="skype itl-tooltip" data-placement="bottom" title="Skype" target="_BLANK" href="http://<?php echo isset($skype)? $skype:''; ?>"><i class="fa fa-skype"></i></a>
-                                </li>
-                                <?php
-                                    }
-                                ?>
                             </ul>
                             <!-- End Social Links -->
                         </div><!-- .col-md-6 -->
@@ -272,7 +233,7 @@
                         <img class="img-responsive" src="<?php echo base_url('assets/img/slider/bg2.jpg') ?>" alt="slider">
                         <div class="slider-content">
                             <h2 class="animated4" style="font-size: 35pt;">
-                              <span><strong>jeloker.com</strong></span><br>
+                              <span><strong><?php echo $config->get_app_name_url() ?></strong></span><br>
                               <span style="font-size: 12pt; color: #fff;text-transform: none;">Gudangnya Informasi Lowongan Kerja</span>
                             </h2>
                             <h3 class="animated5" style="margin-top: 10px;">
@@ -401,7 +362,7 @@
 
                     <!-- Start Big Heading -->
                     <div class="big-title text-center" data-animation="fadeInDown" data-animation-delay="01">
-                        <h1>Statistik  <span class="accent-color sh-tooltip"><strong>jeLoker.com</strong></span></h1>
+                        <h1>Statistik  <span class="accent-color sh-tooltip"><strong><?php echo $config->get_app_name_url() ?></strong></span></h1>
                     </div>
                     <!-- End Big Heading -->
 
@@ -416,7 +377,7 @@
                       <div class="counter-item">
                         <i class="fa fa-arrow-circle-down"></i>
                         <div class="timer" id="item1" data-to="<?php echo isset($statistik['jml_hit'])? $statistik['jml_hit']:''; ?>" data-speed="5000"></div>
-                        <h5>Pengunjung jeLoker.com</h5>                               
+                        <h5>Pengunjung <?php echo $config->get_app_name_url() ?></h5>                               
                       </div>
                     </div>  
                     <div class="col-xs-12 col-sm-3 col-md-3">
@@ -455,11 +416,8 @@
            <div class="latest-posts">
             <h4 class="classic-title"><span>Berita Terbaru</span></h4>
             <div class="latest-posts-classic custom-carousel touch-carousel" data-appeared-items="2">
-              <?php
-                if($loadBerita!=''){
-                    foreach ($loadBerita as $berita) {
-                        $tgl_berita = explode(" ", tgl_indo_time1($berita->tgl));
-                        //var_dump($tgl_berita);
+              <?php foreach ($loadBerita as $berita) :
+						$tgl_berita = explode(" ", tgl_indo_time1($berita->tgl));
               ?>
               <!-- Posts 1 -->
               <div class="post-row item">
@@ -471,16 +429,12 @@
                   <div class="post-type"><i class="fa fa-pencil-square-o"></i></div>
                   <?php } ?>
                 </div>
-                <h3 class="post-title"><a href="<?php echo base_url('berita/detail/'.$berita->id_berita) ?>"><?php echo $berita->judul; ?></a></h3>
+                <h3 class="post-title"><a href="<?php echo base_url('berita/detail/'.$berita->slug) ?>"><?php echo $berita->judul; ?></a></h3>
                 <div class="post-content">
-                  <p><?php echo isiSingkat($berita->deskripsi); ?> <a class="read-more" href="<?php echo base_url('berita/detail/'.$berita->id_berita) ?>">Selengkapnya ...</a></p>
+                  <p><?php echo isiSingkat($berita->deskripsi); ?> <a class="read-more" href="<?php echo base_url('berita/detail/'.$berita->slug) ?>">Selengkapnya ...</a></p>
                 </div>
               </div>
-
-              <?php
-                    }
-                }
-              ?>
+              <?php endforeach; ?>
             </div>
           </div>
         <!-- End Recent Posts Carousel -->
@@ -490,7 +444,7 @@
                 <div class="col-md-4">
                 
                 <!-- Classic Heading -->
-                <h4 class="classic-title"><span>Tentang jeLoker.com</span></h4>
+                <h4 class="classic-title"><span>Tentang <?php echo $this->Config_Model->get_app_name_url() ?></span></h4>
                 
                 <!-- Accordion -->
                 <div class="panel-group" id="accordion">
@@ -502,15 +456,15 @@
                         <!-- Toggle Heading -->
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $data->id_tentang; ?>" class="collapsed">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $data->slug; ?>" class="collapsed">
                                     <i class="icon-down-open-1 control-icon"></i>
-                                    <i class="icon-laptop-1"></i> <?php echo $data->kategori; ?>
+                                    <i class="icon-laptop-1"></i> <?php echo $data->name; ?>
                                 </a>
                             </h4>
                         </div>
                         <!-- Toggle Content -->
-                        <div id="collapse<?php echo $data->id_tentang; ?>" class="panel-collapse collapse">
-                            <div class="panel-body"><?php echo isiSingkat($data->deskripsi); ?> <a href="<?php echo base_url('berita/tentang/'.$data->id_tentang) ?>">Selengkapnya</a></div>
+                        <div id="collapse<?php echo $data->slug; ?>" class="panel-collapse collapse">
+                            <div class="panel-body"><?php echo isiSingkat($data->description); ?> <a href="<?php echo base_url('page/detail/'.$data->slug) ?>">Selengkapnya</a></div>
                         </div>
                     </div>
                     <!-- End Accordion 1 -->
@@ -535,7 +489,7 @@
                 <!-- Start Big Heading -->
         		<div class="big-title text-center">
         			<h1>Daftar <strong>Perusahaan</strong></h1>
-        			<p class="title-desc">Perusahaan yang bergabung di jeLoker.com</p>
+        			<p class="title-desc">Perusahaan yang bergabung di <?php echo $config->get_app_name_url() ?></p>
         		</div>
         		<!-- End Big Heading -->
         		
@@ -598,6 +552,7 @@
             </div><!-- .row -->
         </div><!-- .container -->
         </div>
+		
         <!-- End Client/Partner Section -->
         <div class="hr1 margin-60"></div>
 
@@ -609,6 +564,6 @@
                 <div class="dot2"></div>
             </div>
         </div>
+		<?php $this->load->view('front/layouts/footer') ?>
 </body>
-
 </html>

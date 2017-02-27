@@ -56,7 +56,7 @@
 						<div class="widget widget-search">
                             <div class="hr1 margin-30"></div>
 							<h4>Cari Berdasarkan <span class="head-line"></span></h4>
-							<form role="form" class="contact-form" id="contact-form" method="post" action="<?php echo base_url('lowongan/search'); ?>">
+							<form role="form" class="contact-form" id="contact-form" method="get" action="<?php echo base_url('lowongan/search'); ?>">
 							    <div class="form-group">
 								    <div class="controls">
 								    <select name="gaji" class="form-control">

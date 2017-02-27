@@ -8,7 +8,6 @@ class Administrator_login extends CI_Controller {
 		date_default_timezone_set("Asia/Jakarta");
 	}
 
-
 	public function index()
 	{
 		$row = $this->my_model->showById('job_hit', array('id_hit'=>'1'));

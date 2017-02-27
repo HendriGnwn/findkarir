@@ -6,24 +6,18 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-8">
-						<h2>Berita jeLoker.com</h2>
-						<p>Berita Mengenai jeLoker.com</p>
+						<h2>Berita</h2>
+						<p>Berita Mengenai <?php echo $this->Config_Model->get_app_name_url() ?></p>
 					</div>
 					<div class="col-md-4">
 						<ul class="breadcrumbs">
 							<li><a href="<?php echo base_url(''); ?>">Beranda</a></li>
-							<li><?php echo isset($row['untuk'])? $row['untuk']:''; ?></li>
+							<li>Berita</li>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- End Page Banner -->
-		
-		
-		
-		
-		<!-- Start Content -->
 		<div id="content">
 			<div class="container">
 				<div class="row blog-post-page">
@@ -57,13 +51,13 @@
                           <i class="fa fa-pencil-square-o"></i>
                         <?php } ?>
                         </div>
-                        <h2><a href="<?php echo base_url('berita/detail/'.$dataBerita->id_berita) ?>"><?php echo $dataBerita->judul; ?></a></h2>
+                        <h2><a href="<?php echo base_url('berita/detail/'.$dataBerita->slug) ?>"><?php echo $dataBerita->judul; ?></a></h2>
                         <ul class="post-meta">
                           <li>By <a href="#">Admin</a></li>
                           <li><i class="fa fa-clock-o"></i>&nbsp;&nbsp;<?php echo tgl_indo_time1($dataBerita->tgl); ?></li>
                         </ul>
                         <p><?php echo isiSingkat($dataBerita->deskripsi); ?></p>
-                        <a class="main-button" href="<?php echo base_url('berita/detail/'.$dataBerita->id_berita) ?>">Selengkapnya <i class="fa fa-angle-right"></i></a>
+                        <a class="main-button" href="<?php echo base_url('berita/detail/'.$dataBerita->slug) ?>">Selengkapnya <i class="fa fa-angle-right"></i></a>
                       </div>
                     </div>
                     <!-- End Post -->
@@ -92,33 +86,7 @@
                 </div>
                 <!-- End Single Post Area -->
 
-                
-
-
-                <!-- Sidebar -->
-                <div class="col-md-3 sidebar right-sidebar">
-
-                <!-- Categories Widget -->
-                <div class="widget widget-categories">
-                 <h4>Kategori <span class="head-line"></span></h4>
-                 <ul>
-                  <li><a <?php if(uri_string()=='berita'){echo "class='active'";} ?> href="<?php echo base_url('berita'); ?>">Berita jeLoker.com</a></li>
-                  <?php
-                    if($kategoriData!=''){
-                      foreach($kategoriData as $data){
-                  ?>
-                  <li>
-                   <a <?php if($data->id_tentang==$this->uri->segment('3')){echo "class='active'";} ?> href="<?php echo base_url('berita/tentang/'.$data->id_tentang); ?>"><?php echo $data->kategori; ?></a>
-                 </li>
-                 <?php
-                      }
-                    }
-                 ?>
-                </ul>
-                </div>
-
-                </div>
-                <!--End sidebar-->
+                <?php $this->load->view('front/layouts/_sidebar', array('kategoriData' => $kategoriData)) ?>
 
                 </div>
 			</div>

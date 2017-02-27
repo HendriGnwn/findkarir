@@ -212,7 +212,7 @@ class Lowongan extends CI_Controller {
 
 		$config['base_url'] = base_url('lowongan/cari/');
 		//jumlah total data
-        $config['total_rows'] = $this->fronModel->totalCariLowongan($this->input->post('search'));
+        $config['total_rows'] = $this->fronModel->totalCariLowongan($this->input->get('search'));
 		//jumlah data per halaman
 		$config['per_page']=20;
 		//jumah link no halaman 
@@ -253,9 +253,9 @@ class Lowongan extends CI_Controller {
 		$tampil['halaman']=$this->pagination->create_links();
 // mengambil data per halaman
 
-		$tampil['loadLowongan'] = $this->fronModel->cariLowongan($this->input->post('search'), $config['per_page'], $this->uri->segment('3'));
+		$tampil['loadLowongan'] = $this->fronModel->cariLowongan($this->input->get('search'), $config['per_page'], $this->uri->segment('3'));
 		if($tampil['loadLowongan']==''){
-			$tampil['alert_kosong']="Pencarian Keyword '<b>".$this->input->post('search')."</b>' Data Lowongan Kerja tidak di Temukan";
+			$tampil['alert_kosong']="Pencarian Keyword '<b>".$this->input->get('search')."</b>' Data Lowongan Kerja tidak di Temukan";
 		}
 
 		$data['content']=$this->load->view('front/lowongan/lowongan', $tampil, true);		
@@ -282,7 +282,7 @@ class Lowongan extends CI_Controller {
 
 		$config['base_url'] = base_url('lowongan/search/');
 		//jumlah total data
-        $config['total_rows'] = $this->fronModel->totalCariLowonganBerdasarkan($this->input->post('posisi'));
+        $config['total_rows'] = $this->fronModel->totalCariLowonganBerdasarkan($this->input->get('posisi'));
 		//jumlah data per halaman
 		$config['per_page']=10;
 		//jumah link no halaman 
@@ -323,9 +323,9 @@ class Lowongan extends CI_Controller {
 		$tampil['halaman']=$this->pagination->create_links();
 // mengambil data per halaman
 
-		$tampil['loadLowongan'] = $this->fronModel->cariLowonganBerdasarkan($this->input->post('posisi'), $config['per_page'], $this->uri->segment('3'));
+		$tampil['loadLowongan'] = $this->fronModel->cariLowonganBerdasarkan($this->input->get('posisi'), $config['per_page'], $this->uri->segment('3'));
 		if($tampil['loadLowongan']==''){
-			$tampil['alert_kosong']="Pencarian Keyword '<b>".$this->input->post('posisi')."</b>' Data Lowongan Kerja tidak di Temukan";
+			$tampil['alert_kosong']="Pencarian Keyword '<b>".$this->input->get('posisi')."</b>' Data Lowongan Kerja tidak di Temukan";
 		}
 
 		$data['content']=$this->load->view('front/lowongan/lowongan', $tampil, true);		
