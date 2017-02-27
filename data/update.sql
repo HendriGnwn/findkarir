@@ -56,3 +56,31 @@ INSERT INTO `page` (`id`, `name`, `slug`, `description`, `category`, `status`, `
 (3,	'Pasang Iklan',	'pasang-iklan',	"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.\r\n\r\nIt was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Sed ut perspiciatis unde omnis iste natus error sit volup accusantium. Lorem ipsum dolor sit amet, consectetur.",	2,	1,	'2015-06-30 04:53:15',	NULL),
 (4,	'Ketentuan Penggunaan untuk Perusahaan',	'ketentuan-penggunaan-untuk-perusahaan',	"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.\r\n\r\nIt was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Sed ut perspiciatis unde omnis iste natus error sit volup accusantium. Lorem ipsum dolor sit amet, consectetur.",	2,	1,	'2015-06-27 00:00:00',	NULL),
 (5,	'Kebijakan Privasi untuk Pencari Kerja',	'kebijakan-privasi-untuk-pencari-kerja',	"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.\r\n\r\nIt was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. Sed ut perspiciatis unde omnis iste natus error sit volup accusantium. Lorem ipsum dolor sit amet, consectetur.",	3,	1,	'2015-06-27 00:00:00',	NULL);
+
+-- [26/02/2017] alter table add slug in berita
+ALTER TABLE `job_berita` ADD `slug` char(255) COLLATE 'latin1_swedish_ci' NOT NULL AFTER `judul`;
+
+-- add field category in job_perusahaan
+ALTER TABLE `job_perusahaan` ADD `category` int(1) NOT NULL DEFAULT '1' COMMENT '1=umum;2=findkarir-partnership';
+
+-- create table job_limit
+CREATE TABLE `job_limit` (
+  `id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `job_perusahaan_id` bigint NOT NULL,
+  `limit` int NOT NULL,
+  `date` date NOT NULL,
+  `status` int NOT NULL DEFAULT '1' COMMENT '1=active;2=inactive',
+  `created_at` datetime NULL,
+  `updated_at` datetime NULL
+);
+
+-- big integer
+ALTER TABLE `job_lowongan`
+CHANGE `id_lowongan` `id_lowongan` bigint NOT NULL AUTO_INCREMENT FIRST,
+CHANGE `id_perusahaan` `id_perusahaan` bigint NOT NULL AFTER `id_lowongan`;
+
+ALTER TABLE `job_pelamar`
+CHANGE `id_pelamar` `id_pelamar` bigint NOT NULL AUTO_INCREMENT FIRST;
+
+ALTER TABLE `job_perusahaan`
+CHANGE `id_perusahaan` `id_perusahaan` bigint NOT NULL AUTO_INCREMENT FIRST;
