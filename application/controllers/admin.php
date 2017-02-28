@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 //avendo
-class Admin extends CI_Controller {
+class Admin extends MY_Controller {
 	public function __construct(){
 		parent:: __construct();
 		$this->load->model('my_model');
@@ -13,24 +13,22 @@ class Admin extends CI_Controller {
 		$this->output->set_header('Pragma: no-cache');
 
 		if($this->session->userdata('id_user')==null || $this->session->userdata('hak_akses')=='2'){
-			redirect(base_url('error/error404'));
+			show_404();
 		}else
 		if($this->session->userdata('id_user')==null && $this->session->userdata('hak_akses')=='2'){
-			redirect(base_url('error/error404'));
+			show_404();
 		}
 	}
 
 	public function statusLowongan()
 	{
-		$looping = $this->my_model->show('job_aktivasi', 'id_aktivasi', 'ASC');
+		$looping = $this->my_model->get_jobs_expire_activation();
 		if($looping!=''){
 			foreach($looping as $data){
-				if(date('Y-m-d') >= $data->date_limit){
-					$data1=array(
-							'aktif'=>'2',
-					);
-					$this->my_model->update('job_lowongan', $data1, array('id_lowongan'=>$data->id_lowongan));
-				}
+				$data1=array(
+					'aktif'=>'2',
+				);
+				$this->my_model->update('job_lowongan', $data1, array('id_lowongan'=>$data->id_lowongan));
 			}
 		}
 	}
@@ -1803,75 +1801,46 @@ class Admin extends CI_Controller {
 		$this->load->view('back/object/template', $data);
 	}
 
-		public function hapusBantuan($id)
-		{
-			$this->my_model->delete('job_bantuan', array('id_bantuan'=>$id));
-			$this->session->set_flashdata('notification', 'Data Sukses di Hapus');
-			redirect(site_url('admin/bantuan'));
-		}
-		public function kirimBantuan($id)
-		{
-			$cek = $this->my_model->showById('job_bantuan', array('id_bantuan'=>$id));
-			$tampil['row']['nama']=$cek->nama;
-			$tampil['row']['subjek']=$cek->subjek;
-			$tampil['row']['email']=$cek->email;
-			$tampil['row']['pesan']=$cek->pesan;
-			$tampil['title']="Bales Pesan Bantuan";
-			$tampil['button']="KIRIM EMAIL";
-			$tampil['formAction']=base_url('admin/prosesKirimBantuan/'.$id);
-			$data['content']=$this->load->view('back/bantuan/kirim', $tampil, true);
-			$this->load->view('back/object/template', $data);
-		}
-			public function prosesKirimBantuan($id)
-			{
-				$this->load->library('upload');
-				$this->load->library('email');
-				
-				//konfigurasi email
-				$config = array();
-				$config['charset'] = 'iso-8859-1';
-				$config['useragent'] = 'Codeigniter';
-				$config['protocol']= "smtp";
-				$config['mailtype']= "html";
-				$config['smtp_host']= "ssl://smtp.gmail.com";
-				$config['smtp_port']= "465";
-				$config['smtp_timeout']= "5";
-				$config['smtp_user']= "hendrigunawan195@gmail.com"; //email hendrigunawan
-				$config['smtp_pass']= "085718061049"; //password
-				$config['crlf']="\r\n"; 
-				$config['newline']="\r\n"; 
-				$config['mailpath'] = '/usr/sbin/sendmail';
-				$config['wordwrap'] = TRUE;
-				//memanggil library email dan set konfigurasi untuk pengiriman email
-				
-				$this->email->initialize($config);
-				//konfigurasi pengiriman
-				$this->email->from('hendrigunawan195@gmail.com', 'JELOKER.COM | Gudangnya Informasi Lowongan Kerja');
-				$this->email->cc("hendrigunawan195@gmail.com","JELOKER.COM | Gudangnya Informasi Lowongan Kerja");  //email address that receives the response
-				$this->email->to($this->input->post('email'));
-				$this->email->subject($this->input->post('subjek'));
-				$this->email->message($this->input->post('pesan'));
-				//Configure upload.
-				
-				if($this->email->send())
-				{
-					$data = array(
-						'subjek'=>$this->input->post('subjek'),
-						'email'=>$this->input->post('email'),
-						'pesan'=>$this->input->post('pesan'),
-						'tgl'=>date('Y-m-d h:i:s'),
-						'sts'=>1,
-					);
-					$this->my_model->update('job_bantuan', $data, array('id_bantuan'=>$id));
-					$this->session->set_flashdata('notification', 'Kirim Email Sukses');
-					redirect(site_url('admin/bantuan'));
-				}else
-				{
-					$this->session->set_flashdata('notification', 'Kirim Email Gagal, Koneksi tidak Ada...');
-					redirect(site_url('admin/kirimBantuan/'.$id));
-				}
-			}
-
+	public function hapusBantuan($id)
+	{
+		$this->my_model->delete('job_bantuan', array('id_bantuan'=>$id));
+		$this->session->set_flashdata('notification', 'Data Sukses di Hapus');
+		redirect(site_url('admin/bantuan'));
+	}
+	public function kirimBantuan($id)
+	{
+		$cek = $this->my_model->showById('job_bantuan', array('id_bantuan'=>$id));
+		$tampil['row']['nama']=$cek->nama;
+		$tampil['row']['subjek']=$cek->subjek;
+		$tampil['row']['email']=$cek->email;
+		$tampil['row']['pesan']=$cek->pesan;
+		$tampil['title']="Bales Pesan Bantuan";
+		$tampil['button']="KIRIM EMAIL";
+		$tampil['formAction']=base_url('admin/prosesKirimBantuan/'.$id);
+		$data['content']=$this->load->view('back/bantuan/kirim', $tampil, true);
+		$this->load->view('back/object/template', $data);
+	}
+		
+	public function prosesKirimBantuan($id) {
+		$data = array(
+			'subjek' => $this->input->post('subjek'),
+			'email' => $this->input->post('email'),
+			'pesan' => $this->input->post('pesan'),
+			'tgl' => date('Y-m-d h:i:s'),
+			'sts' => 1,
+		);
+		$this->my_model->update('job_bantuan', $data, array('id_bantuan' => $id));
+		$params = array(
+			'to' => $this->input->post('email'),
+			'subject' => $this->input->post('subjek'),
+			'body' => $this->input->post('pesan'),
+		);
+		$this->send_email($params);
+		
+		$this->session->set_flashdata('notification', 'Kirim Email Sukses');
+		redirect(site_url('admin/bantuan'));
+	}
+	
 	public function profilPerusahaan()
 	{
 		$cek = $this->my_model->showById('job_kontak', array('id_kontak'=>'1'));

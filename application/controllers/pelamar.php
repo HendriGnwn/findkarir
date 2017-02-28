@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Pelamar extends CI_Controller {
+class Pelamar extends MY_Controller {
 	
 	public function __construct()
 	{
@@ -14,29 +14,17 @@ class Pelamar extends CI_Controller {
 		$this->output->set_header('Pragma: no-cache');
 
 		if($this->session->userdata('id_login')==null || $this->session->userdata('hak_akses')=='perusahaan'){
-			redirect(base_url('error/error404'));
+			show_404();
 		}else
 		if($this->session->userdata('id_login')==null && $this->session->userdata('hak_akses')=='perusahaan'){
-			redirect(base_url('error/error404'));
+			show_404();
 		}
 	}
 
 	public function index()
 	{
-		$tampil['meta_deskripsi']="jeLoker.com | Gudangnya Informasi Lowongan Kerja. Dapatkan Informasi Lowongan Kerja di sini";
-		$tampil['title_head']="Akun Pelamar";
-		//query job_kontak
-		$kontak = $this->fronModel->showById('job_kontak', array('id_kontak'=>'1'));
-		$tampil['alamat']=$kontak->alamat;
-		$tampil['web']=$kontak->web_url;
-		$tampil['no_telp']=$kontak->no_telp;
-		$tampil['email']=$kontak->email;
-		$tampil['facebook']=$kontak->facebook;
-		$tampil['twitter']=$kontak->twitter;
-		$tampil['google']=$kontak->google;
-		$tampil['dribbble']=$kontak->dribble;
-		$tampil['linkedin']=$kontak->linkedin;
-		$tampil['skype']=$kontak->skype;
+		$tampil['meta_deskripsi']=$this->Config_Model->get_app_name_url() . " | Gudangnya Informasi Lowongan Kerja. Dapatkan Informasi Lowongan Kerja di sini";
+		$tampil['page_title']="Akun Pelamar";
 
 		$akun = $this->fronModel->showById('job_pelamar', array('id_pelamar'=>$this->session->userdata('id_login')));
 		$tampil['row']['nm_pelamar']=$akun->nama;
@@ -58,15 +46,11 @@ class Pelamar extends CI_Controller {
 		$tampil['row']['deskripsi']=$akun->deskripsi;
 		$tampil['row']['foto']=$akun->foto;
 
-
 		$tampil['loadLamaran']= $this->fronModel->showLamaran();
 		$tampil['loadJadwal']= $this->fronModel->showLamaranById();
-		//$tampil['numRowsLowongan']=$this->fronModel->getLowonganPerusahaanNumRows();
+		$tampil['passions'] = $this->fronModel->get_applicant_passions_by_id($this->session->userdata('id_login'));
 
-
-		$data['content']=$this->load->view('front/pelamar/akun_pelamar', $tampil, true);
-		$data['footer']=$this->load->view('front/object/footer', $tampil, true);
-		$this->load->view('front/object/template_utama', $data);
+		$this->final_view('front/pelamar/akun_pelamar', $tampil);
 	}
 
 	public function prosesEditProfil()

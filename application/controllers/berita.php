@@ -15,7 +15,7 @@ class Berita extends MY_Controller {
 		$tampil['loadBerita'] = $this->fronModel->show('job_berita', 'tgl', 'DESC');
 		$tampil['kategoriData']=$this->fronModel->show('page WHERE category=1', 'name', 'ASC');
 
-		$tampil['meta_deskripsi']="FindKarir.com | Berita tentang FindKarir.com";
+		$tampil['meta_deskripsi'] = $this->Config_Model->get_app_name_url() . " | Berita tentang ". $this->Config_Model->get_app_name_url();
 		$tampil['page_title']="Berita FindKarir.com";
 
 		$config['base_url'] = base_url('berita/index/');
@@ -73,7 +73,7 @@ class Berita extends MY_Controller {
 	{
 		$loadDataCek = $this->fronModel->showById('job_berita', array('slug' => $slug));
 		if (!$loadDataCek) {
-			redirect(base_url('error/error404'));
+			show_404('error404');
 		}
 
 		$tampil['kategoriData'] = $this->fronModel->show('page WHERE category=1', 'name', 'ASC');
@@ -119,7 +119,7 @@ class Berita extends MY_Controller {
 			$data['footer']=$this->load->view('front/object/footer', $tampil, true);
 			$this->load->view('front/object/template_utama', $data);
 		}else{
-			redirect(site_url('error/error404'));
+			show_404();
 		}
 	}
 

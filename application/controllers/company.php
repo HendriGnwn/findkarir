@@ -14,10 +14,10 @@ class Company extends MY_Controller {
 		$this->output->set_header('Pragma: no-cache');
 
 		if($this->session->userdata('id_login')==null || $this->session->userdata('hak_akses')=='pelamar'){
-			redirect(base_url('error/error404'));
+			show_404();
 		}else
 		if($this->session->userdata('id_login')==null && $this->session->userdata('hak_akses')=='pelamar'){
-			redirect(base_url('error/error404'));
+			show_404();
 		}
 	}
 
@@ -342,36 +342,13 @@ class Company extends MY_Controller {
 		$cek = $this->fronModel->showById('job_lamar', array('id_lamar' => $id));
 		$cekPerusahaan = $this->fronModel->showById('job_perusahaan', array('id_perusahaan' => $cek->id_perusahaan));
 		$cekEmail = $this->fronModel->showById('job_pelamar', array('id_pelamar' => $cek->id_pelamar));
-		$this->load->library('upload');
-		$this->load->library('email');
-
-		//konfigurasi email
-		$config = array();
-		$config['charset'] = 'iso-8859-1';
-		$config['useragent'] = 'Codeigniter';
-		$config['protocol'] = "smtp";
-		$config['mailtype'] = "html";
-		$config['smtp_host'] = "ssl://smtp.gmail.com";
-		$config['smtp_port'] = "465";
-		$config['smtp_timeout'] = "5";
-		$config['smtp_user'] = "hendrigunawan195@gmail.com"; //email hendrigunawan
-		$config['smtp_pass'] = "085718061049"; //password
-		$config['crlf'] = "\r\n";
-		$config['newline'] = "\r\n";
-		$config['mailpath'] = '/usr/sbin/sendmail';
-		$config['wordwrap'] = TRUE;
-		//memanggil library email dan set konfigurasi untuk pengiriman email
-
-		$this->email->initialize($config);
-		//konfigurasi pengiriman
-		$this->email->from('hendrigunawan195@gmail.com', 'KONFIRMASI LOWONGAN KERJA | INTERVIEW');
-		$this->email->cc("hendrigunawan195@gmail.com", "KONFIRMASI LOWONGAN KERJA | INTERVIEW");  //email address that receives the response
-		$this->email->to($cekEmail->email);
-		$this->email->subject("DI TUNGGU KEDATANGAN ANDA DI " . $cekPerusahaan->nm_perusahaan);
-		$this->email->message("Datang ke Alamat <b>'" . $this->input->post('ket') . "'</b> Tanggal <b>'" . $this->input->post('tgl_datang') . "'</b> Pukul <b>'" . $this->input->post('jam_datang') . "'</b>");
-		//Configure upload.
-
-		if ($this->email->send()) {
+		
+		$params = array(
+			'to' => $cekEmail->email,
+			'subject' => "Undangan: Peluang di " . $cekPerusahaan->nm_perusahaan,
+			'body' => "Anda diundang oleh {$cekPerusahaan->nm_perusahaan}. Datang ke Alamat <b>'" . $this->input->post('ket') . "'</b> Tanggal <b>'" . $this->input->post('tgl_datang') . "'</b> Pukul <b>'" . $this->input->post('jam_datang') . "'</b>",
+		);
+		if ($this->send_email($params)) {
 			$data = array(
 				'tgl_datang' => $this->input->post('tgl_datang'),
 				'jam_datang' => $this->input->post('jam_datang'),

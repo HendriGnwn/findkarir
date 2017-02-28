@@ -40,7 +40,7 @@ class Bantuan extends MY_Controller {
 				$this->session->set_flashdata('berhasil', 'Proses Pengiriman Pesan berhasil di lakukan.');
 				redirect(site_url('bantuan'));
 			} else {
-				$this->session->set_flashdata('gagal', 'Email tidak Valid, Gagal mengirim Informasi kepada jeLoker.com');
+				$this->session->set_flashdata('gagal', 'Email tidak Valid, Gagal mengirim Informasi kepada ' . $this->Config_Model->get_app_name_url());
 				redirect(site_url('bantuan'));
 			}
 		} else {
