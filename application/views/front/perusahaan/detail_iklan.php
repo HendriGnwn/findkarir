@@ -220,6 +220,7 @@
                         <?php echo $row['ket']; ?>
                       </td>
                     </tr>
+					<?php if ($result->category == 1) : ?>
                     <tr>
                       <td width="30%">Bukti</td>
                       <td width="1%">:</td>
@@ -239,6 +240,7 @@
                         ?>
                       </td>
                     </tr>
+					<?php endif; ?>
                     <tr>
                       <td width="30%">Golongan</td>
                       <td width="1%">:</td>

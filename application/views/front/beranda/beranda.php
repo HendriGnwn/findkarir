@@ -237,7 +237,7 @@ $config = $this->Config_Model;
                               <span style="font-size: 12pt; color: #fff;text-transform: none;">Gudangnya Informasi Lowongan Kerja</span>
                             </h2>
                             <h3 class="animated5" style="margin-top: 10px;">
-                                <a href="<?php echo base_url('perusahaan/kategori/3'); ?>" class="btn-system btn-large"><i class="fa fa-external-link-square"></i>&nbsp;&nbsp; Pasang Iklan Lowongan</a>
+                                <a href="<?php echo base_url('perusahaan/kategori/3'); ?>" class="btn-system btn-large"><i class="fa fa-external-link-square"></i>&nbsp;&nbsp; Pasang Iklan Lowongan Gratis</a>
                             </h3>
                         </div>
                     </div>

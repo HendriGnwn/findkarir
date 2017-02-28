@@ -85,6 +85,7 @@
                                     <div class="align-center" style="margin:20px 0; padding: 0 20px;"><a target="_TAB" href="<?php echo base_url('company/tambahIklan'); ?>" style="color: #fff;" class="btn btn-system btn-medium btn-block"><i class="fa fa-plus-square"></i>&nbsp;&nbsp; Pasang Iklan</a></div>
                                 </div>
                                 <br>
+								<?php if ($akun->category == 1) : // akun perusahaan umum ?>
                                 <h4><span>Detail 5 Konfirmasi Pembayaran</span></h4>
                                 <table class="table table-bordered table-strip table-responsive">
                                 	<tr>
@@ -124,6 +125,7 @@
                                 	<?php } ?>
                                 	<tr>
                                 </table>
+								<?php endif; ?>
                             </div>
                             <!-- End Single Project Slider -->
                         </div>
@@ -145,7 +147,9 @@
 							<ul class="nav nav-tabs">
 								<li class="active"><a href="#tab-1" data-toggle="tab"><i class="fa fa-desktop"></i>Profil Perusahaan</a></li>
 								<li><a href="#tab-2" data-toggle="tab"><i class="fa fa-globe"></i>Iklan Lowongan Anda <span class="label label-success"><?php echo $this->fronModel->showNumRowsById('job_lowongan', array('id_perusahaan'=>$this->session->userdata('id_login'))); ?></span></a></li>
+								<?php if ($akun->category == 1): ?>
 								<li><a href="#tab-3" data-toggle="tab"><i class="fa fa-dollar"></i>Konfirmasi Pembayaran <span class="label label-warning"><?php echo $this->fronModel->pembayaranNumRows(); ?></span></a></li>
+								<?php endif; ?>
 								<!--<li><a href="#tab-4" data-toggle="tab"><i class="fa fa-plus-square"></i>Pasang Iklan</span></a></li>-->
 								<li><a href="#tab-5" data-toggle="tab"><i class="fa fa-lock"></i>Kata Sandi</span></a></li>
 							</ul>
@@ -162,6 +166,15 @@
 										</div>
 										<div class="col-md-9">
 											<h5><b><?php echo $this->session->userdata('id_login');?></b></h5>
+										</div>
+									</div>
+									<div class="hr1 margin-30"></div>
+									<div class="row">
+										<div class="col-md-3">
+											<h5>Kode</h5>
+										</div>
+										<div class="col-md-9">
+											<h5><b><?php echo isset($row['kode'])? $row['kode']:'' ?></b></h5>
 										</div>
 									</div>
 									<div class="hr1 margin-30"></div>
@@ -323,7 +336,7 @@
 										<div class="col-md-9 margin-30">
 											<div class="form-group">
 		                                        <div class="controls">
-		                                            <input type="number" placeholder="" value="<?php echo isset($row['no_telp'])? $row['no_telp']:'';?>" name="no_telp" required/>
+		                                            <input type="text" placeholder="" value="<?php echo isset($row['no_telp'])? $row['no_telp']:'';?>" name="no_telp" required/>
 		                                        </div>
 		                                    </div>
 										</div>
@@ -335,7 +348,7 @@
 										<div class="col-md-9 margin-30">
 											<div class="form-group">
 		                                        <div class="controls">
-		                                            <input type="number" placeholder="" value="<?php echo isset($row['no_fax'])? $row['no_fax']:'';?>" name="no_fax" required/>
+		                                            <input type="text" placeholder="" value="<?php echo isset($row['no_fax'])? $row['no_fax']:'';?>" name="no_fax" required/>
 		                                        </div>
 		                                    </div>
 										</div>
@@ -379,7 +392,7 @@
 								</div>
 								<!-- Tab Content 2 -->
 								<div class="tab-pane fade" id="tab-2">
-									<h4 class="classic-title"><i class="fa fa-bars"></i>&nbsp;&nbsp;Daftar Iklan Loker Anda &nbsp;&nbsp;<a href="<?php echo base_url('company/tambahIklan'); ?>" title="Pasang Iklan Lowongan"><i class="fa fa-plus-square"></i></a>&nbsp;&nbsp; <a href="" title="Refresh Data"><i class="fa fa-refresh"></i></a></h4>
+									<h4 class="classic-title"><i class="fa fa-bars"></i>&nbsp;&nbsp;Daftar Iklan Loker Anda &nbsp;&nbsp;<a href="<?php echo $akun->category == 1 ? base_url('company/tambahIklan') : base_url('company/addIklan'); ?>" title="Pasang Iklan Lowongan"><i class="fa fa-plus-square"></i></a>&nbsp;&nbsp; <a href="" title="Refresh Data"><i class="fa fa-refresh"></i></a></h4>
 									<table id="example" class="table table-bordered table-strip table-responsive">
 										<thead>
 											<tr>
@@ -417,19 +430,23 @@
                             					</td>
 												<td align="center">
 													<?php
-						                              if($dataLowongan->aktif==1){
-						                                echo "<span class='label label-success'>TAYANG</span>";
-						                              }elseif($dataLowongan->aktif==2){
-						                                echo "<span class='label label-warning' title='Lihat Konfirmasi Pembayaran'>PERPANJANG</span>";
-						                              }elseif($dataLowongan->aktif==0){
-						                                echo "<span class='label label-danger'>TIDAK TAYANG</span>";                                
-						                              }elseif($dataLowongan->aktif==3){
-						                                if($dataLowongan->status==0){
-						                                  echo "<span class='label label-warning' title='Lihat Konfirmasi Pembayaran'>KONFIRMASI</span>";
-						                                }elseif($dataLowongan->status==1){
-						                                  echo "<span class='label label-warning' title='Tunggu Proses dari Admin'>PROSES</span>";
-						                                }
-						                              }
+													if ($akun->category == 1) {
+														if($dataLowongan->aktif == 1) {
+															echo "<span class='label label-success'>TAYANG</span>";
+														} elseif ($dataLowongan->aktif == 2) {
+															echo "<span class='label label-warning' title='Lihat Konfirmasi Pembayaran'>PERPANJANG</span>";
+														} elseif ($dataLowongan->aktif == 0) {
+															echo "<span class='label label-danger'>TIDAK TAYANG</span>";
+														} elseif ($dataLowongan->aktif == 3) {
+															if ($dataLowongan->status == 0) {
+																echo "<span class='label label-warning' title='Lihat Konfirmasi Pembayaran'>KONFIRMASI</span>";
+															} elseif ($dataLowongan->status == 1) {
+																echo "<span class='label label-warning' title='Tunggu Proses dari Admin'>PROSES</span>";
+															}
+														}
+													} else {
+														echo "<span class='label label-success'>TAYANG</span>";
+													}
 						                            ?>
 												</td>
 											</tr>

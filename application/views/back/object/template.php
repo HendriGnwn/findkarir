@@ -2,8 +2,10 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>jeLoker | <?php echo ucfirst(uri_string()); ?></title>
+    <title><?php echo $this->Config_Model->get_app_name_url() ?> | <?php echo ucfirst(uri_string()); ?></title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+	<meta name="robots" content="noindex,nofollow">
+	<meta name="googlebot" content="noindex,nofollow">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style.hg.css" />
     <link rel="shortcut icon" href="<?php echo base_url('assets/img/icon_admin.png') ?>" />
     <!-- Bootstrap 3.3.2 -->

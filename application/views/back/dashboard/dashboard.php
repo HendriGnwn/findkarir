@@ -103,6 +103,50 @@
           </div><!-- /.row -->
 
         <div class="row">
+			<div class="col-md-12">
+              <!-- Primary box -->
+              <div class="box box-success box-solid">
+                <div class="box-header" data-toggle="tooltip" title="Statistik Pengunjung">
+                  <h3 class="box-title">&nbsp;&nbsp;<i class="fa fa-list"></i>&nbsp;&nbsp; Statistik Pengunjung</h3>
+                  <div class="box-tools pull-right">
+                    <button class="btn btn-primary btn-xs" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    <button class="btn btn-danger btn-xs" data-widget="remove"><i class="fa fa-times"></i></button>
+                  </div>
+                </div>
+                <div class="box-body">
+                  <table id="example1" class="table table-bordered table-striped table-responsive">
+                    <thead>
+                      <tr>
+                        <th width="20%">Tanggal</th>
+                        <th width="20%">Jumlah</th>
+                        <th width="30%">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                          foreach($statistics as $data){
+                      ?>
+                       <tr>
+                          <td align="center"><?php echo $data->tgl ?></td>
+                          <td align="center"><?php echo $data->jml_hari_ini ?></td>
+                            
+                          <td align="center"><?php echo $data->jml_hit; ?></td>
+                        </tr>
+                      <?php
+                          }
+                      ?>
+                      </tbody>
+                    <tfoot>
+                      <tr>
+                        <thTanggal</th>
+                        <th>Jumlah</th>
+                        <th>Total</th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+            </div><!-- /.col -->
             <div class="col-md-6">
               <!-- Primary box -->
               <div class="box box-success box-solid">
