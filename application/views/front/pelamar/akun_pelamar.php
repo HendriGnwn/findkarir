@@ -193,7 +193,9 @@
 								<li class="active"><a href="#tab-1" data-toggle="tab"><i class="fa fa-user"></i>Profil Anda</a></li>
 								<li><a href="#tab-2" data-toggle="tab"><i class="fa fa-globe"></i>Lihat Semua Lamaran <span class="label label-success"><?php echo $this->fronModel->showNumRowsById('job_lamar', array('id_pelamar'=>$this->session->userdata('id_login'))); ?></span></a></li>
 								<li><a href="#tab-3" data-toggle="tab"><i class="fa fa-calendar"></i>Jadwal Panggilan<span class="label label-warning"><?php echo $this->fronModel->showNumRowsById('job_lamar', array('id_pelamar'=>$this->session->userdata('id_login'), 'sts_lamar'=>1)); ?></span></a></li>
+								<li><a href="#tab-4" data-toggle="tab"><i class="fa fa-cog"></i>Lanjutan</a></li>
 								<li><a href="#tab-5" data-toggle="tab"><i class="fa fa-lock"></i>Kata Sandi</span></a></li>
+								
 							</ul>
 							
 							<!-- Tab panels -->
@@ -603,6 +605,34 @@
 											<?php } } ?>
 										</tbody>
 									</table>
+								</div>
+								
+								<div class="tab-pane fade" id="tab-4">
+									<h4 class="classic-title"><i class="fa fa-cogs"></i>&nbsp;&nbsp;Passion <a href="#tab-tambah-passion" data-toggle="tab" title="Tambah Data"><i class="fa fa-plus-square"></i></a></h4>
+									<table id="example1" class="table table-bordered table-strip table-responsive">
+										<thead>
+											<tr>
+						                        <th>Passion</th>
+												<th width="15%">Action</th>
+						                    </tr>
+										</thead>
+										<tbody>
+											<?php foreach($passions as $passion) : ?>
+											<tr>
+												<td><?php echo $passion->name ?></td>
+												<td align="center">
+													<a href="#" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
+													<a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></a>
+												</td>
+											</tr>
+											<?php endforeach; ?>
+										</tbody>
+									</table>
+								</div>
+								
+								<div class="tab-pane fade" id="tab-tambah-passion">
+									<h4 class="classic-title"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;Tambah Passion <a href="#tab-4" data-toggle="tab" title="Tambah Data"><i class="fa fa-arrow-left"></i></a></h4>
+									
 								</div>
 								<!-- Tab Content 5 -->
 								<div class="tab-pane fade" id="tab-5">
