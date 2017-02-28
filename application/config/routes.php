@@ -38,6 +38,7 @@
 |
 */
 $route['login/sign-in/(:num)'] = 'login/masukDulu/$1';
+$route['member-perusahaan/login'] = 'perusahaan';
 
 $route['default_controller'] = "beranda/index";
 $route['404_override'] = 'error/index404';
