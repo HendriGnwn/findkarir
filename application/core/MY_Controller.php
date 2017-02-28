@@ -15,6 +15,7 @@ class MY_Controller extends CI_Controller
 {
 	function __construct() {
 		parent::__construct();
+		date_default_timezone_set("Asia/Jakarta");
 	}
 	
 	/**
@@ -49,5 +50,72 @@ class MY_Controller extends CI_Controller
 			'tgl'=>date('Y-m-d'),
 			);
 		$this->fronModel->update('job_hit', $update_hit, array('id_hit'=>'1'));
+	}
+	
+	/**
+	 * - body    | required
+	 * - to      | required
+	 * - subject | required
+	 * - from
+	 * - attachments (array)
+	 * 
+	 * @param string $params
+	 * @return boolean
+	 * @throws Exception
+	 */
+	public function send_email($params = array())
+	{
+		if (
+			!isset($params['body']) ||
+			!isset($params['to']) ||
+			!isset($params['subject'])
+		) {
+			throw new Exception('body, to, and subject must be defined.');
+		}
+		
+		if (!isset($params['from'])) {
+			$params['from'] = 'no-reply@findkarir.com';
+		}
+		
+		$this->load->library('upload');
+		$this->load->library('email');
+
+		//konfigurasi email
+		$config = array();
+		$config['charset'] = 'iso-8859-1';
+		$config['useragent'] = 'Codeigniter';
+		$config['protocol']= "smtp";
+		$config['mailtype']= "html";
+		$config['smtp_host']= "mail.atc.co.id";
+		$config['smtp_port']= "25";
+		$config['smtp_timeout']= "5";
+		$config['smtp_user']= "no-reply@atc.co.id";
+		$config['smtp_pass']= "mTemT.9pupRN";
+		$config['crlf']="\r\n"; 
+		$config['newline']="\r\n"; 
+		$config['mailpath'] = '/usr/sbin/sendmail';
+		$config['wordwrap'] = TRUE;
+		//memanggil library email dan set konfigurasi untuk pengiriman email
+
+		$this->email->initialize($config);
+		$this->email->clear();
+		
+		//konfigurasi pengiriman
+		$this->email->from($params['from'], $this->Config_Model->get_app_name_url());
+		$this->email->to($params['to']);
+		$this->email->subject($params['subject']);
+		$this->email->message($params['body']);
+		
+		if (isset($params['attachments'])) {
+			foreach ($params['attachments'] as $attach) {
+				$this->email->attach($attach);
+			}
+		}
+
+		if($this->email->send()) {
+			return true;
+		}
+		
+		return false;
 	}
 }
