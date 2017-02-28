@@ -5,6 +5,7 @@ class Admin extends CI_Controller {
 		parent:: __construct();
 		$this->load->model('my_model');
 		$this->load->helper('fungsi_date');
+		$this->load->helper('help');
 		date_default_timezone_set('Asia/Jakarta');
 		$this->output->set_header('Last-Modified:'.gmdate('D, d M Y H:i:s').'GMT');
 		$this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate');
@@ -406,6 +407,8 @@ class Admin extends CI_Controller {
 		$tampil['row']['tgl_create']=$cek->tgl_create;
 		$tampil['row']['aktif']=$cek->aktif;
 		$tampil['row']['login']=$cek->sts_login;
+		$tampil['row']['kode']=$cek->kode;
+		$tampil['row']['category']=$cek->category;
 		$data['content']=$this->load->view('back/perusahaan/detail', $tampil, true);
 		$this->load->view('back/object/template', $data);
 	}
@@ -471,7 +474,7 @@ class Admin extends CI_Controller {
 						$password = md5($pass);
 				
 						$data1 = array(
-								'id_perusahaan'=>$auto_number,
+								'kode'=>$this->my_model->generate_kode_perusahaan($this->input->post('category')),
 								'nm_perusahaan'=>$nama,
 								'logo'=>$logo,
 								'almt_web'=>$this->input->post('web'),
@@ -486,6 +489,7 @@ class Admin extends CI_Controller {
 								'password'=>$password,
 								'pass_view'=>$pass,
 								'last_login'=>'0000-00-00 00:00:00',
+								'category'=>$this->input->post('category'),
 								'sts_login'=>'0',
 							);
 						$this->my_model->insert('job_perusahaan', $data1);
@@ -521,6 +525,7 @@ class Admin extends CI_Controller {
 			$tampil['row']['no_fax']=$cek->no_fax;
 			$tampil['row']['email']=$cek->email;
 			$tampil['row']['pass_view']=$cek->pass_view;
+			$tampil['row']['category']=$cek->category;
 			$data['content']=$this->load->view('back/perusahaan/tambah',$tampil,true);
 			$this->load->view('back/object/template', $data);
 		}
@@ -577,7 +582,7 @@ class Admin extends CI_Controller {
 
 						$pass = str_replace(' ', '', $this->input->post('password'));
 						$password = md5($pass);
-				
+						
 						$data1 = array(
 								'nm_perusahaan'=>strtoupper($this->input->post('nama')),
 								'logo'=>$logo,
@@ -590,6 +595,7 @@ class Admin extends CI_Controller {
 								'email'=>$this->input->post('email'),
 								'password'=>$password,
 								'pass_view'=>$pass,
+								'category'=>$this->input->post('category'),
 							);
 						$this->my_model->update('job_perusahaan', $data1, array('id_perusahaan'=> $id));
 						$this->session->set_flashdata('notification', 'Data <b>'.strtoupper($this->input->post('nama')).'</b> berhasil di Edit');
@@ -614,6 +620,7 @@ class Admin extends CI_Controller {
 									'email'=>$this->input->post('email'),
 									'password'=>$password,
 									'pass_view'=>$pass,
+									'category'=>$this->input->post('category'),
 								);
 								
 								$this->my_model->update('job_perusahaan', $data1, array('id_perusahaan'=> $id));
@@ -1589,6 +1596,7 @@ class Admin extends CI_Controller {
 					$data5 = array(
 						'id_berita'		=> $autoNumber,
 						'judul'			=> $this->input->post('judul'),
+						'slug'			=> generateUrl($this->input->post('judul')),
 						'deskripsi'		=> $this->input->post('deskripsi'),
 						'tgl'		=> date('Y-m-d h:i:s'),
 						'foto'			=>$nama,
@@ -1694,6 +1702,7 @@ class Admin extends CI_Controller {
 
 					$data5 = array(
 						'judul'			=> $this->input->post('judul'),
+						'slug'			=> generateUrl($this->input->post('judul')),
 						'deskripsi'		=> $this->input->post('deskripsi'),
 						'tgl'		=> date('Y-m-d h:i:s'),
 						'foto'			=>$nama,
@@ -1712,6 +1721,7 @@ class Admin extends CI_Controller {
 						if($data['file_ext']==null || $data['file_ext']==''){
 							$data5 = array(
 								'judul'			=> $this->input->post('judul'),
+								'slug'			=> generateUrl($this->input->post('judul')),
 								'deskripsi'		=> $this->input->post('deskripsi'),
 								'tgl'		=> date('Y-m-d h:i:s'),
 								'aktif'			=>'1',
