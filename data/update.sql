@@ -84,3 +84,7 @@ CHANGE `id_pelamar` `id_pelamar` bigint NOT NULL AUTO_INCREMENT FIRST;
 
 ALTER TABLE `job_perusahaan`
 CHANGE `id_perusahaan` `id_perusahaan` bigint NOT NULL AUTO_INCREMENT FIRST;
+
+-- [27/02/2017] add column kode
+ALTER TABLE `job_perusahaan`
+ADD `kode` char(100) NOT NULL COMMENT 'kode ini bersifat unique' AFTER `id_perusahaan`;
