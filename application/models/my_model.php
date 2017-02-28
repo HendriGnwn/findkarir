@@ -157,6 +157,25 @@ class my_model extends CI_Model {
     	}
     	return $inisial."".$tmp."".$qn+1;
     }
+	
+	public function generate_kode_perusahaan($prefix, $padLength = 5)
+	{
+		$left = $prefix . date('ymd');
+        $leftLen = strlen($left);
+        $increment = 1;
+
+        $query = $this->db->query("SELECT * FROM job_perusahaan WHERE kode like '%$left%' ORDER BY id_perusahaan DESC LIMIT 1");
+		$last = $query->row();
+
+        if ($last) {
+            $increment = (int) substr($last, $leftLen, $padLength);
+            $increment++;
+        }
+
+        $number = str_pad($increment, $padLength, '0', STR_PAD_LEFT);
+
+        return $left . $number;
+	}
 
     public function setSelisihTgl($tglAwal, $tglAkhir)
     {
