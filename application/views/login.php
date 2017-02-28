@@ -2,9 +2,9 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>jeLoker.com | Login Administrator</title>
+    <title><?php echo $this->Config_Model->get_app_name_url() ?> | Login Administrator</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <meta name="Description" content="Login Website Admin jeLoker.com" />
+    <meta name="Description" content="Login Website Admin <?php echo $this->Config_Model->get_app_name_url() ?>" />
     <meta name="Author" content="Hendri Gunawan" />
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style.hg.css" />
     <link rel="shortcut icon" href="<?php echo base_url('assets/img/icon.png') ?>" />
@@ -13,6 +13,8 @@
     <link href="<?php echo base_url('assets/css/style.css'); ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo base_url('assets/css/style-hg.css'); ?>" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/colors/red.css');?>" title="red" media="screen" />
+	<meta name="robots" content="noindex,nofollow">
+	<meta name="googlebot" content="noindex,nofollow">
     <!-- FontAwesome 4.3.0
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />-->
     <!-- FontAwesome 4.3.0 -->

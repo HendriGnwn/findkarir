@@ -1,7 +1,7 @@
 
 <html>
   <head>
-    <title>jeLoker.com Struk || <?php echo $row['aktivasi_id']; ?></title>
+    <title><?php echo $this->Config_Model->get_app_name_url() ?> Struk || <?php echo $row['aktivasi_id']; ?></title>
     <link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />    
     <!-- FontAwesome 4.3.0
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />-->

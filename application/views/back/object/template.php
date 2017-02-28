@@ -284,7 +284,7 @@
         <div class="pull-right hidden-xs">
           <b>Version</b> 1.0
         </div>
-        <strong>Copyright &copy; <?php echo date('Y'); ?> <a target="_BLANK" href="http://atc.co.id">Jeloker.Com</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; <?php echo date('Y'); ?> <a target="_BLANK" href="http://atc.co.id">ATC</a>.</strong> All rights reserved.
       </footer>
 
     </div><!-- ./wrapper -->

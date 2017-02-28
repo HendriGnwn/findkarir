@@ -88,25 +88,12 @@ class Berita extends MY_Controller {
 	public function tentang($id)
 	{
 		if($id!=''){
-			//query job_kontak
-			$kontak = $this->fronModel->showById('job_kontak', array('id_kontak'=>'1'));
-			$tampil['alamat']=$kontak->alamat;
-			$tampil['web']=$kontak->web_url;
-			$tampil['no_telp']=$kontak->no_telp;
-			$tampil['email']=$kontak->email;
-			$tampil['facebook']=$kontak->facebook;
-			$tampil['twitter']=$kontak->twitter;
-			$tampil['google']=$kontak->google;
-			$tampil['dribbble']=$kontak->dribble;
-			$tampil['linkedin']=$kontak->linkedin;
-			$tampil['skype']=$kontak->skype;
-
 			$loadDataCek = $this->fronModel->showById('job_tentang', array('id_tentang'=>$id));
 			$k_tentang = $this->fronModel->showById('job_k_tentang', array('id_k_tentang'=>$loadDataCek->id_k_tentang));
 			$tampil['kategoriData']=$this->fronModel->show('job_tentang WHERE id_k_tentang="'.$loadDataCek->id_k_tentang.'"', 'kategori', 'ASC');
 
-			$tampil['meta_deskripsi']="jeLoker.com ".$loadDataCek->judul;
-			$tampil['title_head']="Tentang jeLoker.com";
+			$tampil['meta_deskripsi']=$this->Config_Model->get_app_name_url()." ".$loadDataCek->judul;
+			$tampil['title_head']="Tentang ".$this->Config_Model->get_app_name_url();
 
 			$tampil['row']['judul']=$loadDataCek->judul;
 			$tampil['row']['kategori']=$loadDataCek->kategori;
@@ -115,9 +102,7 @@ class Berita extends MY_Controller {
 			$tampil['row']['untuk']=$k_tentang->nm_k_tentang;
 			//$tampil['row']['judul']=$loadDataCek->judul;
 
-			$data['content']=$this->load->view('front/tentang/tentang', $tampil, true);
-			$data['footer']=$this->load->view('front/object/footer', $tampil, true);
-			$this->load->view('front/object/template_utama', $data);
+			$this->final_view('front/tentang/tentang', $tampil);
 		}else{
 			show_404();
 		}
