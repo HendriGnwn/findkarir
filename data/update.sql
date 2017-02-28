@@ -97,3 +97,10 @@ CREATE TABLE `pelamar_bidang` (
   `status` int NOT NULL DEFAULT '1',
   `created_at` datetime NOT NULL
 );
+
+CREATE TABLE `lowongan_masalah` (
+  `id` bigint NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `lowongan_id` bigint NOT NULL,
+  `pesan` text NOT NULL,
+  `created_at` datetime NOT NULL
+);
