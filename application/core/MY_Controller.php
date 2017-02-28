@@ -37,7 +37,7 @@ class MY_Controller extends CI_Controller
 	 */
 	public function visitor_statistic()
 	{
-		$row = $this->fronModel->showById('job_hit', array('id_hit'=>'1'));
+		$row = $this->fronModel->showById('job_hit', array('id_hit'=>'1', 'is_real'=>0));
 		$id=($row->jml_hit)+(1);
 		if($row->tgl==date('Y-m-d')){
 			$hari_ini = ($row->jml_hari_ini)+(1);
@@ -49,7 +49,24 @@ class MY_Controller extends CI_Controller
 			'jml_hari_ini'=>$hari_ini,
 			'tgl'=>date('Y-m-d'),
 			);
-		$this->fronModel->update('job_hit', $update_hit, array('id_hit'=>'1'));
+		$this->fronModel->update('job_hit', $update_hit, array('id_hit'=>'1', 'is_real'=>0));
+		
+		$real = $this->fronModel->showById('job_hit', array('tgl'=>date('Y-m-d'), 'is_real'=>1));
+		if (!$real) {
+			$data = array(
+				'jml_hit' => 1,
+				'jml_hari_ini' => 1,
+				'tgl' => date('Y-m-d'),
+				'is_real' => 1,
+			);
+			$this->fronModel->insert('job_hit', $data);
+		} else {
+			$data = array(
+				'jml_hit' => ($real->jml_hit)+(1),
+				'jml_hari_ini' => ($real->jml_hari_ini)+(1),
+			);
+			$this->fronModel->update('job_hit', $data, array('tgl'=>date('Y-m-d'), 'is_real'=>1));
+		}
 	}
 	
 	/**
