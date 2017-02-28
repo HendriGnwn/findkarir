@@ -351,4 +351,13 @@ class fronModel extends CI_Model {
 		}
 	}
 	
+	public function get_applicant_passions_by_id($id)
+	{
+		$query = $this->db->query("SELECT pb.id, jb.nm_k_lowongan as name FROM pelamar_bidang pb INNER JOIN job_k_lowongan jb ON pb.id_k_lowongan = jb.id_k_low WHERE pb.id_pelamar = $id");
+		if ($query->num_rows() > 0) {
+			return $query->result();
+		} else {
+			return false;
+		}
+	}
 }
