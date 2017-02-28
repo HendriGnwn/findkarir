@@ -37,6 +37,7 @@
 | in the URL cannot be matched to a valid route.
 |
 */
+$route['login/sign-in/(:num)'] = 'login/masukDulu/$1';
 
 $route['default_controller'] = "beranda/index";
 $route['404_override'] = 'error/index404';
