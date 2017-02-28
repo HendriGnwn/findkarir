@@ -40,7 +40,23 @@
               <div class="box box-primary">
                 <div class="box-header">
                   <h3 class="box-title">
-                    Detail Perusahaan&nbsp;&nbsp;<a href="<?php echo base_url('admin/perusahaan'); ?>"><span class="btn btn-primary btn-flat padding-2"><i class="fa fa-arrow-left"></i>&nbsp; &nbsp; KEMBALI</span></a>&nbsp;|&nbsp;<a href="<?php echo base_url('admin/lowonganById/'.$row['id']); ?>"><span class="btn btn-primary btn-flat padding-2">LIHAT IKLAN&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></span></a>
+                    Detail Perusahaan&nbsp;&nbsp;
+					<a href="<?php echo base_url('admin/perusahaan'); ?>">
+						<span class="btn btn-primary btn-flat padding-2">
+							<i class="fa fa-arrow-left"></i>
+							&nbsp; &nbsp; KEMBALI
+						</span>
+					</a>
+					&nbsp;|&nbsp;
+					<a href="<?php echo base_url('admin/lowonganById/'.$row['id']); ?>">
+						<span class="btn btn-primary btn-flat padding-2">LIHAT IKLAN&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></span>
+					</a>
+					<?php if ($row['category'] == 2) : ?>
+					&nbsp;|&nbsp;
+					<a href="<?php echo base_url('admin/tambahlimitLow/'.$row['id']); ?>">
+						<span class="btn btn-primary btn-flat padding-2">Tambah Limit&nbsp;&nbsp;&nbsp;<i class="fa fa-plus-square-o"></i></span>
+					</a>
+					<?php endif; ?>
                   </h3>
                   <div class="box-tools pull-right">
                     <button class="btn btn-primary btn-xs" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -53,6 +69,11 @@
                       <td width="30%">ID</td>
                       <td width="1%">:</td>
                       <td><b><?php echo $row['id'] ?></b></td>
+                    </tr>
+					<tr>
+                      <td width="30%">Kode</td>
+                      <td width="1%">:</td>
+                      <td><b><?php echo $row['kode'] ?></b></td>
                     </tr>
                     <tr>
                       <td width="30%">Nama Perusahaan</td>
@@ -104,6 +125,11 @@
                       <td width="30%">Alamat Web</td>
                       <td width="1%">:</td>
                       <td><a target="_BLANK" href="http://<?php echo $row['web']; ?>"><?php echo $row['web'] ?></a></td>
+                    </tr>
+					<tr>
+                      <td width="30%">Kategory</td>
+                      <td width="1%">:</td>
+                      <td><?php echo $row['category'] == 1 ? 'Umum' : 'Partnership' ?></td>
                     </tr>
                     <tr class="bg-gray">
                       <td colspan="3"><i class="fa fa-bookmark"></i>&nbsp;&nbsp; <b>Keterangan Lainnya</b></td>

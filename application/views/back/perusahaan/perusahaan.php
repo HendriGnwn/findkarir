@@ -57,12 +57,12 @@
                     <thead>
                       <tr>
                         <th width="4%">No</th>
-                        <th width="4%">ID</th>
-                        <th>Perusahaan</th>
-                        <th width="15%">Website</th>
-                        <th width="18%">Iklan Lowongan</th>
+                        <th width="5%">Kode</th>
+						<th>Perusahaan</th>
+                        <th width="4%">Kategori</th>
+                        <th width="10%">Iklan Lowongan</th>
                         <th width="10%">Status</th>
-                        <th width="15%">Aksi</th>
+                        <th width="10%">Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -73,9 +73,9 @@
                       ?>
                         <tr>
                           <td align="center"><?php echo $no++; ?></td>
-                          <td align="center"><b><?php echo $data->id_perusahaan; ?></b></td>
-                          <td><a href="<?php echo base_url('admin/detailPerusahaan'); echo '/'.$data->id_perusahaan; ?>"><?php echo $data->nm_perusahaan; ?></a></td>
-                          <td align="center"><a target="_BLANK" href="http://<?php echo $data->almt_web; ?>"><?php echo $data->almt_web; ?></a></td>
+                          <td align="center"><b><?php echo $data->kode; ?></b></td>
+						  <td><a href="<?php echo base_url('admin/detailPerusahaan'); echo '/'.$data->id_perusahaan; ?>"><?php echo $data->nm_perusahaan; ?></a></td>
+                          <td align="center"><b><?php echo $data->category == 1 ? 'Umum' : 'Partnership'; ?></b></td>
                           <td align="center"><b><?php echo $this->my_model->showNumRowsById('job_lowongan', array('id_perusahaan'=>$data->id_perusahaan)); ?></b> | <a href="<?php echo base_url('admin/lowonganById/'.$data->id_perusahaan); ?>"><span class='label bg-primary'>Lihat Lowongan</span></a></td>
                           <td align="center">
                             <?php 

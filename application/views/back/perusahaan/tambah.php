@@ -180,11 +180,7 @@
                       <td width="30%">Kategori Perusahaan</td>
                       <td width="1%">:</td>
                       <td><div class="input-group">
-                          <select name="category" id="category" class="form-control">
-                            <option value="">...</option>
-                            <option value="1">Umum</option>
-                            <option value="2">Partnership</option>
-                          </select>
+							  <?php echo form_dropdown('category', array('' => '...', 1 => 'Umum', 2 => 'Partnership'), isset($row['category'])? $row['category']:'', 'class="form-control"') ?>
                         </div><!-- /input-group --></td>
                     </tr>
                     <tr>
