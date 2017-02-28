@@ -331,4 +331,14 @@ class my_model extends CI_Model {
 			return null;
 		}
 	}
+	
+	public function get_jobs_expire_activation()
+	{
+		$query = $this->db->query('SELECT * FROM job_aktivasi WHERE date_limit <= "'.date('Y-m-d').'"');
+		if($query->num_rows()>0) {
+			return $query->result();
+		} else {
+			return false;
+		}
+	}
 }
