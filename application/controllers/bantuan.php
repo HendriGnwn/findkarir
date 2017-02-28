@@ -48,5 +48,29 @@ class Bantuan extends MY_Controller {
 			redirect(site_url('bantuan'));
 		}
 	}
+	
+	public function problem($id) {
+		$tampil['meta_deskripsi'] = $this->Config_Model->get_app_name_url() . " | Gudangnya Informasi Lowongan Kerja. Dapatkan Informasi Lowongan Kerja di sini";
+		$tampil['page_title']="Laporkan Iklan Bermasalah";
+		$tampil['formAction']=base_url('bantuan/problem/'.$id);
+		
+		$tampil['lowongans'] = $this->fronModel->getLowonganById($id);
+		if (!$tampil['lowongans']) {
+			show_404();
+		}
+		
+		if (isset($_POST['submit'])) {
+			$data = array(
+				'lowongan_id' => $id,
+				'pesan' => $this->input->post('pesan'),
+				'created_at' => date('Y-m-d H:i:s'),
+			);
+			$this->fronModel->insert('lowongan_masalah', $data);
+			$this->session->set_flashdata('berhasil', 'Terima kasih atas laporan Anda. Itu sangat membantu kami.');
+			redirect(site_url('bantuan/problem/'.$id));
+		}
+		
+		$this->final_view('front/bantuan/problem', $tampil);
+	}
 
 }

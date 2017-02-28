@@ -36,6 +36,7 @@ class Admin extends MY_Controller {
 	public function index()
 	{
 		$this->statusLowongan();
+		$tampil['statistics'] = $this->my_model->show('job_hit WHERE is_real=1', 'tgl', 'DESC');
 		$tampil['dataPerusahaan']=$this->my_model->showNumRows('job_perusahaan');
 		$tampil['dataLowongan']=$this->my_model->showNumRows('job_lowongan');
 		$tampil['konfirmasiOrder']=$this->my_model->showNumRowsById('job_aktivasi', array('status'=>0));

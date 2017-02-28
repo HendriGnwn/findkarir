@@ -36,6 +36,8 @@ class Company extends MY_Controller {
 		$tampil['row']['alamat']=$akun->alamat;
 		$tampil['row']['email']=$akun->email;
 		$tampil['row']['logo']=$akun->logo;
+		$tampil['row']['kode']=$akun->kode;
+		$tampil['akun'] = $akun;
 
 		$tampil['loadLowongan']= $this->fronModel->getLowonganPerusahaan();
 		$tampil['numRowsLowongan']=$this->fronModel->getLowonganPerusahaanNumRows();
@@ -168,6 +170,11 @@ class Company extends MY_Controller {
 
 	public function tambahIklan()
 	{
+		$akun = $this->fronModel->showById('job_perusahaan', array('id_perusahaan'=>$this->session->userdata('id_login')));
+		if ($akun->category == 2):
+			show_404();
+		endif;
+		
 		$tampil['meta_deskripsi'] = $this->Config_Model->get_app_name_url() . " | Gudangnya Informasi Lowongan Kerja, Segala Informasi tentang Lowongan Kerja bisa Anda dapatkan di sini dari mulai Posisi Rentan Gaji dan Daerah yang Anda inginkan ada di ".$this->Config_Model->get_app_name_url();
 		$tampil['page_title']="Paket Pembayaran";
 		$tampil['loadGolongan']=$this->fronModel->show('job_golongan', 'id_golongan', 'asc');
@@ -176,6 +183,11 @@ class Company extends MY_Controller {
 
 	public function tambahIklanLanjut()
 	{
+		$akun = $this->fronModel->showById('job_perusahaan', array('id_perusahaan'=>$this->session->userdata('id_login')));
+		if ($akun->category == 2):
+			show_404();
+		endif;
+		
 		$tampil['meta_deskripsi'] = $this->Config_Model->get_app_name_url() . " | Gudangnya Informasi Lowongan Kerja, Segala Informasi tentang Lowongan Kerja bisa Anda dapatkan di sini dari mulai Posisi Rentan Gaji dan Daerah yang Anda inginkan ada di ".$this->Config_Model->get_app_name_url();
 		$tampil['page_title']="Pasang Iklan Lowongan";
 
@@ -310,6 +322,7 @@ class Company extends MY_Controller {
 		$tampil['row']['type']=$cek->nm_type;
 		$tampil['row']['ket']=$cek->ket;
 		$tampil['row']['bukti']=$cek->upload_bukti;
+		$tampil['result'] = $cek;
 
 		
 		if($cek->aktif=='1'){
@@ -702,5 +715,60 @@ class Company extends MY_Controller {
 			}
 		}
 	}
+	
+	public function addIklan()
+	{
+		$akun = $this->fronModel->showById('job_perusahaan', array('id_perusahaan'=>$this->session->userdata('id_login')));
+		if ($akun->category == 1):
+			show_404();
+		endif;
+		
+		$tampil['meta_deskripsi'] = $this->Config_Model->get_app_name_url() . " | Gudangnya Informasi Lowongan Kerja, Segala Informasi tentang Lowongan Kerja bisa Anda dapatkan di sini dari mulai Posisi Rentan Gaji dan Daerah yang Anda inginkan ada di ".$this->Config_Model->get_app_name_url();
+		$tampil['page_title']="Tambah Lowongan";
+		$tampil['formAction']=base_url("company/addIklan");
+		$tampil['button']="SIMPAN DATA";
+		$tampil['title']="Pasang Iklan Lowongan";
+		$tampil['kat_lowongan']=$this->fronModel->show('job_k_lowongan', 'nm_k_lowongan', 'ASC');
+		$tampil['kat']=$this->fronModel->show('job_type', 'id_type', 'ASC');
+		$tampil['gol']=$this->fronModel->show('job_golongan', 'id_golongan', 'ASC');
+		$tampil['row']['date_post']=date('Y-m-d');
+		
+		if (isset($_POST['submit'])) {
+			$data = array(
+				'id_lowongan' => $this->fronModel->setAutoNumber('job_lowongan', date('mjh')),
+				'id_perusahaan' => $this->session->userdata('id_login'),
+				'id_k_low' => $this->input->post('katLowongan'),
+				'nm_lowongan' => $this->input->post('lowongan'),
+				'kualifikasi' => $this->input->post('kualifikasi'),
+				'benefit' => $this->input->post('benefit'),
+				'gaji' => $this->input->post('gaji'),
+				'kota' => $this->input->post('kota'),
+				'provinsi' => $this->input->post('provinsi'),
+				'date_post' => $this->input->post('date_post'),
+				'date_close' => $this->input->post('date_close'),
+				'aktif' => 1,
+				'id_golongan' => 1, // platinum 30 hari
+				'id_type' => $this->input->post('type'),
+			);
 
+			$id_lowongan = $this->fronModel->insert('job_lowongan', $data);
+			$data1 = array(
+				'id_aktivasi' => $this->fronModel->setAutoNumber('job_aktivasi', date('dmi')),
+				'id_lowongan' => $id_lowongan,
+				'id_perusahaan' => $this->session->userdata('id_login'),
+				'id_k_golongan' => 4, // platinum 30 hari
+				'harga' => 0,
+				'date_bill' => $this->input->post('date_post'),
+				'date_limit' => $this->input->post('date_close'),
+				'upload_bukti' => null,
+				'ket' => 'member perusahaan',
+				'status' => 1,
+			);
+			$insert_id = $this->fronModel->insert('job_aktivasi', $data1);
+			redirect(site_url('company'));
+		}
+
+		$tampil['loadGolongan']=$this->fronModel->show('job_golongan', 'id_golongan', 'asc');
+		$this->final_view('front/perusahaan/member-tambah-lowongan', $tampil);
+	}
 }
