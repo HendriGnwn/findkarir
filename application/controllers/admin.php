@@ -1838,18 +1838,18 @@ class Admin extends MY_Controller {
 	}
 		
 	public function prosesKirimBantuan($id) {
+		$row = $this->my_model->showById('job_bantuan', array('id_bantuan' => $id));
 		$data = array(
-			'subjek' => $this->input->post('subjek'),
-			'email' => $this->input->post('email'),
-			'pesan' => $this->input->post('pesan'),
-			'tgl' => date('Y-m-d h:i:s'),
 			'sts' => 1,
 		);
 		$this->my_model->update('job_bantuan', $data, array('id_bantuan' => $id));
 		$params = array(
-			'to' => $this->input->post('email'),
-			'subject' => $this->input->post('subjek'),
-			'body' => $this->input->post('pesan'),
+			'to' => $row->email,
+			'subject' => 'Re: ' . $this->input->post('subjek'),
+			'body' => $this->load->view('mail/help', array(
+				'body' => $this->input->post('pesan'),
+				'row' => $row,
+			), true)
 		);
 		$this->send_email($params);
 		

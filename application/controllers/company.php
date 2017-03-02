@@ -360,11 +360,18 @@ class Company extends MY_Controller {
 		$cek = $this->fronModel->showById('job_lamar', array('id_lamar' => $id));
 		$cekPerusahaan = $this->fronModel->showById('job_perusahaan', array('id_perusahaan' => $cek->id_perusahaan));
 		$cekEmail = $this->fronModel->showById('job_pelamar', array('id_pelamar' => $cek->id_pelamar));
+		if (!$cekEmail) {
+			show_404();
+		}
 		
 		$params = array(
 			'to' => $cekEmail->email,
 			'subject' => "Undangan: Peluang di " . $cekPerusahaan->nm_perusahaan,
-			'body' => "Anda diundang oleh {$cekPerusahaan->nm_perusahaan}. Datang ke Alamat <b>'" . $this->input->post('ket') . "'</b> Tanggal <b>'" . $this->input->post('tgl_datang') . "'</b> Pukul <b>'" . $this->input->post('jam_datang') . "'</b>",
+			'body' => $this->load->view('mail/opportunity-for-applicant', array(
+				'company' => $cekPerusahaan,
+				'apply' => $cek,
+				'applicant' => $cekEmail,
+			), true),
 		);
 		if ($this->send_email($params)) {
 			$data = array(

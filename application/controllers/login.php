@@ -60,11 +60,17 @@ class Login extends MY_Controller
 	public function prosesLupaPassword()
 	{
 		if($this->fronModel->cekId(array('id_pelamar'=>$this->input->post('id'), 'email'=>$this->input->post('email')), 'job_pelamar')==TRUE){
-			$cek = $this->fronModel->showById('job_pelamar', array('id_pelamar'=>$this->input->post('id')));
+			$cek = $this->fronModel->showById('job_pelamar', array('id_pelamar'=>$this->input->post('id'), 'email'=>$this->input->post('email')));
+			if (!$cek) {
+				$this->session->set_flashdata('gagal', 'Data tidak ada.');
+				redirect(site_url('login/lupaPassword'));
+			}
 
 			$params = array(
-				'body' => "Anda Lupa Password, ini Identitas Anda...<ul><li>ID = ".$cek->id_pelamar."</li><li>email = ".$cek->email."</li><li>Password = ".$cek->pass_view."</li></ul>",
-				'to' => $this->input->post('email'),
+				'body' => $this->load->view('mail/auth/forgot-password', array(
+					'row' => $cek
+				), true),
+				'to' => $cek->email,
 				'subject' => "Lupa Password"
 			);
 			if ($this->send_email($params)) {
