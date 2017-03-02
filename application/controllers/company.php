@@ -43,6 +43,11 @@ class Company extends MY_Controller {
 		$tampil['numRowsLowongan']=$this->fronModel->getLowonganPerusahaanNumRows();
 		$tampil['loadKonfirmasi']=$this->fronModel->aktivasiLim('5');
 		
+		if ($akun->category == 2) {
+			$tampil['jobLimit'] = $this->fronModel->showById('job_limit', array('job_perusahaan_id'=>$akun->id_perusahaan, 'status'=>1));
+			$tampil['kuotaLimit'] = $this->fronModel->getKuotaLimitPerusahaan();
+		}
+		
 		$this->final_view('front/perusahaan/akun_perusahaan', $tampil);
 	}
 
@@ -722,6 +727,20 @@ class Company extends MY_Controller {
 		if ($akun->category == 1):
 			show_404();
 		endif;
+		$jobLimit = $this->fronModel->showById('job_limit', array('job_perusahaan_id'=>$akun->id_perusahaan, 'status'=>1));
+		$kuotaLimit = $this->fronModel->getKuotaLimitPerusahaan();
+		if (!$jobLimit) {
+			$this->session->set_flashdata('gagal', 'Anda belum bisa tambah lowongan karena limit tidak tersedia atau habis.');
+			redirect(site_url('company'));
+		}
+		if ($jobLimit->date_end < date('Y-m-d')) {
+			$this->session->set_flashdata('gagal', 'Anda belum bisa tambah lowongan karena waktu limit sudah berakhir.');
+			redirect(site_url('company'));
+		}
+		if ($jobLimit->limit < $kuotaLimit) {
+			$this->session->set_flashdata('gagal', 'Anda belum bisa tambah lowongan karena kuota sudah habis.');
+			redirect(site_url('company'));
+		}
 		
 		$tampil['meta_deskripsi'] = $this->Config_Model->get_app_name_url() . " | Gudangnya Informasi Lowongan Kerja, Segala Informasi tentang Lowongan Kerja bisa Anda dapatkan di sini dari mulai Posisi Rentan Gaji dan Daerah yang Anda inginkan ada di ".$this->Config_Model->get_app_name_url();
 		$tampil['page_title']="Tambah Lowongan";

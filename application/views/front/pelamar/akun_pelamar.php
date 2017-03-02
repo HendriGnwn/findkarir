@@ -621,8 +621,7 @@
 											<tr>
 												<td><?php echo $passion->name ?></td>
 												<td align="center">
-													<a href="#" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a>
-													<a href="#" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></a>
+													<a href="<?php echo base_url('pelamar/deletePassion/'.$passion->id) ?>" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></a>
 												</td>
 											</tr>
 											<?php endforeach; ?>
@@ -632,7 +631,36 @@
 								
 								<div class="tab-pane fade" id="tab-tambah-passion">
 									<h4 class="classic-title"><i class="fa fa-plus-square"></i>&nbsp;&nbsp;Tambah Passion <a href="#tab-4" data-toggle="tab" title="Tambah Data"><i class="fa fa-arrow-left"></i></a></h4>
-									
+									<form class="contact-form form-style" method="post" action="<?php echo base_url('pelamar/addPassion'); ?>">
+									<div class="row">
+										<div class="col-md-3">
+											<h5>Passions</h5>
+										</div>
+										<div class="col-md-9">
+											<div class="form-group">
+												<?php foreach($this->fronModel->show('job_k_lowongan', 'nm_k_lowongan', 'ASC') as $passion): ?>
+		                                        <div class="controls">
+		                                            <input id="passion_<?php echo $passion->id_k_low ?>" type="checkbox" name="passion[]" value="<?php echo $passion->id_k_low ?>"/>
+													<label for="passion_<?php echo $passion->id_k_low ?>"><?php echo $passion->nm_k_lowongan ?></label>
+		                                        </div>
+												<?php endforeach; ?>
+		                                    </div>
+										</div>
+									</div>
+									<div class="hr1 margin-30"></div>
+									<div class="row">
+										<div class="col-md-3">
+											
+										</div>
+										<div class="col-md-9">
+											<div class="form-group">
+		                                        <div class="controls">
+		                                            <button type="submit" name="submit" name="submit" class="btn btn-system btn-medium"><i class="fa fa-save"></i>&nbsp;&nbsp; Simpan</button>
+		                                        </div>
+		                                    </div>
+										</div>
+									</div>
+									</form>
 								</div>
 								<!-- Tab Content 5 -->
 								<div class="tab-pane fade" id="tab-5">

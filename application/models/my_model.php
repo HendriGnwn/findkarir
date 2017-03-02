@@ -158,6 +158,25 @@ class my_model extends CI_Model {
     	return $inisial."".$tmp."".$qn+1;
     }
 	
+	public function setAutoNumber1($table, $attribute, $prefix, $padLength = 5)
+	{
+		$left = $prefix;
+        $leftLen = strlen($left);
+        $increment = 1;
+
+        $query = $this->db->query("SELECT * FROM $table WHERE $attribute like '%$left%' ORDER BY $attribute DESC LIMIT 1");
+		$last = $query->row();
+
+        if ($last) {
+            $increment = (int) substr($last, $leftLen, $padLength);
+            $increment++;
+        }
+
+        $number = str_pad($increment, $padLength, '0', STR_PAD_LEFT);
+
+        return $left . $number;
+	}
+	
 	public function generate_kode_perusahaan($prefix, $padLength = 5)
 	{
 		$left = $prefix . date('ymd');

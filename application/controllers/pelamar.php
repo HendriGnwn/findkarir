@@ -185,4 +185,39 @@ class Pelamar extends MY_Controller {
 			redirect('pelamar', 'refresh');
 		}
 	}
+	
+	public function addPassion()
+	{
+		$idKLowongans = array();
+		if (isset($_POST['submit'])) {
+			foreach($_POST['passion'] as $passion):
+				$cek = $this->fronModel->showById('pelamar_bidang', array('id_pelamar' => $this->session->userdata('id_login'), 'id_k_lowongan'=>$passion));
+				if ($cek) {
+					continue;
+				}
+				$data = array(
+					'id_pelamar' => $this->session->userdata('id_login'),
+					'id_k_lowongan' => $passion,
+					'status' => 1,
+					'created_at' => date('Y-m-d H:i:s'),
+				);
+				$this->fronModel->insert('pelamar_bidang', $data);
+			endforeach;
+			$this->session->set_flashdata('berhasil', 'Passion berhasil ditambah');
+			redirect('pelamar', 'refresh');
+		}
+		show_404();
+	}
+	
+	public function deletePassion($id)
+	{
+		$delete = $this->fronModel->delete('pelamar_bidang', array('id'=>$id));
+		if ($delete) {
+			$this->session->set_flashdata('berhasil', 'Passion berhasil dihapus');
+		} else {
+			$this->session->set_flashdata('gagal', 'Passion gagal di hapus');
+		}
+		
+		redirect('pelamar', 'refresh');
+	}
 }

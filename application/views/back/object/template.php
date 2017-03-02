@@ -241,6 +241,9 @@
                 <li <?php if(uri_string()=='admin/bantuan'){ ?> class="active"<?php } ?>>
                   <a href="<?php echo base_url('admin/bantuan'); ?>"><i class="fa fa-inbox"></i> Lihat Bantuan</a>
                 </li>
+                <li <?php if(uri_string()=='admin/masalah'){ ?> class="active"<?php } ?>>
+                  <a href="<?php echo base_url('admin/masalah'); ?>"><i class="fa fa-inbox"></i> Lihat Masalah Lowongan</a>
+                </li>
               </ul>
             </li>
             <li <?php if(uri_string()=='admin/user'||uri_string()=='admin/tambahUser'){ ?> class="active treeview"<?php }else{echo "treeview";} ?>>

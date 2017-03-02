@@ -360,4 +360,12 @@ class fronModel extends CI_Model {
 			return false;
 		}
 	}
+	
+	public function getKuotaLimitPerusahaan()
+	{
+		$q = $this->db->query("SELECT * FROM job_limit WHERE job_perusahaan_id = {$this->session->userdata('id_login')} AND status = 1");
+		$q = $q->row();
+		$query = $this->db->query("SELECT * FROM job_lowongan WHERE date_post BETWEEN '{$q->date_start}' AND '{$q->date_end}' AND id_perusahaan = {$this->session->userdata('id_login')}");
+		return $query->num_rows();
+	}
 }

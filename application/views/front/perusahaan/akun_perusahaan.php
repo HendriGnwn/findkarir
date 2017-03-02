@@ -393,6 +393,30 @@
 								<!-- Tab Content 2 -->
 								<div class="tab-pane fade" id="tab-2">
 									<h4 class="classic-title"><i class="fa fa-bars"></i>&nbsp;&nbsp;Daftar Iklan Loker Anda &nbsp;&nbsp;<a href="<?php echo $akun->category == 1 ? base_url('company/tambahIklan') : base_url('company/addIklan'); ?>" title="Pasang Iklan Lowongan"><i class="fa fa-plus-square"></i></a>&nbsp;&nbsp; <a href="" title="Refresh Data"><i class="fa fa-refresh"></i></a></h4>
+									<?php if ($akun->category == 2): ?>
+									<table class="table table-condensed">
+										<tr>
+											<td width="200">Total Limit</td>
+											<td width="10">:</td>
+											<td><?php echo isset($jobLimit->limit) ? $jobLimit->limit : '' ?></td>
+										</tr>
+										<tr>
+											<td>Sisa Kouta Limit</td>
+											<td>:</td>
+											<td><?php echo isset($jobLimit->limit) ? $jobLimit->limit - $kuotaLimit : '' ?></td>
+										</tr>
+										<tr>
+											<td>Dari Tanggal</td>
+											<td>:</td>
+											<td><?php echo isset($jobLimit->date_start) ? $jobLimit->date_start : '' ?></td>
+										</tr>
+										<tr>
+											<td>Sampai Tanggal</td>
+											<td>:</td>
+											<td><?php echo isset($jobLimit->date_end) ? $jobLimit->date_end : '' ?></td>
+										</tr>
+									</table>
+									<?php endif; ?>
 									<table id="example" class="table table-bordered table-strip table-responsive">
 										<thead>
 											<tr>

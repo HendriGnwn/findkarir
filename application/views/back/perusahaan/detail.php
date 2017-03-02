@@ -51,12 +51,6 @@
 					<a href="<?php echo base_url('admin/lowonganById/'.$row['id']); ?>">
 						<span class="btn btn-primary btn-flat padding-2">LIHAT IKLAN&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-right"></i></span>
 					</a>
-					<?php if ($row['category'] == 2) : ?>
-					&nbsp;|&nbsp;
-					<a href="<?php echo base_url('admin/tambahlimitLow/'.$row['id']); ?>">
-						<span class="btn btn-primary btn-flat padding-2">Tambah Limit&nbsp;&nbsp;&nbsp;<i class="fa fa-plus-square-o"></i></span>
-					</a>
-					<?php endif; ?>
                   </h3>
                   <div class="box-tools pull-right">
                     <button class="btn btn-primary btn-xs" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -176,9 +170,52 @@
                         ?>
                       </td>
                     </tr>
-
-
                   </table>
+				<?php if ($row['category'] == 2) : ?>
+				<br/>
+				<div class="box-header bg-gray">
+					<h4 class="box-title">Limit Details&nbsp;&nbsp;
+						<a href="<?php echo base_url('admin/tambahlimitLow/'.$row['id']); ?>">
+							<span class="btn btn-primary btn-flat padding-2">Tambah Limit&nbsp;&nbsp;&nbsp;<i class="fa fa-plus-square-o"></i></span>
+						</a>
+					</h4>
+				</div>
+				<br/>
+				<table id="example1" class="table table-bordered table-striped table-responsive">
+                    <thead>
+						<tr>
+							<th width="4%">No</th>
+							<th>Limit</th>
+							<th>Tanggal Mulai</th>
+							<th>Tanggal Selesai</th>
+							<th>Status</th>
+							<th width="10%">Aksi</th>
+						</tr>
+                    </thead>
+                    <tbody>
+						<?php $no = 1; foreach($perusahaanLimits as $limit) : ?>
+						<tr>
+							<td><?php echo $no++ ?></td>
+							<td><?php echo $limit->limit ?></td>
+							<td><?php echo $limit->date_start ?></td>
+							<td><?php echo $limit->date_end ?></td>
+							<td><?php echo $limit->status == 1 ? 'Active' : 'Inactive' ?></td>
+							<td><?php if ($limit->status==1) : ?><a href="<?php echo base_url('admin/updateLimitLow/'.$limit->id) ?>">Update Limit</a> <?php endif; ?></td>
+						</tr>
+						<?php endforeach; ?>
+					</tbody>
+					<tfoot>
+						<tr>
+							<th width="4%">No</th>
+							<th>Limit</th>
+							<th>Tanggal Mulai</th>
+							<th>Tanggal Selesai</th>
+							<th>Status</th>
+							<th>Aksi</th>
+						</tr>
+					</tfoot>
+				</table>
+				<?php endif; ?>
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
             </div><!-- /.col -->

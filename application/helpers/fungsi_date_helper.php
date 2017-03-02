@@ -153,3 +153,13 @@ if( ! function_exists('isiSingkat')){
          return $isisingkat; 
     }
 }
+
+if (!function_exists('dateInIntervalFormat')) {
+	function dateInIntervalFormat($date, $interval, $format = 'Y-m-d')
+	{
+		$date = date_create($date);
+		date_add($date, date_interval_create_from_date_string($interval .' days'));
+		
+		return date_format($date, $format);
+	}
+}

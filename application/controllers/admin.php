@@ -408,6 +408,9 @@ class Admin extends MY_Controller {
 		$tampil['row']['login']=$cek->sts_login;
 		$tampil['row']['kode']=$cek->kode;
 		$tampil['row']['category']=$cek->category;
+		if ($cek->category == 2) {
+			$tampil['perusahaanLimits'] = $this->my_model->show('job_limit WHERE job_perusahaan_id = "'.$id.'"', 'status', 'DESC');
+		}
 		$data['content']=$this->load->view('back/perusahaan/detail', $tampil, true);
 		$this->load->view('back/object/template', $data);
 	}
@@ -491,7 +494,19 @@ class Admin extends MY_Controller {
 								'category'=>$this->input->post('category'),
 								'sts_login'=>'0',
 							);
-						$this->my_model->insert('job_perusahaan', $data1);
+						$insertId = $this->my_model->insert('job_perusahaan', $data1);
+						if ($data1['category'] == 2) {
+							$dataLimit = array(
+								'job_perusahaan_id' => $insertId,
+								'limit' => 0,
+								'date_start' => date('Y-m-d'),
+								'date_end' => dateInIntervalFormat(date('Y-m-d'), 30),
+								'status' => 1,
+								'created_at' => date('Y-m-d H:i:s'),
+							);
+							$this->my_model->insert('job_limit', $dataLimit);
+						}
+						
 						$this->session->set_flashdata('notification', 'Data <b>'.$nama.'</b> berhasil di Simpan');
 						redirect('admin/perusahaan', 'refresh');
 					}else{
@@ -1883,4 +1898,66 @@ class Admin extends MY_Controller {
 			$this->session->set_flashdata('notification', 'Data Sukses di Edit');
 			redirect(site_url('admin/profilPerusahaan'));
 		}
+	
+	public function tambahLimitLow($id)
+	{
+		$check = $this->my_model->showById('job_perusahaan', array('id_perusahaan'=>$id));
+		if ($check->category == 1) {
+			show_404();
+		}
+		
+		$tampil['id'] = $id;
+		$tampil['title']="Tambah Limit Lowongan (Partner FindKarir)";
+		$tampil['button']="SIMPAN DATA";
+		$tampil['formAction']=base_url('admin/tambahLimitLow/'.$id);
+		
+		if (isset($_POST['submit'])) {
+			if ($this->input->post('date') < date('Y-m-d')) {
+				$this->session->set_flashdata('notification', 'Tanggal Limit tidak boleh kurang dari hari ini');
+				redirect(site_url('admin/tambahLimitLow/'.$id));
+			}
+			$data = array(
+				'job_perusahaan_id' => $id,
+				'limit' => $this->input->post('limit'),
+				'date_start' => $this->input->post('date'),
+				'date_end' => $this->input->post('date_end'),
+				'status' => 1,
+				'created_at' => date('Y-m-d H:i:s'),
+			);
+			$check = $this->my_model->showById('job_limit', array('job_perusahaan_id'=>$id));
+			if ($check) {
+				$this->my_model->update('job_limit', array('status' => 0), array('job_perusahaan_id' => $id));
+			}
+			$insertId = $this->my_model->insert('job_limit', $data);
+			$this->session->set_flashdata('notification', 'Data Limit sukses di tambah');
+			redirect(site_url('admin/detailPerusahaan/'.$id));
+		}
+		
+		$data['content']=$this->load->view('back/perusahaan/tambah-limit-lowongan', $tampil, true);
+		$this->load->view('back/object/template', $data);
+	}
+	
+	public function updateLimitLow($id)
+	{
+		$tampil['title']="Update Limit Lowongan (Partner FindKarir)";
+		$tampil['button']="SIMPAN DATA";
+		$tampil['formAction']=base_url('admin/updateLimitLow/'.$id);
+		$tampil['row'] = $this->my_model->showById('job_limit', array('id'=>$id));
+		
+		if (isset($_POST['submit'])) {
+			$this->my_model->update('job_limit', array('limit' => $this->input->post('limit'), 'date_end'=>$this->input->post('date_end')), array('id' => $id));
+			$this->session->set_flashdata('notification', 'Data Limit sukses di edit');
+			redirect(site_url('admin/detailPerusahaan/'.$tampil['row']->job_perusahaan_id));
+		}
+		
+		$data['content']=$this->load->view('back/perusahaan/update-limit-lowongan', $tampil, true);
+		$this->load->view('back/object/template', $data);
+	}
+	
+	public function masalah()
+	{
+		$tampil['loadData']=$this->my_model->show('lowongan_masalah', 'created_at', 'DESC');
+		$data['content']=$this->load->view('back/masalah/index', $tampil, true);
+		$this->load->view('back/object/template', $data);
+	}
 }
