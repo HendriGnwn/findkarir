@@ -67,7 +67,7 @@ class Login extends MY_Controller
 			}
 
 			$params = array(
-				'body' => $this->load->view('mail/auth/forgot-password', array(
+				'body' => $this->load->view('mail/auth/forgot-password-applicant', array(
 					'row' => $cek
 				), true),
 				'to' => $cek->email,
@@ -100,12 +100,18 @@ class Login extends MY_Controller
 	public function prosesLupaPasswordPerusahaan() 
 	{
 		if ($this->fronModel->cekId(array('id_perusahaan' => $this->input->post('id'), 'email' => $this->input->post('email')), 'job_perusahaan') == TRUE) {
-			$cek = $this->fronModel->showById('job_perusahaan', array('id_perusahaan' => $this->input->post('id')));
+			$cek = $this->fronModel->showById('job_perusahaan', array('id_perusahaan' => $this->input->post('id'), 'email' => $this->input->post('email')));
+			if (!$cek) {
+				$this->session->set_flashdata('gagal', 'Data tidak ada.');
+				redirect(site_url('login/lupaPasswordPerusahaan'));
+			}
 
 			$params = array(
-				'body' => "Anda Lupa Password, ini Identitas Anda...<ul><li>ID = " . $cek->id_perusahaan . "</li><li>email = " . $cek->email . "</li><li>Password = " . $cek->pass_view . "</li></ul>",
-				'to' => $this->input->post('email'),
-				'subject' => "Lupa Password"
+				'to' => $cek->email,
+				'subject' => "Lupa Password",
+				'body' => $this->load->view('mail/auth/forgot-password-company', array(
+					'row' => $cek,
+				), true),
 			);
 			if ($this->send_email($params)) {
 				$this->session->set_flashdata('berhasil', 'Password Bisa Lihat di Email Anda');
@@ -166,6 +172,16 @@ class Login extends MY_Controller
 						'sts_login' => '0',
 					);
 					$this->fronModel->insert('job_pelamar', $data);
+					$row = $this->fronModel->showById('job_pelamar', array('id_pelamar'=>$auto_number));
+					$params = array(
+						'to' => $row->email,
+						'subject' => 'Selamat bergabung di '. $this->Config_Model->get_app_name_url(),
+						'body' => $this->load->view('mail/auth/new-applicant', array(
+							'row' => $row,
+						), true),
+					);
+					$this->send_email($params);
+					
 					$this->session->set_flashdata('berhasil', 'Berhasil Mendaftar, silahkan Anda Login menggunakan Email dan Password Anda ..');
 					redirect(site_url('login/daftar'));
 				}
@@ -202,6 +218,7 @@ class Login extends MY_Controller
 
 				$data = array(
 					'id_perusahaan' => $auto_number,
+					'kode'=>$this->my_model->generate_kode_perusahaan(1),
 					'nm_perusahaan' => strtoupper($this->input->post('nama')),
 					'logo' => null,
 					'alamat' => $this->input->post('alamat'),
@@ -219,18 +236,16 @@ class Login extends MY_Controller
 					'sts_login' => '0',
 				);
 				$this->fronModel->insert('job_perusahaan', $data);
+				$row = $this->fronModel->showById('job_perusahaan', array('id_perusahaan'=>$auto_number));
 				
 				$this->session->set_flashdata('berhasil', 'Berhasil Mendaftar, silahkan Cek Email Anda, terdapat ID dan Password untuk Login Perusahaan ..');
-				$pesan = "Anda sudah terdaftar di ".$this->Config_Model->get_app_name_url() .
-						" sebagai Perusahaan, identitas untuk Login sebagai berikut.<ul><li>ID = " . $auto_number . 
-						"</li><li>Email = " . $this->input->post('email') . 
-						"</li><li>Password = " . $this->session->userdata('password') . 
-						"</li></ul> Login Segera di (" . base_url('perusahaan') . ")";
 				
 				$params = array(
-					'to' => $this->input->post('email'),
-					'subject' => "Identitas ID dan Password Anda",
-					'body' => $pesan,
+					'to' => $row->email,
+					'subject' => 'Selamat bergabung di '. $this->Config_Model->get_app_name_url(),
+					'body' => $this->load->view('mail/auth/new-company', array(
+						'row' => $row,
+					), true),
 				);
 				$this->send_email($params);
 				

@@ -19,14 +19,13 @@ class Welcome extends MY_Controller {
 	 */
 	public function index()
 	{
-		$row = $this->my_model->showById('job_bantuan', array('id_bantuan' => 4));
+		$row = $this->fronModel->showById('job_perusahaan', array('id_perusahaan'=>7404001));
 		$params = array(
 			'to' => $row->email,
-			'subject' => 'Re: ' . 'Maeesio sjals aamJ Jswlm',
-			'body' => $this->load->view('mail/help', array(
-				'body' => 'isdufh asfhasf iosadfiusdafh asdfsadifu hsad fsdfuhwier asfdsd f',
+			'subject' => 'Selamat bergabung di '. $this->Config_Model->get_app_name_url(),
+			'body' => $this->load->view('mail/auth/new-company', array(
 				'row' => $row,
-			), true)
+			), true),
 		);
 		$mail = $this->send_email($params);
 		die($mail);
