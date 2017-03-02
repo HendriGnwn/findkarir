@@ -104,3 +104,6 @@ CREATE TABLE `lowongan_masalah` (
   `pesan` text NOT NULL,
   `created_at` datetime NOT NULL
 );
+
+ALTER TABLE `job_hit`
+ADD `is_real` int NOT NULL;
