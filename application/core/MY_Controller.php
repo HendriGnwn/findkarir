@@ -70,10 +70,11 @@ class MY_Controller extends CI_Controller
 	}
 	
 	/**
-	 * - body    | required
-	 * - to      | required
-	 * - subject | required
+	 * - body    | required | viewContent | $this->load->view('path/to/content,' array(), true)
+	 * - to      | required | array(email)
+	 * - subject | required | text
 	 * - from
+	 * - fromName
 	 * - attachments (array)
 	 * 
 	 * @param string $params
@@ -82,6 +83,8 @@ class MY_Controller extends CI_Controller
 	 */
 	public function send_email($params = array())
 	{
+		$testMode = false;
+		
 		if (
 			!isset($params['body']) ||
 			!isset($params['to']) ||
@@ -90,49 +93,64 @@ class MY_Controller extends CI_Controller
 			throw new Exception('body, to, and subject must be defined.');
 		}
 		
+		if (!is_array($params['to'])) {
+			$params['to'] = array($params['to']);
+		}
 		if (!isset($params['from'])) {
 			$params['from'] = 'no-reply@findkarir.com';
 		}
+		if (!isset($params['fromName'])) {
+			$params['fromName'] = $this->Config_Model->get_app_name_url();
+		}
+		if (!isset($params['isHtml'])) {
+			$params['isHtml'] = true;
+		}
 		
-		$this->load->library('upload');
-		$this->load->library('email');
-
-		//konfigurasi email
-		$config = array();
-		$config['charset'] = 'iso-8859-1';
-		$config['useragent'] = 'Codeigniter';
-		$config['protocol']= "smtp";
-		$config['mailtype']= "html";
-		$config['smtp_host']= "mail.atc.co.id";
-		$config['smtp_port']= "25";
-		$config['smtp_timeout']= "5";
-		$config['smtp_user']= "no-reply@atc.co.id";
-		$config['smtp_pass']= "mTemT.9pupRN";
-		$config['crlf']="\r\n"; 
-		$config['newline']="\r\n"; 
-		$config['mailpath'] = '/usr/sbin/sendmail';
-		$config['wordwrap'] = TRUE;
-		//memanggil library email dan set konfigurasi untuk pengiriman email
-
-		$this->email->initialize($config);
-		$this->email->clear();
+		$mail = new PHPMailer();
+		$mail->isSMTP();
+		$mail->Host = 'server42533x.maintenis.com';
+		$mail->SMTPAuth = true;
+		$mail->Username = 'no-reply@atc.co.id';
+		$mail->Password = 'mTemT.9pupRN';
+		$mail->SMTPSecure = 'ssl';
+		$mail->Port = '465';
+		//$mail->SMTPDebug = 2;
 		
-		//konfigurasi pengiriman
-		$this->email->from($params['from'], $this->Config_Model->get_app_name_url());
-		$this->email->to($params['to']);
-		$this->email->subject($params['subject']);
-		$this->email->message($params['body']);
+		$mail->setFrom($params['from'], $params['fromName']);
+		foreach ($params['to'] as $to) :
+			$mail->addAddress($to);
+		endforeach;
+		
+		$mail->isHTML(true);
+		$mail->Subject = $params['subject'];
+		
+		$body['content'] = $params['body'];
+		$params['body'] = $this->load->view('mail/layouts/html', $body, true);
+		$mail->msgHTML($params['body']);
 		
 		if (isset($params['attachments'])) {
 			foreach ($params['attachments'] as $attach) {
-				$this->email->attach($attach);
+				$mail->addAttachment($attach);
 			}
 		}
-
-		if($this->email->send()) {
+		
+		$mailer = false;
+		if ($testMode) {
+			$mail->preSend();
+			$path = 'assets/mail';
+			if (!is_dir(BASEPATH . '../' . $path)) {
+				mkdir(BASEPATH . '../' . $path);
+			}
+			file_put_contents($path .'/'. date('ymd-His'). '.eml', $mail->getSentMIMEMessage());
 			return true;
+		} else {
+			$mailer = $mail->send();
 		}
 		
+		if ($mailer) {
+			return true;
+		}
+		error_log($mail->ErrorInfo);
 		return false;
 	}
 }
