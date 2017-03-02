@@ -83,7 +83,7 @@ class MY_Controller extends CI_Controller
 	 */
 	public function send_email($params = array())
 	{
-		$testMode = false;
+		$testMode = true;
 		
 		if (
 			!isset($params['body']) ||
