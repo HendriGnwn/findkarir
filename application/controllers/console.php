@@ -41,4 +41,10 @@ class Console extends MY_Controller
 		}
 		echo '    > tidak ada update-an' . PHP_EOL;
 	}
+	
+	public function send_email_to_applicant_that_new_jobs()
+	{
+		// query ambil di pelamar_bidang relasi ke id_pelamar (ambil email) dan kirim
+		echo '    > selesai' . PHP_EOL;
+	}
 }
