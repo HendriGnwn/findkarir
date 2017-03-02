@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Welcome extends CI_Controller {
+class Welcome extends MY_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -19,6 +19,18 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
+		$row = $this->my_model->showById('job_bantuan', array('id_bantuan' => 4));
+		$params = array(
+			'to' => $row->email,
+			'subject' => 'Re: ' . 'Maeesio sjals aamJ Jswlm',
+			'body' => $this->load->view('mail/help', array(
+				'body' => 'isdufh asfhasf iosadfiusdafh asdfsadifu hsad fsdfuhwier asfdsd f',
+				'row' => $row,
+			), true)
+		);
+		$mail = $this->send_email($params);
+		die($mail);
+		
 		$this->load->view('welcome_message');
 	}
 }
