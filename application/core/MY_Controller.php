@@ -142,15 +142,31 @@ class MY_Controller extends CI_Controller
 				mkdir(BASEPATH . '../' . $path);
 			}
 			file_put_contents($path .'/'. date('ymd-His'). '.eml', $mail->getSentMIMEMessage());
+			$this->clear_mailer($mail);
+			sleep(1);
 			return true;
 		} else {
 			$mailer = $mail->send();
 		}
-		
+		$this->clear_mailer($mail);
 		if ($mailer) {
 			return true;
 		}
 		error_log($mail->ErrorInfo);
 		return false;
+	}
+	
+	/**
+	 * clear mailer history
+	 * 
+	 * @param type $mail class PHPMailer()
+	 */
+	private function clear_mailer($mail)
+	{
+		$mail->clearAddresses();
+		$mail->clearAllRecipients();
+		$mail->clearAttachments();
+		$mail->clearCustomHeaders();
+		$mail->clearReplyTos();
 	}
 }
