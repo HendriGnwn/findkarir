@@ -17,3 +17,7 @@ composer.phar
 
 # Mac DS_Store Files
 .DS_Store
+
+/assets/mail
+/assets/upload/img
+/assets/upload/pelamar
