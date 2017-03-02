@@ -42,9 +42,46 @@ class Console extends MY_Controller
 		echo '    > tidak ada update-an' . PHP_EOL;
 	}
 	
+	/**
+	 * cron is running every monday at 9 am
+	 * 
+	 * @return boolean
+	 */
 	public function send_email_to_applicant_that_new_jobs()
 	{
-		// query ambil di pelamar_bidang relasi ke id_pelamar (ambil email) dan kirim
+		$this->load->helper('fungsi_date');
+		$endDate = date('Y-m-d');
+		$startDate = dateInIntervalFormat($endDate, '-7');
+		$query = $this->db->query("SELECT jp.*, GROUP_CONCAT(id_k_lowongan) as group_k_lowongan FROM pelamar_bidang pb INNER JOIN job_pelamar jp ON pb.id_pelamar = jp.id_pelamar WHERE status = 1 GROUP BY id_pelamar");
+		$count = $query->num_rows();
+		$results = $query->result();
+		if ($count <= 0) {
+			echo '    > tidak ada pelamar yang minat' . PHP_EOL;
+			return true;
+		}
+		foreach ($results as $result) :
+			$q = $this->db->query("SELECT jl.*, jp.nm_perusahaan as nm_perusahaan, jkl.nm_k_lowongan as nm_k_lowongan FROM job_lowongan jl INNER JOIN job_k_lowongan jkl ON jl.id_k_low = jkl.id_k_low INNER JOIN job_perusahaan jp ON jp.id_perusahaan = jl.id_perusahaan WHERE jl.id_k_low IN ($result->group_k_lowongan) AND date_post BETWEEN '$startDate' AND '$endDate' AND jl.aktif = 1");
+			$countJob = $q->num_rows();
+			$jobs = $q->result();
+			if ($countJob <= 0) {
+				continue;
+			}
+			$name = '';
+			foreach ($jobs as $job) {
+				$name = $job->nm_k_lowongan;
+				break;
+			}
+			$params = array(
+				'to' => $result->email,
+				'body' => $this->load->view('mail/send-jobs-weekly', array(
+					'jobs' => $jobs,
+					'row' => $result,
+				), true),
+				'subject' => ucwords(strtolower($name)) . ' dan ' . ($countJob - 1) . ' Lowongan tersedia',
+			);
+			$this->send_email($params);
+		endforeach;
 		echo '    > selesai' . PHP_EOL;
+		return true;
 	}
 }
