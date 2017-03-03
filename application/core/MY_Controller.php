@@ -83,7 +83,7 @@ class MY_Controller extends CI_Controller
 	 */
 	public function send_email($params = array())
 	{
-		$testMode = true;
+		$testMode = false;
 		
 		if (
 			!isset($params['body']) ||
@@ -114,7 +114,7 @@ class MY_Controller extends CI_Controller
 		$mail->Password = 'FPfZkI]@TF[E';
 		$mail->SMTPSecure = 'ssl';
 		$mail->Port = '465';
-		//$mail->SMTPDebug = 2;
+		$mail->SMTPDebug = 2;
 		
 		$mail->setFrom($params['from'], $params['fromName']);
 		foreach ($params['to'] as $to) :
@@ -150,9 +150,10 @@ class MY_Controller extends CI_Controller
 		}
 		$this->clear_mailer($mail);
 		if ($mailer) {
+			return $mail->ErrorInfo;
 			return true;
 		}
-		error_log($mail->ErrorInfo);
+		//error_log();
 		return false;
 	}
 	
