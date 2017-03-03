@@ -108,10 +108,10 @@ class MY_Controller extends CI_Controller
 		
 		$mail = new PHPMailer();
 		$mail->isSMTP();
-		$mail->Host = 'server42533x.maintenis.com';
+		$mail->Host = 'mail.findkarir.com';
 		$mail->SMTPAuth = true;
-		$mail->Username = 'no-reply@atc.co.id';
-		$mail->Password = 'mTemT.9pupRN';
+		$mail->Username = 'no-reply@findkarir.com';
+		$mail->Password = 'FPfZkI]@TF[E';
 		$mail->SMTPSecure = 'ssl';
 		$mail->Port = '465';
 		//$mail->SMTPDebug = 2;
