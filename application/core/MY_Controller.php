@@ -150,10 +150,9 @@ class MY_Controller extends CI_Controller
 		}
 		$this->clear_mailer($mail);
 		if ($mailer) {
-			return $mail->ErrorInfo;
 			return true;
 		}
-		//error_log();
+		error_log($mail->ErrorInfo);
 		return false;
 	}
 	
