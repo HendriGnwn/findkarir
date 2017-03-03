@@ -82,7 +82,7 @@
 								?>
                                 <h4><span>Pasang Iklan Segera</span></h4>
                                 <div class="call-action bg-canvas clearfix">
-                                    <div class="align-center" style="margin:20px 0; padding: 0 20px;"><a target="_TAB" href="<?php echo base_url('company/tambahIklan'); ?>" style="color: #fff;" class="btn btn-system btn-medium btn-block"><i class="fa fa-plus-square"></i>&nbsp;&nbsp; Pasang Iklan</a></div>
+                                    <div class="align-center" style="margin:20px 0; padding: 0 20px;"><a target="_TAB" href="<?php echo base_url($akun->category == 1 ? 'company/tambahIklan' : 'company/addIklan'); ?>" style="color: #fff;" class="btn btn-system btn-medium btn-block"><i class="fa fa-plus-square"></i>&nbsp;&nbsp; Pasang Iklan</a></div>
                                 </div>
                                 <br>
 								<?php if ($akun->category == 1) : // akun perusahaan umum ?>
