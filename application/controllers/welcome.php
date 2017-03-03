@@ -19,16 +19,21 @@ class Welcome extends MY_Controller {
 	 */
 	public function index()
 	{
-		$row = $this->fronModel->showById('job_perusahaan', array('id_perusahaan'=>7404001));
+		$cek = $this->fronModel->showById('job_pelamar', array('id_pelamar'=>'74001', 'email'=>'hendrigunawan195@gmail.com'));
+		if (!$cek) {
+			$this->session->set_flashdata('gagal', 'Data tidak ada.');
+			redirect(site_url('login/lupaPassword'));
+		}
+
 		$params = array(
-			'to' => $row->email,
-			'subject' => 'Selamat bergabung di '. $this->Config_Model->get_app_name_url(),
-			'body' => $this->load->view('mail/auth/new-company', array(
-				'row' => $row,
+			'body' => $this->load->view('mail/auth/forgot-password-applicant', array(
+				'row' => $cek
 			), true),
+			'to' => $cek->email,
+			'subject' => "Lupa Password"
 		);
-		$mail = $this->send_email($params);
-		die($mail);
+		var_dump($this->send_email($params));
+		die();
 		
 		$this->load->view('welcome_message');
 	}
