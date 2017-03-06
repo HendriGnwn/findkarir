@@ -25,6 +25,9 @@ $config = [
             ],
         ],
         'db' => $db,
+		'authManager' => [
+            'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\DbManager'
+        ],
         'urlManager' => [
             'class' => 'yii\web\UrlManager',
             'scriptUrl' => $params['mainUrl'],
