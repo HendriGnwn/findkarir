@@ -29,6 +29,9 @@ $config = [
         ],
 		'i18n' => [
             'translations' => [
+				'*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                ],
                 'app*' => [
                     'class' => 'yii\i18n\PhpMessageSource',
                     'sourceLanguage' => 'en-US',
@@ -58,8 +61,79 @@ $config = [
         ],
         'db' => require(__DIR__ . '/db.php'),
         'urlManager' => require(__DIR__ . '/url-manager.php'),
+		'view' => [
+            'class' => 'app\components\View',
+			'theme' => [
+				'pathMap' => [
+                    '@app/views' => '@app/themes/'.$params['activeFrontTheme'].'/views',
+					/** for administrator module */
+                    '@app/modules/fkadmin/views' => '@app/themes/'.$params['activeAdminTheme'].'/views',
+                    '@dektrium/user/views' => '@app/themes/'.$params['activeAdminTheme'].'/views'
+				],
+			],
+		],
+		'assetManager' => [
+			'bundles' => [
+				'dmstr\web\AdminLteAsset' => [
+					'skin' => 'skin-blue-light',
+				],
+			],
+		],
+		'authManager' => [
+            'class' => 'yii\rbac\PhpManager', // or use 'yii\rbac\DbManager'
+        ]
     ],
-    'params' => $params,
+	'as access' => [
+        'class' => 'mdm\admin\components\AccessControl',
+        'allowActions' => [
+            'fkadmin/*',
+            'user/*',
+            'site/*',
+            //'admin/*',
+            //
+            // The actions listed here will be allowed to everyone including guests.
+            // So, 'admin/*' should not appear here in the production, of course.
+            // But in the earlier stages of your development, you may probably want to
+            // add a lot of actions here until you finally completed setting up rbac,
+            // otherwise you may not even take a first step.
+        ]
+    ],
+    'modules' => [
+        'gridview' => [
+			'class' => '\kartik\grid\Module'
+		],
+		'fkadmin' => [
+			'class' => 'app\modules\fkadmin\Module',
+		],
+		'user' => [
+			'class' => 'dektrium\user\Module',
+			'admins' => ['admin'],
+//			'controllerMap' => [
+//                'security' => [
+//					'class' => dektrium\user\controllers\SecurityController::className(),
+//					'layout' => '@app/themes/admin-lte/views/layouts/plain',
+//                ],
+//                'settings' => [
+//					'class' => 'app\controllers\user\SettingsController',
+//					'layout' => '@app/themes/admin-lte/views/layouts/main',
+//                ],
+//                'registration' => [
+//					'class' => dektrium\user\controllers\RegistrationController::className(),
+//					'layout' => '@app/themes/admin-lte/views/layouts/plain',
+//                ],
+//                'recovery' => [
+//					'class' => dektrium\user\controllers\RecoveryController::className(),
+//					'layout' => '@app/themes/admin-lte/views/layouts/plain',
+//                ],
+//			],
+//			'modelMap' => [
+//				//'RegistrationForm' => 'app\models\RegistrationForm',
+//				'User' => 'app\models\User',
+//				'Profile' => 'app\models\Profile',
+//			],
+		],
+	],
+	'params' => $params,
 ];
 
 if (YII_ENV_DEV) {
