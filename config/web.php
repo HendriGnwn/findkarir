@@ -39,6 +39,7 @@ $config = [
                     'fileMap' => [
                         'app' => 'app.php',
                         'app.menu' => 'app.menu.php',
+						'app.label' => 'app.label.php',
                         'app.message' => 'app.message.php',
                         'app.button' => 'app.button.php',
                         'app.static' => 'app.static.php',
@@ -80,15 +81,15 @@ $config = [
 			],
 		],
 		'authManager' => [
-            'class' => 'yii\rbac\PhpManager', // or use 'yii\rbac\DbManager'
+            'class' => 'yii\rbac\DbManager', // or use 'yii\rbac\DbManager'
         ]
     ],
 	'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
-            'fkadmin/*',
-            'user/*',
-            'site/*',
+//            'fkadmin/*',
+//            'user/*',
+//            'site/*',
             //'admin/*',
             //
             // The actions listed here will be allowed to everyone including guests.
@@ -126,11 +127,11 @@ $config = [
 //					'layout' => '@app/themes/admin-lte/views/layouts/plain',
 //                ],
 //			],
-//			'modelMap' => [
-//				//'RegistrationForm' => 'app\models\RegistrationForm',
-//				'User' => 'app\models\User',
-//				'Profile' => 'app\models\Profile',
-//			],
+			'modelMap' => [
+				'UserSearch' => 'app\modules\fkadmin\models\UserSearch',
+				'User' => 'app\models\User',
+				'Profile' => 'app\models\Profile',
+			],
 		],
 	],
 	'params' => $params,
