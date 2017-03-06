@@ -114,7 +114,7 @@ class MY_Controller extends CI_Controller
 		$mail->Password = 'FPfZkI]@TF[E';
 		$mail->SMTPSecure = 'ssl';
 		$mail->Port = '465';
-		$mail->SMTPDebug = 2;
+		//$mail->SMTPDebug = 2;
 		
 		$mail->setFrom($params['from'], $params['fromName']);
 		foreach ($params['to'] as $to) :

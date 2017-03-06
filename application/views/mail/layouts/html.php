@@ -164,7 +164,7 @@
 									<tr>
 										<td style="padding: 30px 0 30px 0; border-bottom: solid 1px #eeeeee;" align="center">
 											<a class="" href="<?php echo base_url(''); ?>">
-												<img alt="" src="<?php echo base_url('assets/img/logo.png') ?>" width="25%">
+												<img alt="" src="<?php echo base_url('assets/img/logo.png?'. rand(0, 100)) ?>" width="25%">
 											</a>
 										</td>
 									</tr>

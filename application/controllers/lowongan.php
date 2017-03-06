@@ -111,29 +111,26 @@ class Lowongan extends MY_Controller {
 			$config['allowed_types'] = 'pdf|doc|docx';
 			$config['file_name'] = $auto_number;
 			$this->load->library('upload', $config);
+			
+			$cek = $this->fronModel->showById('job_lowongan', array('id_lowongan' => $id));
+			$cek1 = $this->fronModel->showById('job_perusahaan', array('id_perusahaan' => $cek->id_perusahaan));
+			$data1 = array(
+				'id_lamar' => $auto_number,
+				'id_lowongan' => $id,
+				'id_perusahaan' => $cek->id_perusahaan,
+				'id_pelamar' => $this->session->userdata('id_login'),
+				'sts_lamar' => 0,
+				'tgl_create' => date('Y-m-d h:i:s'),
+				'tgl_datang' => null,
+				'jam_datang' => null,
+				'almt_datang' => null,
+				'ket' => $this->input->post('ket'),
+			);
 
 			if ($this->upload->do_upload("file")) {
 				$data = $this->upload->data();
-
-				$cek = $this->fronModel->showById('job_lowongan', array('id_lowongan' => $id));
-				$cek1 = $this->fronModel->showById('job_perusahaan', array('id_perusahaan' => $cek->id_perusahaan));
-
-				$data1 = array(
-					'id_lamar' => $auto_number,
-					'id_lowongan' => $id,
-					'id_perusahaan' => $cek->id_perusahaan,
-					'id_pelamar' => $this->session->userdata('id_login'),
-					'cv' => $data['file_name'],
-					'sts_lamar' => 0,
-					'tgl_create' => date('Y-m-d h:i:s'),
-					'tgl_datang' => null,
-					'jam_datang' => null,
-					'almt_datang' => null,
-					'ket' => $this->input->post('ket'),
-				);
-				$this->fronModel->insert('job_lamar', $data1);
-				$this->session->set_flashdata('berhasil', 'Anda Sudah Melamar sebagai ' . $cek->nm_lowongan . ' di ' . $cek1->nm_perusahaan);
-				redirect('lowongan', 'refresh');
+				
+				$data1['cv'] = $data['file_name'];
 			} else {
 				$data = $this->upload->data();
 				if (($data['file_ext'] == '.doc' || $data['file_ext'] == '.docx' || $data['file_ext'] == '.pdf') && ($data['file_size'] == '' || $data['file_size'] == null || $data['file_size'] > 1000)) {
@@ -144,6 +141,10 @@ class Lowongan extends MY_Controller {
 				}
 				redirect('lowongan/melamar/' . $id, 'refresh');
 			}
+			
+			$this->fronModel->insert('job_lamar', $data1);
+			$this->session->set_flashdata('berhasil', 'Anda Sudah Melamar sebagai ' . $cek->nm_lowongan . ' di ' . $cek1->nm_perusahaan);
+			redirect('lowongan', 'refresh');
 		}
 	}
 

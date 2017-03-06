@@ -70,7 +70,7 @@
                                 <h4><span>Detail Perusahaan</span></h4>
                                 <ul>
                                     <li><i class="fa fa-map-marker"></i>&nbsp;&nbsp; <?php echo $lowongan->alamat; ?></li>
-                                    <li><a target="_BLANK" href="http://<?php echo $lowongan->almt_web; ?>"><i class="fa fa-globe"></i>&nbsp; <?php echo $lowongan->almt_web; ?></a></li>
+                                    <li><a target="_BLANK" href="<?php echo $lowongan->almt_web; ?>"><i class="fa fa-globe"></i>&nbsp; <?php echo $lowongan->almt_web; ?></a></li>
                                     <li><i class="fa fa-phone-square"></i>&nbsp;&nbsp; <?php echo $lowongan->no_telp; ?></li>
                                 </ul>
                                 <h4><span>Kirim Identitas Diri</span></h4>
