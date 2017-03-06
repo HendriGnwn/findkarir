@@ -26,15 +26,23 @@ class User extends BaseUser
 		$this->on(self::AFTER_CREATE, [$this, 'afterCreate']);
 		$this->on(self::AFTER_REGISTER, [$this, 'afterRegister']);
 	}
+    
+    /** @inheritdoc */
+    public function rules()
+    {
+        return \yii\helpers\ArrayHelper::merge(parent::rules(), [
+           [['category'], 'safe'],
+        ]);
+    }
 	
 	/**
 	 * returns boolean that is super admin or not
 	 * 
 	 * @return boolean
 	 */
-	public static function isRoleSuperAdmin()
+	public static function getIsRoleSuperAdmin()
 	{
-		return (Yii::$app->user->can(User::ROLE_SUPERADMIN));
+		return Yii::$app->user->can(User::ROLE_SUPERADMIN) == true;
 	}
 	
 	/**

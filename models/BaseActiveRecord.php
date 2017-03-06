@@ -19,13 +19,15 @@ use yii\helpers\Html;
 
 /**
  * Description of BaseActiveRecord
- *
+ * @property string $path
+ * 
  * @author Hendri
  */
 abstract class BaseActiveRecord extends ActiveRecord
 {
 	const SCENARIO_INSERT = 'insert';
     const SCENARIO_UPDATE = 'update';
+    const SCENARIO_REGISTER = 'register';
 	
 	const STATUS_ACTIVE = 1;
 	const STATUS_INACTIVE = 0;
@@ -34,8 +36,10 @@ abstract class BaseActiveRecord extends ActiveRecord
 	
 	public $start_date;
 	public $end_date;
-	
-	public function behaviors()
+    
+    private $_path;
+
+    public function behaviors()
     {
         return [
             [
@@ -81,8 +85,8 @@ abstract class BaseActiveRecord extends ActiveRecord
 	public static function statusLabels()
 	{
 		return [
-			self::STATUS_ACTIVE => Yii::t('app', 'Active'),
-			self::STATUS_INACTIVE => Yii::t('app', 'Inactive'),
+			self::STATUS_ACTIVE => Yii::t('app.label', 'Active'),
+			self::STATUS_INACTIVE => Yii::t('app.label', 'Inactive'),
 		];
 	}
 	
@@ -111,5 +115,23 @@ abstract class BaseActiveRecord extends ActiveRecord
     public static function find()
     {
         return new BaseActiveRecordQuery(get_called_class());
+    }
+    
+    /**
+     * set path
+     * 
+     * @param type $value
+     */
+    public function setPath($value)
+    {
+        $this->_path = $value;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->_path;
     }
 }
