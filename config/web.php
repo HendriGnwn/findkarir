@@ -3,7 +3,7 @@
 $params = require(__DIR__ . '/params.php');
 
 $config = [
-    'id' => 'findkarir',
+    'id' => 'findkarir-web',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
 	
