@@ -9,14 +9,14 @@
 namespace app\components;
 
 use app\models\Config;
-use yii\helpers\ArrayHelper;
+use yii\web\Application as BaseApplication;
 
 /**
  * Description of Application
  *
  * @author Hendri
  */
-class Application extends \yii\web\Application
+class Application extends BaseApplication
 {
 	public function init() {
 		parent::init();
