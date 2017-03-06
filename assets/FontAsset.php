@@ -10,22 +10,17 @@ namespace app\assets;
 use yii\web\AssetBundle;
 
 /**
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @since 2.0
+ * @author Hendri <hendri.gnw@gmail.com>
  */
-class AppAsset extends AssetBundle
+class FontAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/site.css',
+        'https://fonts.googleapis.com/css?family=Raleway:400,300,500,700,900',
     ];
     public $js = [
     ];
     public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
-		'app\assets\FontAwesomeAsset',
-		'app\assets\FontAsset',
     ];
 }
