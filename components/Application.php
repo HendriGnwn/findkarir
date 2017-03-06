@@ -37,16 +37,16 @@ class Application extends \yii\web\Application
             'content' => 'AEAF074EB5D345C076DDD01EE29E77E3'
         ]);
         
-        $configs = Config::getByNames([
-            'credential_googlemap_api',
-            'map_location_latitude',
-            'map_location_longitude',
-            'map_marker_description',
-        ]);
-        $configs['map_location_latitude'] = (float) $configs['map_location_latitude'];
-        $configs['map_location_longitude'] = (float) $configs['map_location_longitude'];
-
-        $this->params = ArrayHelper::merge($this->params, $configs);
+//        $configs = Config::getByNames([
+//            'credential_googlemap_api',
+//            'map_location_latitude',
+//            'map_location_longitude',
+//            'map_marker_description',
+//        ]);
+//        $configs['map_location_latitude'] = (float) $configs['map_location_latitude'];
+//        $configs['map_location_longitude'] = (float) $configs['map_location_longitude'];
+//
+//        $this->params = ArrayHelper::merge($this->params, $configs);
         
         return parent::run();
     }
