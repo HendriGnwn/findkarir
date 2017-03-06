@@ -41,7 +41,7 @@ class Module extends BaseModule
         /** set login url for administrator login */
         Yii::$app->setComponents(ArrayHelper::merge(Yii::$app->getComponents(), [
             'user' => [
-                'loginUrl' => ['fkadmin/security/login']
+                'loginUrl' => ['fkadmin/default/login']
             ]
         ]));
         
@@ -64,18 +64,16 @@ class Module extends BaseModule
                 ],
                 'security' => [
 					'class' => '\app\modules\fkadmin\controllers\user\SecurityController',
-					'layout' => '@app/themes/admin-lte/views/layouts/plain',
+					'layout' => '@app/themes/admin-lte/views/layouts/main-login',
                 ],
 			],
 			'modelMap' => [
-				//'RegistrationForm' => 'app\models\RegistrationForm',
-				'User' => 'app\models\User',
-				'Profile' => 'app\models\Profile',
+				'UserSearch' => 'app\modules\fkadmin\models\UserSearch',
 			],
 		]);
 		
 		/** checkIsLogin */
-		//$this->checkIsLogin();
+		$this->checkIsLogin();
     }
 	
 	/**

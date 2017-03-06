@@ -86,9 +86,9 @@ class DefaultController extends Controller
 
         $this->trigger(SecurityController::EVENT_BEFORE_LOGIN, $event);
 
-        if ($model->load(\Yii::$app->getRequest()->post()) && $model->login()) {
+        if ($model->load(\Yii::$app->getRequest()->post()) && $model->loginAdmin()) {
             $this->trigger(SecurityController::EVENT_AFTER_LOGIN, $event);
-            return $this->goBack();
+            return $this->goBack(['fkadmin']);
         }
 
         return $this->render('login', [
@@ -104,8 +104,14 @@ class DefaultController extends Controller
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout();
+        $event = $this->getUserEvent(\Yii::$app->user->identity);
 
-        return Yii::$app->user->loginRequired();
+        $this->trigger(SecurityController::EVENT_BEFORE_LOGOUT, $event);
+
+        \Yii::$app->getUser()->logout();
+
+        $this->trigger(SecurityController::EVENT_AFTER_LOGOUT, $event);
+
+        return $this->goHome();
     }
 }
