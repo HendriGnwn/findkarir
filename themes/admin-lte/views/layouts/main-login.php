@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 $title = $this->title .' | ' . Yii::$app->name;
 
-app\assets\AppAsset::register($this);
+app\assets\LoginAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -26,7 +26,7 @@ app\assets\AppAsset::register($this);
 	<div class="login-box">
 		
 	</div>
-	<div class="login-logo">
+	<div class="login-logo text-center">
 		<?= Yii::$app->name ?>
 	</div>
 	<?= $content ?>

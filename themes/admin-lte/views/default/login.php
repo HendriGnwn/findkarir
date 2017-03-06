@@ -61,16 +61,7 @@ $fieldOptions2 = [
 				<?= $form
 						->field($model, 'password', $fieldOptions2)
 						->passwordInput(['placeholder' => $model->getAttributeLabel('password')])
-						->label(
-							Yii::t('user', 'Password')
-							.($module->enablePasswordRecovery ?
-								' (' . Html::a(
-									Yii::t('user', 'Forgot password?'),
-									['/user/recovery/request'],
-									['tabindex' => '5']
-								)
-								. ')' : '')
-						) ?>
+						 ?>
 
 				<?= $form->field($model, 'rememberMe')->checkbox(['tabindex' => '4']) ?>
 

@@ -39,6 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			'layout'        =>  "{items}\n{pager}",
 			'responsive' => true,
 			'columns' => [
+				'category',
 				'username',
 				'email:email',
 				[

@@ -46,7 +46,7 @@ $request = Yii::$app->request;
 										<li><?=Html::a('Profile',['/fkadmin/user/settings/account']);?></li>
 										<li><?= Html::a(
 													'Sign out',
-													['/fkadmin/user/security/logout'],
+													['/fkadmin/default/logout'],
 													['data-method' => 'post']
 												) ?></li>
 									  </ul>

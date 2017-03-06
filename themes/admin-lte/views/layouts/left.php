@@ -22,7 +22,7 @@ use yii\helpers\ArrayHelper;
 		
 		$mainMenu	= ['label' => 'Main Menu', 'options' => ['class' => 'header']];
 		$menuItems	= MenuHelper::getAssignedMenu(Yii::$app->user->id, null, $callback);
-		$rbcMenu	= ['label' => 'Rights', 'icon' => 'fa fa-gears', 'url' => ['/admin'], 'visible' => Yii::$app->user->can('superadmin')];
+		$rbcMenu	= ['label' => 'Rights', 'icon' => 'fa fa-gears', 'url' => ['/fkadmin/admin'], 'visible' => \app\models\User::getIsRoleSuperAdmin()];
 		$menuItems	= ArrayHelper::merge([$mainMenu], $menuItems);
 		$menuItems	= ArrayHelper::merge($menuItems, [$rbcMenu]);
 
