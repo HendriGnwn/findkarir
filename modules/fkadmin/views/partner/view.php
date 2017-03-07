@@ -74,11 +74,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
     
         <div class="col-xs-12 col-md-6">
-            <?= $this->render('_list-user', ['users' => $model->getPartnerHasUsers()]) ?>
+            <?= $this->render('_list-user', ['users' => $model->getPartnerHasUsers(), 'model' => $model]) ?>
         </div>
 
         <div class="col-xs-12 col-md-6">
-            <?= $this->render('_list-branch', ['branches' => $model->getPartnerBranches()]) ?>
+            <?= $this->render('_list-branch', ['branches' => $model->getPartnerBranches(), 'model' => $model]) ?>
         </div>
     </div>
     
@@ -87,11 +87,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
     
         <div class="col-xs-12 col-md-6">
-            <?= $this->render('_list-company', ['companies' => app\models\Company::find()]) ?>
+            <?= $this->render('_list-company', ['companies' => app\models\Company::find(), 'model' => $model]) ?>
         </div>
 
         <div class="col-xs-12 col-md-6">
-            <?= $this->render('_list-job', ['jobs' => app\models\Company::find()]) ?>
+            <?= $this->render('_list-job', ['jobs' => app\models\Company::find(), 'model' => $model]) ?>
         </div>
     </div>
     

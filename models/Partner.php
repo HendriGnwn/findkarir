@@ -127,6 +127,15 @@ class Partner extends BaseActiveRecord
     }
     
     /**
+     * 
+     * @return integer
+     */
+    public function getCountPartnerHasUsers()
+    {
+        return $this->hasMany(PartnerHasUser::className(), ['partner_id' => 'id'])->count();
+    }
+    
+    /**
      * @param type $insert
      * @return type
      */

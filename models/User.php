@@ -6,6 +6,7 @@ use dektrium\user\models\Profile;
 use dektrium\user\models\User as BaseUser;
 use mdm\admin\models\Assignment;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * @property integer $category {1:admin,2:applicant,3:member,4:general company}
@@ -18,20 +19,23 @@ class User extends BaseUser
 	const ROLE_APPLICANT = 'applicant';
 	const ROLE_GENERAL_COMPANY = 'general-company';
 	const ROLE_USER = 'user';
+    
+    const AFTER_CREATE_MEMBER = 'afterCreateMember';
 	
 	public function init() 
 	{
 		parent::init();
 		
 		$this->on(self::AFTER_CREATE, [$this, 'afterCreate']);
+		$this->on(self::AFTER_CREATE, [$this, 'afterCreateMember']);
 		$this->on(self::AFTER_REGISTER, [$this, 'afterRegister']);
 	}
     
     /** @inheritdoc */
     public function rules()
     {
-        return \yii\helpers\ArrayHelper::merge(parent::rules(), [
-           [['category'], 'safe'],
+        return ArrayHelper::merge(parent::rules(), [
+            [['category'], 'safe'],
         ]);
     }
 	
@@ -95,6 +99,16 @@ class User extends BaseUser
 		
 		return true;
 	}
+    
+    /**
+     * @return boolean
+     */
+    public function afterCreateMember()
+    {
+        $this->assignAccess([self::ROLE_MEMBER]);
+        
+        return true;
+    }
 	
 	/**
 	 * assign role to access user

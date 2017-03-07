@@ -549,4 +549,12 @@ class Config extends \yii\db\ActiveRecord
     {
         return self::getValueByName('app_seo_alt_image');
     }
+    
+    /**
+     * @return array
+     */
+    public static function getEducationCategories()
+    {
+        return self::getValueJsonByName('education_category');
+    }
 }

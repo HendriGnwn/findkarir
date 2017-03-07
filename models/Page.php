@@ -78,11 +78,11 @@ class Page extends BaseActiveRecord
     public function rules()
     {
         return [
-            [['category', 'name', 'slug', 'photo', 'description', 'date_post'], 'required'],
+            [['category', 'name', 'slug', 'description', 'date_post'], 'required'],
             [['category', 'status', 'created_by', 'updated_by'], 'integer'],
-            [['post_date'],'datetime', 'format' => 'php: Y-m-d H:i:s', 'message' => Yii::t('app.message', 'Datetime format must be `Y-m-d H:i:s` eg: 2017-01-30 19:00:50')],
+            [['date_post'],'datetime', 'format' => 'php: Y-m-d H:i:s', 'message' => Yii::t('app.message', 'Datetime format must be `Y-m-d H:i:s` eg: 2017-01-30 19:00:50')],
             [['description', 'meta_description'], 'string'],
-            [['date_post', 'created_at', 'updated_at'], 'safe'],
+            [['date_post', 'created_at', 'updated_at', 'photo'], 'safe'],
             [['name', 'photo'], 'string', 'max' => 100],
             [['slug'], 'string', 'max' => 200],
             [['slug'], 'unique'],

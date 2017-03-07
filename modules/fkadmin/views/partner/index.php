@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= Html::a('<i class=\'fa fa-plus-square\'></i>&nbsp;&nbsp;' . Yii::t('app.button', 'Add New'), ['create'], ['class' => 'btn btn-success btn-sm']) ?>
             </div>
         </div>
-        <div class="box-body">
+        <div class="box-body table-responsive">
             <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
             
             <?php Pjax::begin(); ?>   
@@ -28,19 +28,34 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     ['class' => 'yii\grid\SerialColumn'],
 
-                    'id',
+                    [
+                        'header' => 'Have a Users',
+                        'content' => function ($model) {
+                            return $model->getCountPartnerHasUsers();
+                        }
+                    ],
                     'code',
                     'name',
-                    'legal',
-                    'photo',
+                    //'legal',
+                    //'photo',
                     // 'phone',
                     // 'address',
-                    // 'city_id',
+                    [
+                        'attribute' => 'city_id',
+                        'content' => function ($model) {
+                            return $model->city->name;
+                        }
+                    ],
                     // 'province_id',
                     // 'description:ntext',
                     // 'public_email:email',
-                    // 'status',
-                    // 'created_at',
+                    [
+                        'attribute' => 'status',
+                        'content' => function ($model) {
+                            return $model->getStatusWithStyle();
+                        }
+                    ],
+                    'created_at:datetime',
                     // 'created_by',
                     // 'updated_at',
                     // 'updated_by',
