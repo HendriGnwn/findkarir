@@ -12,8 +12,16 @@ use Yii;
  * @property string $date
  * @property integer $is_real
  */
-class Visitor extends \app\models\BaseActiveRecord
+class Visitor extends BaseActiveRecord
 {
+    /**
+     * @inheritdoc
+     */
+    public function behaviors() 
+    {
+        return [];
+    }
+    
     /**
      * @inheritdoc
      */

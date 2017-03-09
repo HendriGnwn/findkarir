@@ -5,17 +5,14 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "province".
+ * This is the model class for table "offer_type".
  *
  * @property integer $id
  * @property string $name
- * @property integer $status
- * @property integer $order
  *
- * @property City[] $cities
- * @property Company[] $companies
+ * @property Offer[] $offers
  */
-class Province extends BaseActiveRecord
+class OfferType extends \app\models\BaseActiveRecord
 {
     /**
      * @inheritdoc
@@ -30,7 +27,7 @@ class Province extends BaseActiveRecord
      */
     public static function tableName()
     {
-        return 'province';
+        return 'offer_type';
     }
 
     /**
@@ -39,8 +36,7 @@ class Province extends BaseActiveRecord
     public function rules()
     {
         return [
-            [['name', 'order'], 'required'],
-            [['status', 'order'], 'integer'],
+            [['name'], 'required'],
             [['name'], 'string', 'max' => 100],
         ];
     }
@@ -53,16 +49,14 @@ class Province extends BaseActiveRecord
         return [
             'id' => Yii::t('app.label', 'ID'),
             'name' => Yii::t('app.label', 'Name'),
-            'status' => Yii::t('app.label', 'Status'),
-            'order' => Yii::t('app.label', 'Order'),
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCities()
+    public function getOffers()
     {
-        return $this->hasMany(City::className(), ['province_id' => 'id']);
+        return $this->hasMany(Offer::className(), ['offer_type_id' => 'id']);
     }
 }

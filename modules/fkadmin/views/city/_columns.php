@@ -1,4 +1,10 @@
 <?php
+
+use app\models\City;
+use app\models\Province;
+use kartik\grid\GridView;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
 return [
@@ -16,10 +22,19 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'category',
-        'content' => function ($model) {
-            return $model->getCategoryLabel();
-        }
+        'attribute'=>'province_id',
+        'filterType'=> GridView::FILTER_SELECT2,
+        'filter' => ArrayHelper::map(Province::find()->actived()->ordered()->all(), 'id', 'name'),
+        'filterWidgetOptions' => [
+            'theme' => Select2::THEME_DEFAULT,
+            'pluginOptions' => ['allowClear' => true],
+        ],
+        'width'=>'30%',
+        'filterInputOptions' => ['placeholder' => '-- Select --'],
+		'value'=>function($data){
+			return $data->province->name;
+		},
+        'format'=>'raw',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
@@ -27,44 +42,19 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'slug',
+        'attribute'=>'status',
+        'filterType'=> GridView::FILTER_SELECT2,
+        'filter' => City::statusLabels(),
+        'filterWidgetOptions' => [
+            'theme' => Select2::THEME_DEFAULT,
+            'pluginOptions' => ['allowClear' => true],
+        ],
+        'filterInputOptions' => ['placeholder' => '-- Select --'],
+		'value'=>function($data){
+			return $data->getStatusWithStyle();
+		},
+        'format'=>'raw',
     ],
-//    [
-//        'class'=>'\kartik\grid\DataColumn',
-//        'attribute'=>'photo',
-//    ],
-//    [
-//        'class'=>'\kartik\grid\DataColumn',
-//        'attribute'=>'description',
-//    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'date_post',
-    ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'meta_description',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'status',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'created_at',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'created_by',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'updated_at',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'updated_by',
-    // ],
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,

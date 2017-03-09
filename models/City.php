@@ -14,8 +14,16 @@ use Yii;
  *
  * @property Province $province
  */
-class City extends \yii\db\ActiveRecord
+class City extends BaseActiveRecord
 {
+    /**
+     * @inheritdoc
+     */
+    public function behaviors() 
+    {
+        return [];
+    }
+    
     /**
      * @inheritdoc
      */

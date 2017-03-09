@@ -16,55 +16,8 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'category',
-        'content' => function ($model) {
-            return $model->getCategoryLabel();
-        }
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'name',
     ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'slug',
-    ],
-//    [
-//        'class'=>'\kartik\grid\DataColumn',
-//        'attribute'=>'photo',
-//    ],
-//    [
-//        'class'=>'\kartik\grid\DataColumn',
-//        'attribute'=>'description',
-//    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'date_post',
-    ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'meta_description',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'status',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'created_at',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'created_by',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'updated_at',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'updated_by',
-    // ],
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,

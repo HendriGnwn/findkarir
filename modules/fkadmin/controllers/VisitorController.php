@@ -2,28 +2,26 @@
 
 namespace app\modules\fkadmin\controllers;
 
-use app\models\Page;
-use app\modules\fkadmin\controllers\BaseController;
-use app\modules\fkadmin\models\PageSearch;
 use Yii;
-use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
+use app\models\Visitor;
+use app\modules\fkadmin\models\VisitorSearch;
+use app\modules\fkadmin\controllers\BaseController;
 use yii\web\NotFoundHttpException;
-use yii\web\Response;
-use yii\web\UploadedFile;
+use yii\filters\VerbFilter;
+use \yii\web\Response;
+use yii\helpers\Html;
 
 /**
- * PageController implements the CRUD actions for Page model.
+ * VisitorController implements the CRUD actions for Visitor model.
  */
-class PageController extends BaseController
+class VisitorController extends BaseController
 {
     /**
      * @inheritdoc
      */
     public function behaviors()
     {
-        return ArrayHelper::merge(parent::behaviors(), [
+        return [
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -31,16 +29,16 @@ class PageController extends BaseController
                     'bulk-delete' => ['post'],
                 ],
             ],
-        ]);
+        ];
     }
-    
+
     /**
-     * Lists all Page models.
+     * Lists all Visitor models.
      * @return mixed
      */
     public function actionIndex()
     {    
-        $searchModel = new PageSearch();
+        $searchModel = new VisitorSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -51,8 +49,8 @@ class PageController extends BaseController
 
 
     /**
-     * Displays a single Page model.
-     * @param string $id
+     * Displays a single Visitor model.
+     * @param integer $id
      * @return mixed
      */
     public function actionView($id)
@@ -61,7 +59,7 @@ class PageController extends BaseController
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> "Page #".$id,
+                    'title'=> "Visitor #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
@@ -76,7 +74,7 @@ class PageController extends BaseController
     }
 
     /**
-     * Creates a new Page model.
+     * Creates a new Visitor model.
      * For ajax request will return json object
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -84,7 +82,7 @@ class PageController extends BaseController
     public function actionCreate()
     {
         $request = Yii::$app->request;
-        $model = new Page();  
+        $model = new Visitor();  
 
         if($request->isAjax){
             /*
@@ -93,7 +91,7 @@ class PageController extends BaseController
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Create new Page",
+                    'title'=> "Create new Visitor",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -101,24 +99,18 @@ class PageController extends BaseController
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
         
                 ];         
-            }else if ($model->load(Yii::$app->request->post())) {
-                $model->photoFile = UploadedFile::getInstance($model, 'photoFile');
-                if ($model->save()) {
-                    Yii::$app->session->setFlash('success', Yii::t('app', 'Data is successfully saved'));
-                    return [
-                        'forceReload'=>'#crud-datatable-pjax',
-                        'title'=> "Create new Page",
-                        'content'=>'<span class="text-success">Create Page success</span>',
-                        'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
-
-                    ];         
-                }
-                goto render;
-            }else{          
-                render:
+            }else if($model->load($request->post()) && $model->save()){
                 return [
-                    'title'=> "Create new Page",
+                    'forceReload'=>'#crud-datatable-pjax',
+                    'title'=> "Create new Visitor",
+                    'content'=>'<span class="text-success">Create Visitor success</span>',
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+        
+                ];         
+            }else{           
+                return [
+                    'title'=> "Create new Visitor",
                     'content'=>$this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -143,10 +135,10 @@ class PageController extends BaseController
     }
 
     /**
-     * Updates an existing Page model.
+     * Updates an existing Visitor model.
      * For ajax request will return json object
      * and for non-ajax request if update is successful, the browser will be redirected to the 'view' page.
-     * @param string $id
+     * @param integer $id
      * @return mixed
      */
     public function actionUpdate($id)
@@ -161,32 +153,26 @@ class PageController extends BaseController
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> "Update Page #".$id,
+                    'title'=> "Update Visitor #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];         
-            }else if ($model->load(Yii::$app->request->post())) {
-                $model->photoFile = UploadedFile::getInstance($model, 'photoFile');
-                if ($model->save()) {
-                    Yii::$app->session->setFlash('success', Yii::t('app', 'Data is successfully saved'));
-                    return [
-                        'forceReload'=>'#crud-datatable-pjax',
-                        'title'=> "Page #".$id,
-                        'content'=>$this->renderAjax('view', [
-                            'model' => $model,
-                        ]),
-                        'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
-                                Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
-                    ];    
-                }
-                goto render;
+            }else if($model->load($request->post()) && $model->save()){
+                return [
+                    'forceReload'=>'#crud-datatable-pjax',
+                    'title'=> "Visitor #".$id,
+                    'content'=>$this->renderAjax('view', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                ];    
             }else{
-                render:
                  return [
-                    'title'=> "Update Page #".$id,
+                    'title'=> "Update Visitor #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -209,10 +195,10 @@ class PageController extends BaseController
     }
 
     /**
-     * Delete an existing Page model.
+     * Delete an existing Visitor model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
-     * @param string $id
+     * @param integer $id
      * @return mixed
      */
     public function actionDelete($id)
@@ -237,10 +223,10 @@ class PageController extends BaseController
     }
 
      /**
-     * Delete multiple existing Page model.
+     * Delete multiple existing Visitor model.
      * For ajax request will return json object
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
-     * @param string $id
+     * @param integer $id
      * @return mixed
      */
     public function actionBulkDelete()
@@ -268,15 +254,15 @@ class PageController extends BaseController
     }
 
     /**
-     * Finds the Page model based on its primary key value.
+     * Finds the Visitor model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param string $id
-     * @return Page the loaded model
+     * @param integer $id
+     * @return Visitor the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Page::findOne($id)) !== null) {
+        if (($model = Visitor::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

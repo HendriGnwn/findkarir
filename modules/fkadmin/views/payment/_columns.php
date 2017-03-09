@@ -1,4 +1,10 @@
 <?php
+
+use app\models\Payment;
+use app\models\PaymentType;
+use kartik\grid\GridView;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
 return [
@@ -16,10 +22,19 @@ return [
     // ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'category',
-        'content' => function ($model) {
-            return $model->getCategoryLabel();
-        }
+        'attribute'=>'payment_type_id',
+        'filterType'=> GridView::FILTER_SELECT2,
+        'filter' => ArrayHelper::map(PaymentType::find()->actived()->ordered()->all(), 'id', 'name'),
+        'filterWidgetOptions' => [
+            'theme' => Select2::THEME_DEFAULT,
+            'pluginOptions' => ['allowClear' => true],
+        ],
+        'width'=>'10%',
+        'filterInputOptions' => ['placeholder' => '-- Select --'],
+		'value'=>function($data){
+			return $data->paymentType->name;
+		},
+        'format'=>'raw',
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
@@ -27,27 +42,38 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'slug',
+        'attribute'=>'behalf_of',
     ],
-//    [
-//        'class'=>'\kartik\grid\DataColumn',
-//        'attribute'=>'photo',
-//    ],
-//    [
-//        'class'=>'\kartik\grid\DataColumn',
-//        'attribute'=>'description',
-//    ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'date_post',
+        'attribute'=>'bill_no',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'branch_name',
     ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'meta_description',
+        // 'attribute'=>'logo',
     // ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'status',
+        'filterType'=> GridView::FILTER_SELECT2,
+        'filter' => Payment::statusLabels(),
+        'filterWidgetOptions' => [
+            'theme' => Select2::THEME_DEFAULT,
+            'pluginOptions' => ['allowClear' => true],
+        ],
+        'filterInputOptions' => ['placeholder' => '-- Select --'],
+		'value'=>function($data){
+			return $data->getStatusWithStyle();
+		},
+        'format'=>'raw',
+    ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'status',
+        // 'attribute'=>'order',
     // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
