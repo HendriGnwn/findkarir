@@ -16,10 +16,18 @@ use Yii;
  *
  * @property Profile[] $profiles
  */
-class Currency extends \yii\db\ActiveRecord
+class Currency extends BaseActiveRecord
 {
     const RUPIAH = 1;
     const DOLLAR = 2;
+    
+    /**
+     * @inheritdoc
+     */
+    public function behaviors() 
+    {
+        return [];
+    }
     
     /**
      * @inheritdoc

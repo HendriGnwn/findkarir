@@ -2,6 +2,8 @@
 
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
+use yii\helpers\Html;
+use yii\helpers\Url;
 
 /* 
  * To change this license header, choose License Headers in Project Properties.
@@ -14,6 +16,9 @@ use yii\grid\GridView;
 <div class="box box-primary">
     <div class="box-header  with-border">
         <h3 class="box-title"><?= Yii::t('app', 'List Branches') ?></h3>
+        <div class="box-tools">
+            <?= Html::a('<i class=\'fa fa-plus-square\'></i>&nbsp;&nbsp;' . Yii::t('app.button', 'Add New'), ['partner-has-branch/create', 'id'=>$model->id], ['class' => 'btn btn-success btn-sm']) ?>
+        </div>
     </div>
     <div class="box-body">
         <?= GridView::widget([
@@ -26,7 +31,15 @@ use yii\grid\GridView;
 
                 'id',
 
-                ['class' => 'yii\grid\ActionColumn'],
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'urlCreator' => function($action, $model, $key, $index) { 
+                        return Url::to(['partner-has-branch/'.$action,'id'=>$key]);
+                    },
+                    'options' => [
+                        'width' => '15%',
+                    ]
+                ],
             ],
         ]); ?>
     </div>

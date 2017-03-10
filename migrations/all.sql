@@ -1,4 +1,4 @@
--- Adminer 4.2.5 MySQL dump
+-- Adminer 4.2.2 MySQL dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -95,11 +95,27 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/fkadmin/admin/user/reset-password',	2,	NULL,	NULL,	NULL,	1488812485,	1488812485),
 ('/fkadmin/admin/user/signup',	2,	NULL,	NULL,	NULL,	1488812485,	1488812485),
 ('/fkadmin/admin/user/view',	2,	NULL,	NULL,	NULL,	1488812485,	1488812485),
+('/fkadmin/city/index',	2,	NULL,	NULL,	NULL,	1489055300,	1489055300),
+('/fkadmin/currency/index',	2,	NULL,	NULL,	NULL,	1489056621,	1489056621),
 ('/fkadmin/default/*',	2,	NULL,	NULL,	NULL,	1488812487,	1488812487),
 ('/fkadmin/default/error',	2,	NULL,	NULL,	NULL,	1488812487,	1488812487),
 ('/fkadmin/default/index',	2,	NULL,	NULL,	NULL,	1488812487,	1488812487),
 ('/fkadmin/default/login',	2,	NULL,	NULL,	NULL,	1488812487,	1488812487),
 ('/fkadmin/default/logout',	2,	NULL,	NULL,	NULL,	1488812487,	1488812487),
+('/fkadmin/job-type/index',	2,	NULL,	NULL,	NULL,	1489050384,	1489050384),
+('/fkadmin/offer-type/index',	2,	NULL,	NULL,	NULL,	1489055541,	1489055541),
+('/fkadmin/offer/index',	2,	NULL,	NULL,	NULL,	1489116977,	1489116977),
+('/fkadmin/page/*',	2,	NULL,	NULL,	NULL,	1488880304,	1488880304),
+('/fkadmin/page/bulk-delete',	2,	NULL,	NULL,	NULL,	1488880304,	1488880304),
+('/fkadmin/page/create',	2,	NULL,	NULL,	NULL,	1488880304,	1488880304),
+('/fkadmin/page/delete',	2,	NULL,	NULL,	NULL,	1488880304,	1488880304),
+('/fkadmin/page/index',	2,	NULL,	NULL,	NULL,	1488880303,	1488880303),
+('/fkadmin/page/update',	2,	NULL,	NULL,	NULL,	1488880304,	1488880304),
+('/fkadmin/page/view',	2,	NULL,	NULL,	NULL,	1488880304,	1488880304),
+('/fkadmin/partner/index',	2,	NULL,	NULL,	NULL,	1489117176,	1489117176),
+('/fkadmin/payment-type/index',	2,	NULL,	NULL,	NULL,	1489055926,	1489055926),
+('/fkadmin/payment/index',	2,	NULL,	NULL,	NULL,	1489055926,	1489055926),
+('/fkadmin/province/index',	2,	NULL,	NULL,	NULL,	1489055300,	1489055300),
 ('/fkadmin/user/*',	2,	NULL,	NULL,	NULL,	1488812487,	1488812487),
 ('/fkadmin/user/admin/*',	2,	NULL,	NULL,	NULL,	1488812486,	1488812486),
 ('/fkadmin/user/admin/assignments',	2,	NULL,	NULL,	NULL,	1488812486,	1488812486),
@@ -135,6 +151,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/fkadmin/user/settings/disconnect',	2,	NULL,	NULL,	NULL,	1488812486,	1488812486),
 ('/fkadmin/user/settings/networks',	2,	NULL,	NULL,	NULL,	1488812486,	1488812486),
 ('/fkadmin/user/settings/profile',	2,	NULL,	NULL,	NULL,	1488812486,	1488812486),
+('/fkadmin/visitor/index',	2,	NULL,	NULL,	NULL,	1489056795,	1489056795),
 ('/gii/*',	2,	NULL,	NULL,	NULL,	1488812489,	1488812489),
 ('/gii/default/*',	2,	NULL,	NULL,	NULL,	1488812489,	1488812489),
 ('/gii/default/action',	2,	NULL,	NULL,	NULL,	1488812489,	1488812489),
@@ -786,11 +803,12 @@ INSERT INTO `config` (`name`, `value`, `label`, `notes`) VALUES
 ('app_facebook_url',	'https://www.facebook.com/',	'',	NULL),
 ('app_google_url',	'https://plus.google.com/',	'',	NULL),
 ('app_main_url',	'http://findkarir.com',	'Web Main Url',	NULL),
-('app_name',	'FindKarir',	'',	NULL),
+('app_name',	'Yii App Name',	'',	NULL),
 ('app_name_url',	'FindKarir.com',	'',	NULL),
 ('app_pagetitle',	'FindKarir.com | Salah satu situs penyedia lowongan kerja di Indonesia',	'',	NULL),
 ('app_twitter_url',	'https://www.twitter.com/',	'',	NULL),
 ('developers_email',	'[\"hendrigunawan195@gmail.com\", \"winatasandi05@gmail.com\"]',	'',	NULL),
+('education_category',	'[\"SD\", \"SMP\", \"SMA/SMK\", \"Sarjana\", \"Magister\", \"Doctor\"]',	'',	NULL),
 ('main_metadesc',	'Temukan lowongan kerja dan masa depan karier yang lebih baik bersama FindKarir, salah satu situs penyedia informasi pekerjaan di Indonesia',	'',	NULL),
 ('main_metakey',	'findkarir in indonesia, Jakarta, Surabaya, Bandung, Medan, Palembang, Tangerang, indonesia jobs, indonesia, find karir,  IT jobs, HR jobs, finance jobs, sales jobs, marketing jobs, engineering jobs, customer service jobs, accounting jobs, management jobs, legal jobs, business development, career resource,  career, create resume, education career, employer, employment, employment opportunity, employment asia,  find job, free job posting, it recruitment, human resource, internet recruitment, jobstreet, job, job interview, job listing, job site, job vacancy, job opening, job placement, job opportunity, job seeker, karir tips,  job alert,  job online, job search, lowongan kerja, online job search, online recruitment,  post advertisement, recruitment, recruitment agency, findkarir, find karir',	'',	NULL),
 ('noreply_email',	'no-reply@findkarir.com',	'',	NULL);
@@ -809,6 +827,23 @@ CREATE TABLE `currency` (
 INSERT INTO `currency` (`id`, `code`, `name`, `symbol`, `rate`, `order`) VALUES
 (1,	'IDR',	'Rupiah',	'Rp',	1.00,	1),
 (2,	'USD',	'Dollar America',	'$',	13150.00,	2);
+
+DROP TABLE IF EXISTS `education`;
+CREATE TABLE `education` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `category` char(20) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `department` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `started_at` year(4) NOT NULL,
+  `graduated_at` year(4) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `created_by` bigint(20) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `updated_by` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 
 DROP TABLE IF EXISTS `job`;
 CREATE TABLE `job` (
@@ -838,24 +873,6 @@ CREATE TABLE `job` (
   KEY `job_type_id` (`job_type_id`),
   CONSTRAINT `job_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`) ON DELETE CASCADE,
   CONSTRAINT `job_ibfk_2` FOREIGN KEY (`job_type_id`) REFERENCES `job_type` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-
-DROP TABLE IF EXISTS `job_pay_type`;
-CREATE TABLE `job_pay_type` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `description` text COLLATE utf8_unicode_ci NOT NULL,
-  `day_limit` int(11) NOT NULL,
-  `currency_id` int(11) NOT NULL,
-  `amount` decimal(14,2) NOT NULL,
-  `admin_fee` decimal(14,2) DEFAULT NULL,
-  `status` smallint(1) DEFAULT '1',
-  `created_at` datetime DEFAULT NULL,
-  `created_by` bigint(20) DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
-  `updated_by` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -890,7 +907,20 @@ CREATE TABLE `menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
-(1,	'User Managements',	NULL,	'/fkadmin/user/admin/index',	100,	'return [\'icon\' => \'fa fa-users\', \'title\' => \'User Managements\'];');
+(1,	'User Managements',	NULL,	'/fkadmin/user/admin/index',	100,	'return [\'icon\' => \'fa fa-users\', \'title\' => \'User Managements\'];'),
+(2,	'Master',	NULL,	'/fkadmin/page/index',	90,	'return [\'icon\'=>\'fa fa-folder-o\'];'),
+(3,	'Page',	2,	'/fkadmin/page/index',	1,	'return [\'icon\'=>\'fa fa-file-o\'];'),
+(4,	'Job Types',	2,	'/fkadmin/job-type/index',	5,	'return [\'icon\'=>\'fa fa-circle-o\'];'),
+(5,	'Province',	2,	'/fkadmin/province/index',	10,	'return [\'icon\'=>\'fa fa-circle-o\'];'),
+(6,	'City',	2,	'/fkadmin/city/index',	11,	'return [\'icon\'=>\'fa fa-circle-o\'];'),
+(7,	'Offer Type',	2,	'/fkadmin/offer-type/index',	12,	'return [\'icon\'=>\'fa fa-circle-o\'];'),
+(8,	'Payment',	2,	'/fkadmin/payment/index',	13,	'return [\'icon\'=>\'fa fa-circle-o\'];'),
+(9,	'Payment Type',	2,	'/fkadmin/payment-type/index',	15,	'return [\'icon\'=>\'fa fa-circle-o\'];'),
+(10,	'Currency',	2,	'/fkadmin/currency/index',	16,	'return [\'icon\'=>\'fa fa-circle-o\'];'),
+(11,	'Visitor',	NULL,	'/fkadmin/visitor/index',	30,	'return [\'icon\'=>\'fa fa-users\'];'),
+(12,	'Offer',	NULL,	'/fkadmin/offer/index',	25,	'return [\'icon\'=>\'fa fa-ravelry\'];'),
+(13,	'User Members',	NULL,	'/fkadmin/partner/index',	80,	'return [\'icon\'=>\'fa fa-users\'];'),
+(14,	'Partner',	13,	'/fkadmin/partner/index',	2,	'return [\'icon\'=>\'fa fa-circle-o\'];');
 
 DROP TABLE IF EXISTS `migration`;
 CREATE TABLE `migration` (
@@ -916,6 +946,85 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 ('m151218_234654_add_timezone_to_profile',	1488776810),
 ('m160929_103127_add_last_login_at_to_user_table',	1488776810);
 
+DROP TABLE IF EXISTS `offer`;
+CREATE TABLE `offer` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `offer_type_id` int(11) NOT NULL,
+  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci NOT NULL,
+  `day_limit` int(11) NOT NULL,
+  `currency_id` int(11) NOT NULL,
+  `amount` decimal(14,2) NOT NULL,
+  `admin_fee` decimal(14,2) DEFAULT NULL,
+  `status` smallint(1) DEFAULT '1',
+  `created_at` datetime DEFAULT NULL,
+  `created_by` bigint(20) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `updated_by` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `offer_type_id` (`offer_type_id`),
+  CONSTRAINT `offer_ibfk_1` FOREIGN KEY (`offer_type_id`) REFERENCES `offer_type` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `offer` (`id`, `offer_type_id`, `name`, `description`, `day_limit`, `currency_id`, `amount`, `admin_fee`, `status`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(1,	1,	'Silver',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',	30,	1,	50000.00,	0.00,	1,	'2017-03-10 10:26:38',	1,	NULL,	1),
+(2,	2,	'Active 30 Day',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',	30,	1,	30000.00,	1000.00,	1,	'2017-03-10 10:35:52',	1,	NULL,	1);
+
+DROP TABLE IF EXISTS `offer_type`;
+CREATE TABLE `offer_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `offer_type` (`id`, `name`) VALUES
+(1,	'Package'),
+(2,	'Single Job');
+
+DROP TABLE IF EXISTS `order`;
+CREATE TABLE `order` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `code` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `description` text COLLATE utf8_unicode_ci NOT NULL,
+  `offer_id` int(11) NOT NULL,
+  `offer_expired_at` date NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0' COMMENT '0=waiting payment;1=confirmed by user;5=expired;10=paid;',
+  `status_updated_at` datetime NOT NULL,
+  `status_paid_at` datetime DEFAULT NULL,
+  `status_expired_at` datetime DEFAULT NULL,
+  `currency_id` int(11) NOT NULL,
+  `amount` decimal(14,2) NOT NULL,
+  `admin_fee` decimal(14,2) NOT NULL,
+  `final_amount` decimal(14,2) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `created_by` bigint(20) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `updated_by` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `offer_id` (`offer_id`),
+  CONSTRAINT `order_ibfk_1` FOREIGN KEY (`offer_id`) REFERENCES `offer` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+DROP TABLE IF EXISTS `order_confirmation`;
+CREATE TABLE `order_confirmation` (
+  `order_id` bigint(20) NOT NULL,
+  `user_id` bigint(11) NOT NULL,
+  `photo` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci NOT NULL,
+  `payment_id` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `created_by` bigint(20) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `updated_by` bigint(20) DEFAULT NULL,
+  KEY `order_id` (`order_id`),
+  KEY `payment_id` (`payment_id`),
+  CONSTRAINT `order_confirmation_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `order_confirmation_ibfk_2` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 DROP TABLE IF EXISTS `page`;
 CREATE TABLE `page` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -935,6 +1044,8 @@ CREATE TABLE `page` (
   UNIQUE KEY `slug` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+INSERT INTO `page` (`id`, `category`, `name`, `slug`, `photo`, `description`, `date_post`, `meta_description`, `status`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(1,	1,	'Indonesia Tanah Airku',	'indonesia-tanah-airku',	'indonesia-tanah-airku-fm75k8q-uc-q43wcrb5.jpg',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\r\nWhy do we use it?\r\n\r\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\r\n',	'2017-03-07 17:05:36',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since',	1,	'2017-03-07 17:05:55',	1,	NULL,	1);
 
 DROP TABLE IF EXISTS `partner`;
 CREATE TABLE `partner` (
@@ -959,7 +1070,7 @@ CREATE TABLE `partner` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `partner` (`id`, `code`, `name`, `legal`, `photo`, `phone`, `address`, `city_id`, `province_id`, `description`, `public_email`, `status`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1,	'PARTNER201703-000001',	'Art Techo Corporation',	0,	'art-techo-corporation-qoftzq4qvlo9d-dznauy.png',	'021 8748 8291',	'Jl Lapangan Tembak 300 Ciampea - Bogor',	169,	13,	'lorem ipsum dolor de lorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor de.',	'hello@atc.co.id',	1,	'2017-03-06 17:51:19',	1,	'2017-03-06 17:57:28',	1);
+(1,	'PARTNER201703-000001',	'Art Techo Corporation',	0,	'art-techo-corporation-sohjpcm3owsit0tzg2tc.png',	'021 8748 8291',	'Jl Lapangan Tembak 300 Ciampea - Bogor',	169,	13,	'lorem ipsum dolor de lorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor de.',	'hello@atc.co.id',	1,	'2017-03-06 17:51:19',	1,	'2017-03-10 15:07:20',	1);
 
 DROP TABLE IF EXISTS `partner_branch`;
 CREATE TABLE `partner_branch` (
@@ -1009,6 +1120,46 @@ CREATE TABLE `passion` (
   CONSTRAINT `passion_ibfk_2` FOREIGN KEY (`job_type_id`) REFERENCES `job_type` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+
+DROP TABLE IF EXISTS `payment`;
+CREATE TABLE `payment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `payment_type_id` int(11) NOT NULL,
+  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `behalf_of` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `bill_no` varchar(50) COLLATE utf8_unicode_ci NOT NULL COMMENT 'no rekening',
+  `branch_name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `logo` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `status` smallint(6) NOT NULL DEFAULT '1',
+  `order` int(11) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `created_by` bigint(20) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `updated_by` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `payment_type_id` (`payment_type_id`),
+  CONSTRAINT `payment_ibfk_2` FOREIGN KEY (`payment_type_id`) REFERENCES `payment_type` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `payment` (`id`, `payment_type_id`, `name`, `behalf_of`, `bill_no`, `branch_name`, `logo`, `status`, `order`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(1,	1,	'BCA',	'HENDRI GUNAWAN',	'244 0026 255',	'Kebon Kelapa, Gambir',	'logo-bca.png',	1,	0,	'2017-03-07 16:04:12',	1,	NULL,	NULL);
+
+DROP TABLE IF EXISTS `payment_type`;
+CREATE TABLE `payment_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `class` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `status` smallint(6) NOT NULL DEFAULT '1',
+  `order` bigint(20) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `created_by` bigint(20) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `updated_by` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `payment_type` (`id`, `name`, `class`, `status`, `order`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(1,	'Transfer Bank',	NULL,	1,	0,	'2017-03-07 16:03:45',	1,	NULL,	NULL);
 
 DROP TABLE IF EXISTS `profile`;
 CREATE TABLE `profile` (
@@ -1083,6 +1234,19 @@ INSERT INTO `province` (`id`, `name`, `status`, `order`) VALUES
 (33,	'Papua',	1,	0),
 (34,	'Kalimantan Utara',	1,	0);
 
+DROP TABLE IF EXISTS `skill`;
+CREATE TABLE `skill` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL,
+  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `created_by` bigint(20) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `updated_by` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 DROP TABLE IF EXISTS `social_account`;
 CREATE TABLE `social_account` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -1135,7 +1299,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `user` (`id`, `username`, `email`, `password_hash`, `auth_key`, `confirmed_at`, `unconfirmed_email`, `blocked_at`, `registration_ip`, `created_at`, `updated_at`, `flags`, `last_login_at`, `category`) VALUES
-(1,	'admin',	'hendri.gnw@gmail.com',	'$2y$10$NG0aKRQ7PUu8LfzQbTiaC.Ae.3Ie8ERGbe9nuGpiUsvyx7xV2apZG',	'C1Hx8fAg_vgsvbQ47s6H1XJxDexAOXWM',	1488776878,	NULL,	NULL,	'::1',	1488776855,	1488776855,	0,	1488816620,	'superadmin');
+(1,	'admin',	'hendri.gnw@gmail.com',	'$2y$10$NG0aKRQ7PUu8LfzQbTiaC.Ae.3Ie8ERGbe9nuGpiUsvyx7xV2apZG',	'C1Hx8fAg_vgsvbQ47s6H1XJxDexAOXWM',	1488776878,	NULL,	NULL,	'::1',	1488776855,	1488776855,	0,	1489127726,	'superadmin');
 
 DROP TABLE IF EXISTS `visitor`;
 CREATE TABLE `visitor` (
@@ -1150,4 +1314,4 @@ INSERT INTO `visitor` (`id`, `quantity`, `date`, `is_real`) VALUES
 (1,	1000,	'0000-00-00',	0),
 (2,	1,	'2017-03-06',	1);
 
--- 2017-03-06 17:12:40
+-- 2017-03-10 08:08:09

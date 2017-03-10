@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\db\ActiveQuery;
+use yii\helpers\Html;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "partner_has_user".
@@ -20,7 +23,7 @@ use Yii;
  * @property Partner $partner
  * @property User $user
  */
-class PartnerHasUser extends \app\models\BaseActiveRecord
+class PartnerHasUser extends BaseActiveRecord
 {
     /**
      * @inheritdoc
@@ -36,9 +39,9 @@ class PartnerHasUser extends \app\models\BaseActiveRecord
     public function rules()
     {
         return [
-            [['partner_id', 'user_id'], 'required'],
+            [['partner_id'], 'required'],
             [['partner_id', 'user_id', 'partner_branch_id', 'status', 'created_by', 'updated_by'], 'integer'],
-            [['created_at', 'updated_at', 'partner_branch_id'], 'safe'],
+            [['created_at', 'user_id', 'updated_at', 'partner_branch_id'], 'safe'],
             [['status'], 'default', 'value' => self::STATUS_ACTIVE],
             [['partner_id'], 'exist', 'skipOnError' => true, 'targetClass' => Partner::className(), 'targetAttribute' => ['partner_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
@@ -65,7 +68,7 @@ class PartnerHasUser extends \app\models\BaseActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getPartner()
     {
@@ -73,7 +76,7 @@ class PartnerHasUser extends \app\models\BaseActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getUser()
     {
@@ -81,10 +84,27 @@ class PartnerHasUser extends \app\models\BaseActiveRecord
     }
     
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getPartnerBranch()
     {
         return $this->hasOne(PartnerBranch::className(), ['id' => 'partner_branch_id']);
+    }
+    
+    /**
+     * @return string
+     */
+    public function getUserDetailUrl()
+    {
+        return Url::to(['user/admin/update', 'id' => $this->user_id]);
+    }
+    
+    /**
+     * @param type $options
+     * @return type
+     */
+    public function getUserDetailUrlHtml($options = [])
+    {
+        return Html::a($this->user->getName(), $this->getUserDetailUrl(), $options);
     }
 }

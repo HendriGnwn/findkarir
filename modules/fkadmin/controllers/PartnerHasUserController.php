@@ -7,6 +7,7 @@ use app\models\User;
 use app\modules\fkadmin\controllers\BaseController;
 use app\modules\fkadmin\models\PartnerHasUserSearch;
 use Yii;
+use yii\base\Model;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -50,12 +51,26 @@ class PartnerHasUserController extends BaseController
     {
         $model = new PartnerHasUser();
         $user = new User();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $user->setScenario('create');
+        if ($id != null) {
+            $model->partner_id = $id;
+        }
+        
+        if ($model->load(Yii::$app->request->post()) && $user->load(Yii::$app->request->post())) {
+            if (Model::validateMultiple([$user, $model])) {
+                $user->createMember();
+                
+                $model->user_id = $user->id;
+                $model->save();
+                
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+            goto render;
         } else {
+            render:
             return $this->render('create', [
                 'model' => $model,
+                'user' => $user,
             ]);
         }
     }
@@ -87,9 +102,9 @@ class PartnerHasUserController extends BaseController
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $this->findModel($id)->user->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(Yii::$app->user->returnUrl);
     }
 
     /**

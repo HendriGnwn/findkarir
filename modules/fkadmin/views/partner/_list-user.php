@@ -3,6 +3,7 @@
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 /* 
  * To change this license header, choose License Headers in Project Properties.
@@ -28,9 +29,22 @@ use yii\helpers\Html;
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
 
-                'id',
+                [
+                    'attribute' => 'user_id',
+                    'content' => function ($model) {
+                        return $model->getUserDetailUrlHtml();
+                    }
+                ],
 
-                ['class' => 'yii\grid\ActionColumn'],
+                [
+                    'class' => 'yii\grid\ActionColumn',
+                    'urlCreator' => function($action, $model, $key, $index) { 
+                        return Url::to(['partner-has-user/'.$action,'id'=>$key]);
+                    },
+                    'options' => [
+                        'width' => '15%',
+                    ]
+                ],
             ],
         ]); ?>
     </div>
