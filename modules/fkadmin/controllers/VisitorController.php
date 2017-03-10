@@ -89,6 +89,13 @@ class VisitorController extends BaseController
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
+            return [
+                'forceReload'=>'#crud-datatable-pjax',
+                'title'=> "Create new Visitor",
+                'content'=>'<span class="text-success">-</span>',
+                'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"])
+
+            ];
             if($request->isGet){
                 return [
                     'title'=> "Create new Visitor",
@@ -120,6 +127,8 @@ class VisitorController extends BaseController
                 ];         
             }
         }else{
+            return $this->redirect(['index']);
+            
             /*
             *   Process for non-ajax request
             */
@@ -151,6 +160,17 @@ class VisitorController extends BaseController
             *   Process for ajax request
             */
             Yii::$app->response->format = Response::FORMAT_JSON;
+            if ($model->getIsReal()) {
+                return [
+                    'forceReload'=>'#crud-datatable-pjax',
+                    'title'=> "Visitor #".$id,
+                    'content'=>$this->renderAjax('view', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
+                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                ];   
+            }
             if($request->isGet){
                 return [
                     'title'=> "Update Visitor #".$id,
@@ -181,6 +201,10 @@ class VisitorController extends BaseController
                 ];        
             }
         }else{
+            if ($model->getIsReal()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+            
             /*
             *   Process for non-ajax request
             */
@@ -204,7 +228,7 @@ class VisitorController extends BaseController
     public function actionDelete($id)
     {
         $request = Yii::$app->request;
-        $this->findModel($id)->delete();
+        //$this->findModel($id)->delete();
 
         if($request->isAjax){
             /*

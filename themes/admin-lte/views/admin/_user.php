@@ -1,5 +1,8 @@
 <?php
 
+use app\models\User;
+use yii\widgets\ActiveForm;
+
 /*
  * This file is part of the Dektrium project.
  *
@@ -10,11 +13,21 @@
  */
 
 /**
- * @var yii\widgets\ActiveForm      $form
- * @var dektrium\user\models\User   $user
+ * @var ActiveForm      $form
+ * @var User   $user
  */
+$categories = User::categoryLabels();
+unset($categories[User::ROLE_MEMBER]);
 ?>
 
+<?php if ($user->isNewRecord) : ?>
+    <?= $form->field($user, 'category', [
+        'template'=>'{label}<div class=\'col-sm-9\'>{input}{hint}</div>{error}',
+        'hintOptions' => [
+            'class' => 'col-sm-12 label label-warning'
+        ],
+    ])->dropdownList($categories) ?>
+<?php endif; ?>
 <?= $form->field($user, 'email')->textInput(['maxlength' => 255]) ?>
 <?= $form->field($user, 'username')->textInput(['maxlength' => 255]) ?>
 <?= $form->field($user, 'password')->passwordInput() ?>

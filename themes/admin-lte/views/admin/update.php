@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-use dektrium\user\models\User;
+use app\models\User;
 use yii\bootstrap\Nav;
 use yii\web\View;
 
@@ -38,23 +38,28 @@ $this->params['breadcrumbs'][] = $this->title;
                     'items' => [
                         [
                             'label' => Yii::t('user', 'Account details'),
-                            'url' => ['/user/admin/update', 'id' => $user->id]
+                            'url' => ['/fkadmin/user/admin/update', 'id' => $user->id],
                         ],
                         [
                             'label' => Yii::t('user', 'Profile details'),
-                            'url' => ['/user/admin/update-profile', 'id' => $user->id]
+                            'url' => ['/fkadmin/user/admin/update-profile', 'id' => $user->id],
+                            'visible' => !$user->getIsCategoryGeneralCompany(),
                         ],
-						['label' => Yii::t('user', 'Company details'), 'url' => ['/user/admin/company', 'id' => $user->id]],
-                        ['label' => Yii::t('user', 'Information'), 'url' => ['/user/admin/info', 'id' => $user->id]],
+						[
+                            'label' => Yii::t('user', 'Company details'), 
+                            'url' => ['/fkadmin/user/admin/company', 'id' => $user->id],
+                            'visible' => $user->getIsCategoryGeneralCompany(),
+                        ],
+                        ['label' => Yii::t('user', 'Information'), 'url' => ['/fkadmin/user/admin/info', 'id' => $user->id]],
                         [
                             'label' => Yii::t('user', 'Assignments'),
-                            'url' => ['/user/admin/assignments', 'id' => $user->id],
+                            'url' => ['/fkadmin/user/admin/assignments', 'id' => $user->id],
                             'visible' => isset(Yii::$app->extensions['dektrium/yii2-rbac']),
                         ],
                         '<hr>',
                         [
                             'label' => Yii::t('user', 'Confirm'),
-                            'url'   => ['/user/admin/confirm', 'id' => $user->id],
+                            'url'   => ['/fkadmin/user/admin/confirm', 'id' => $user->id],
                             'visible' => !$user->isConfirmed,
                             'linkOptions' => [
                                 'class' => 'text-success',
@@ -64,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         [
                             'label' => Yii::t('user', 'Block'),
-                            'url'   => ['/user/admin/block', 'id' => $user->id],
+                            'url'   => ['/fkadmin/user/admin/block', 'id' => $user->id],
                             'visible' => !$user->isBlocked,
                             'linkOptions' => [
                                 'class' => 'text-danger',
@@ -74,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         [
                             'label' => Yii::t('user', 'Unblock'),
-                            'url'   => ['/user/admin/block', 'id' => $user->id],
+                            'url'   => ['/fkadmin/user/admin/block', 'id' => $user->id],
                             'visible' => $user->isBlocked,
                             'linkOptions' => [
                                 'class' => 'text-success',
@@ -84,7 +89,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         [
                             'label' => Yii::t('user', 'Delete'),
-                            'url'   => ['/user/admin/delete', 'id' => $user->id],
+                            'url'   => ['/fkadmin/user/admin/delete', 'id' => $user->id],
                             'linkOptions' => [
                                 'class' => 'text-danger',
                                 'data-method' => 'post',

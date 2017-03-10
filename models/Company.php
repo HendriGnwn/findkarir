@@ -48,6 +48,8 @@ class Company extends BaseActiveRecord
     {
         parent::init();
         
+        $this->on(self::EVENT_BEFORE_INSERT, [$this, 'beforeInsert']);
+        
         $this->path = 'web/uploads/company/';
         if (!is_dir(Yii::getAlias('@app/' . $this->path))) {
             mkdir(Yii::getAlias('@app/' . $this->path));
@@ -122,6 +124,20 @@ class Company extends BaseActiveRecord
     }
     
     /**
+     * @return boolean
+     */
+    public function beforeInsert()
+    {
+        if ($this->getIsPartner()) {
+            $this->code = self::generateCode('PART');
+        } else if ($this->getIsUser()){
+            $this->code = self::generateCode();
+        }
+        
+        return true;
+    }
+    
+    /**
      * @param type $insert
      * @return type
      */
@@ -188,16 +204,8 @@ class Company extends BaseActiveRecord
 	 * @param type $separator
 	 * @return string
 	 */
-	public static function generateCode($type = null, $padLength = 6, $separator = '-')
+	public static function generateCode($type = 'GEN', $padLength = 6, $separator = '-')
 	{
-        if ($type == null) {
-            if ($this->getIsUser()) {
-                $type = 'GEN';
-            } else if ($this->getIsPartner()) {
-                $type = 'MEM';
-            }
-        }
-        
 		$left = strtoupper($type) . date('Ym');
         $leftLen = strlen($left);
         $increment = 1;

@@ -33,7 +33,7 @@ class User extends BaseUser
 		
 		$this->on(self::AFTER_CREATE, [$this, 'afterCreate']);
 		$this->on(self::BEFORE_CREATE_MEMBER, [$this, 'beforeCreateMember']);
-		$this->on(self::AFTER_CREATE, [$this, 'afterCreateMember']);
+		$this->on(self::AFTER_CREATE_MEMBER, [$this, 'afterCreateMember']);
 		$this->on(self::AFTER_REGISTER, [$this, 'afterRegister']);
 	}
     
@@ -43,6 +43,13 @@ class User extends BaseUser
         return ArrayHelper::merge(parent::rules(), [
             [['category'], 'safe'],
         ]);
+    }
+    
+    public function attributeHints() 
+    {
+        return [
+            'category' => Yii::t('app.label', 'After Create, Category cannot be updated.'),
+        ];
     }
 	
 	/**
@@ -58,12 +65,50 @@ class User extends BaseUser
     /**
      * @return boolean
      */
+    public function getIsCategoryMember()
+    {
+        return $this->category == self::ROLE_MEMBER;
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function getIsCategoryApplicant()
+    {
+        return $this->category == self::ROLE_APPLICANT;
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function getIsCategoryGeneralCompany()
+    {
+        return $this->category == self::ROLE_GENERAL_COMPANY;
+    }
+    
+    /**
+     * @return boolean
+     */
     public static function getIsRoleToAccessFkadmin()
     {
         $user = Yii::$app->user;
         return ($user->can(self::ROLE_SUPERADMIN) == true) || 
             ($user->can(self::ROLE_MEMBER) == true) || 
             ($user->can(self::ROLE_USER) == true);
+    }
+    
+    /**
+     * @return array
+     */
+    public static function categoryLabels()
+    {
+        return [
+            self::ROLE_SUPERADMIN => self::ROLE_SUPERADMIN,
+            self::ROLE_USER => self::ROLE_USER,
+            self::ROLE_MEMBER => self::ROLE_MEMBER,
+            self::ROLE_APPLICANT => self::ROLE_APPLICANT,
+            self::ROLE_GENERAL_COMPANY => self::ROLE_GENERAL_COMPANY,
+        ];
     }
 	
 	/**
@@ -94,6 +139,14 @@ class User extends BaseUser
 		
 		return $relations;
 	}
+    
+    /**
+     * @return yii\db\ActiveQuery
+     */
+    public function getCompany()
+    {
+        return $this->hasOne(Company::className(), ['user_id' => 'id']);
+    }
 	
 	/**
 	 * event after Create User
@@ -101,10 +154,25 @@ class User extends BaseUser
 	 */
 	public function afterCreate()
 	{
-		$this->assignAccess();
+		$this->assignAccess([$this->category]);
+        $this->createForIdentityByCategory();
 		
 		return true;
 	}
+    
+    protected function createForIdentityByCategory()
+    {
+        switch ($this->category) {
+            case self::ROLE_GENERAL_COMPANY :
+                $company = new Company();
+                $company->user_id = $this->id;
+                $company->status = Company::STATUS_INACTIVE;
+                $company->save(false);
+                break;
+        }
+        
+        return true;
+    }
 	
 	/**
 	 * event after register
@@ -112,7 +180,7 @@ class User extends BaseUser
 	 */
 	public function afterRegister()
 	{
-		$this->assignAccess();
+		$this->assignAccess([$this->category]);
 		
 		return true;
 	}
@@ -174,6 +242,7 @@ class User extends BaseUser
         $transaction = $this->getDb()->beginTransaction();
 
         try {
+            $this->category = self::ROLE_MEMBER;
             $this->password = $this->password == null ? Password::generate(8) : $this->password;
 
             $this->trigger(self::BEFORE_CREATE_MEMBER);
@@ -186,7 +255,7 @@ class User extends BaseUser
             $this->confirm();
 
             $this->sendEmailNewMember();
-            $this->trigger(self::BEFORE_CREATE_MEMBER);
+            $this->trigger(self::AFTER_CREATE_MEMBER);
 
             $transaction->commit();
 

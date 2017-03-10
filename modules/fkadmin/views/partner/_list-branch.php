@@ -29,12 +29,18 @@ use yii\helpers\Url;
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
 
-                'id',
+                'name',
+                [
+                    'attribute' => 'city_id',
+                    'content' => function ($model) {
+                        return $model->city->name;
+                    }
+                ],
 
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'urlCreator' => function($action, $model, $key, $index) { 
-                        return Url::to(['partner-has-branch/'.$action,'id'=>$key]);
+                        return Url::to(['partner-branch/'.$action,'id'=>$key]);
                     },
                     'options' => [
                         'width' => '15%',

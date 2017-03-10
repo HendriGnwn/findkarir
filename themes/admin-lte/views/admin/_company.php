@@ -38,8 +38,8 @@ Pjax::begin(['id'=>'crud-datatable-pjax']);
 
 <?php $form = ActiveForm::begin([
     'layout' => 'horizontal',
-    'enableAjaxValidation' => true,
-    'enableClientValidation' => false,
+    //'enableAjaxValidation' => true,
+    //'enableClientValidation' => false,
     'fieldConfig' => [
         'horizontalCssClasses' => [
             'wrapper' => 'col-sm-9',
@@ -47,49 +47,9 @@ Pjax::begin(['id'=>'crud-datatable-pjax']);
     ],
 ]); ?>
 
-<?php
-	$companyText = $model->company_id ? Company::findOne($model->company_id)->name : '';
-?>
-<?= $form->field($model, 'company_id')->widget(Select2::className(), [
-	'initValueText' => $companyText,
-	'theme' => Select2::THEME_DEFAULT,
-	'options' => ['placeholder'=>'Select your Company'],
-	'pluginOptions' => [
-		'allowClear' => true,
-		'minimumInputLength' => 3,
-		'language' => [
-			'errorLoading' => new JsExpression("function () { return 'Waiting for results...';}"),
-		],
-		'ajax' => [
-			'url' => Url::to(['/ajax/list-company'], true),
-			'dataType' => 'json',
-			'data' => new JsExpression("function (params) { return {name:params.term};}")
-		],
-		'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-		'templateResult' => new JsExpression('function(company) { return company.text; }'),
-		'templateSelection' => new JsExpression('function (company) { return company.text; }'),
-	],
-]) ?>
-
-<div class="form-group">
-	<label class="col-lg-3 control-label"></label>
-	<div class="col-lg-9">
-		<?php if ($companyText == '') { ?>
-			<?= Html::checkbox('company-not-registered', false, [
-				'id'=>'company-not-registered',
-			]) ?>
-			<?= Html::label(Yii::t('app', "Click if your company isn't registered"), 'company-not-registered', [
-				'style'=>'margin-left:10px;'
-			]) ?>
-		<?php } else { ?>
-			<?= Html::a(
-				Yii::t('user', 'View Your Company'),
-				Url::to(['/company/view','id'=>$model->company_id]),
-				['class' => 'btn btn-primary', 'role'=>'modal-remote']
-			) ?>
-		<?php } ?>
-	</div>
-</div>
+<?= $form->field($company, 'code')->textInput(['readonly' => true]) ?>
+<?= $form->field($company, 'name')->textInput() ?>
+<?= $form->field($company, 'address')->textarea() ?>
 
 <div class="form-group">
 	<div class="col-lg-offset-3 col-lg-9">

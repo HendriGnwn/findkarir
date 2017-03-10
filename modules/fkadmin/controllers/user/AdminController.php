@@ -8,12 +8,12 @@
 
 namespace app\modules\fkadmin\controllers\user;
 
-use app\models\Profile;
+use app\models\Company;
+use app\models\User;
 use dektrium\user\controllers\AdminController as BaseAdminController;
-use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\helpers\Url;
+use yii\web\NotFoundHttpException;
 
 /**
  * Description of AdminController
@@ -44,4 +44,17 @@ class AdminController extends BaseAdminController
 			],
 		];
 	}
+    
+    public function actionCompany($id)
+    {
+        $user = User::findOne($id);
+        if (!$user->getIsCategoryGeneralCompany()) {
+            throw new NotFoundHttpException('Page is not found');
+        }
+        
+        return $this->render('_company', [
+            'user' => $user,
+            'company' => $user->company,
+        ]);
+    }
 }
