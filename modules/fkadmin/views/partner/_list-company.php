@@ -1,7 +1,7 @@
 <?php
 
+use kartik\grid\GridView;
 use yii\data\ActiveDataProvider;
-use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -28,7 +28,15 @@ use yii\helpers\Url;
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
 
-                'id',
+                'name',
+                [
+                    'class'=>'\kartik\grid\DataColumn',
+                    'attribute'=>'status',
+                    'value'=>function($data){
+                        return $data->getStatusWithStyle();
+                    },
+                    'format'=>'raw',
+                ],
 
                 [
                     'class' => 'yii\grid\ActionColumn',

@@ -118,11 +118,18 @@ class User extends BaseUser
 	 */
 	public function getName()
 	{
-		if(isset($this->profile) && ($this->profile->name != '')) {
-			return $this->profile->name;
-		}
-		
-		return $this->username;
+        switch ($this->category) {
+            case self::ROLE_GENERAL_COMPANY :
+                if(isset($this->company) && ($this->company->name != '')) {
+                    return $this->company->name;
+                }
+                return $this->username;
+        }
+        
+        if(isset($this->profile) && ($this->profile->name != '')) {
+            return $this->profile->name;
+        }
+        return $this->username;
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\fkadmin\models\PartnerSearch */
@@ -60,7 +60,22 @@ $this->params['breadcrumbs'][] = $this->title;
                     // 'updated_at',
                     // 'updated_by',
 
-                    ['class' => 'yii\grid\ActionColumn'],
+                    [
+                        'class' => 'kartik\grid\ActionColumn',
+                        'width' => '9%',
+                        'template' => '{addMember}&nbsp;&nbsp;{view} {update} {delete}',
+                        'buttons' => [
+                            'addMember' => function ($url, $model, $key) {
+                                return \yii\bootstrap\Html::a(
+                                        '<i class=\'fa fa-plus-square\'></i>',
+                                        ['partner-has-user/create', 'id'=>$model->id],
+                                        [
+                                            'title' => 'Add new Member',
+                                        ]
+                                );
+                            },
+                        ],
+                    ],
                 ],
             ]); ?>
             <?php Pjax::end(); ?>

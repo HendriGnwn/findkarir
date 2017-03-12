@@ -150,6 +150,19 @@ class Company extends BaseActiveRecord
         
         $this->processUploadFile();
         
+        if (
+            $this->name != null &&
+            $this->address != null &&
+            $this->city_id != null &&
+            $this->phone != null &&
+            $this->description != null &&
+            $this->photo != null
+        ) {
+            $this->status = self::STATUS_ACTIVE;
+        } else {
+            $this->status = self::STATUS_INACTIVE;
+        }
+        
         return parent::beforeSave($insert);
     }
 

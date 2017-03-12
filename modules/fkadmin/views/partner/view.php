@@ -87,11 +87,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
     
         <div class="col-xs-12 col-md-6">
-            <?= $this->render('_list-company', ['companies' => app\models\Company::find(), 'model' => $model]) ?>
+            <?= $this->render('_list-company', ['companies' => $model->getCompanies(), 'model' => $model]) ?>
         </div>
 
         <div class="col-xs-12 col-md-6">
-            <?= $this->render('_list-job', ['jobs' => app\models\Company::find(), 'model' => $model]) ?>
+            <?= $this->render('_list-job', ['jobs' => app\models\Company::find()->where(['id'=>1]), 'model' => $model]) ?>
         </div>
     </div>
     

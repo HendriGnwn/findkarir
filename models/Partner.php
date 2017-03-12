@@ -113,6 +113,14 @@ class Partner extends BaseActiveRecord
     /**
      * @return ActiveQuery
      */
+    public function getCompanies()
+    {
+        return $this->hasMany(Company::className(), ['partner_id' => 'id']);
+    }
+    
+    /**
+     * @return ActiveQuery
+     */
     public function getPartnerBranches()
     {
         return $this->hasMany(PartnerBranch::className(), ['partner_id' => 'id']);

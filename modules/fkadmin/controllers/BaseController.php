@@ -9,6 +9,7 @@
 namespace app\modules\fkadmin\controllers;
 
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 
 /**
@@ -33,6 +34,13 @@ class BaseController extends Controller
 					],
 				],
 			],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                    'bulk-delete' => ['post'],
+                ],
+            ],
 		];
 	}
 }

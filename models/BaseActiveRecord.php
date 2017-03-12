@@ -28,9 +28,14 @@ abstract class BaseActiveRecord extends ActiveRecord
 	const SCENARIO_INSERT = 'insert';
     const SCENARIO_UPDATE = 'update';
     const SCENARIO_REGISTER = 'register';
+    
+    const EVENT_BEFORE_SOFT_DELETE = 'beforeSoftDelete';
+    const EVENT_AFTER_SOFT_DELETE = 'afterSoftDelete';
 	
 	const STATUS_ACTIVE = 1;
 	const STATUS_INACTIVE = 0;
+    
+    const STATUS_SOFT_DELETE = 99;
 	
 	const OTHER_VALUE = 0;
 	
@@ -81,6 +86,20 @@ abstract class BaseActiveRecord extends ActiveRecord
 		
 		return $user . $separator . $datetime;
 	}
+    
+    /**
+     * soft delete
+     * 
+     * @return boolean
+     */
+    public function softDelete()
+    {
+        $this->trigger(self::EVENT_BEFORE_SOFT_DELETE);
+        $soft = $this->updateAttributes(['status' => self::STATUS_SOFT_DELETE]);
+        $this->trigger(self::EVENT_AFTER_SOFT_DELETE);
+        
+        return $soft;
+    }
 	
 	public static function statusLabels()
 	{
@@ -89,6 +108,14 @@ abstract class BaseActiveRecord extends ActiveRecord
 			self::STATUS_INACTIVE => Yii::t('app.label', 'Inactive'),
 		];
 	}
+    
+    /**
+     * @return boolean
+     */
+    public function getIsStatusActive()
+    {
+        return $this->status == self::STATUS_ACTIVE;
+    }
 	
 	public function getStatusLabel()
 	{
