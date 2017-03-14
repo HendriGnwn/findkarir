@@ -15,6 +15,8 @@ CREATE TABLE `auth_assignment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
+('applicant',	'16',	1489480937),
+('general-company',	'13',	1489142430),
 ('superadmin',	'1',	1488812605);
 
 DROP TABLE IF EXISTS `auth_item`;
@@ -96,6 +98,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/fkadmin/admin/user/signup',	2,	NULL,	NULL,	NULL,	1488812485,	1488812485),
 ('/fkadmin/admin/user/view',	2,	NULL,	NULL,	NULL,	1488812485,	1488812485),
 ('/fkadmin/city/index',	2,	NULL,	NULL,	NULL,	1489055300,	1489055300),
+('/fkadmin/company/index',	2,	NULL,	NULL,	NULL,	1489474149,	1489474149),
 ('/fkadmin/currency/index',	2,	NULL,	NULL,	NULL,	1489056621,	1489056621),
 ('/fkadmin/default/*',	2,	NULL,	NULL,	NULL,	1488812487,	1488812487),
 ('/fkadmin/default/error',	2,	NULL,	NULL,	NULL,	1488812487,	1488812487),
@@ -779,6 +782,8 @@ CREATE TABLE `company` (
   CONSTRAINT `company_ibfk_6` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+INSERT INTO `company` (`id`, `user_id`, `partner_id`, `code`, `name`, `address`, `city_id`, `province_id`, `latitude`, `longitude`, `phone`, `sector_area`, `employee_quantity`, `website`, `photo`, `description`, `status`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(4,	13,	NULL,	'GEN201703-000001',	'PT Migrasi Jaya',	'Jl Rahmat',	169,	13,	'1234321',	'546123123',	'09289312312',	'Technology',	'59',	'http://www.atc.co.id',	'pt-migrasi-jaya-dfjdfq5ftjqfl2ry06q.png',	'Test',	1,	'2017-03-10 17:40:30',	1,	2017,	1);
 
 DROP TABLE IF EXISTS `config`;
 CREATE TABLE `config` (
@@ -809,8 +814,10 @@ INSERT INTO `config` (`name`, `value`, `label`, `notes`) VALUES
 ('app_twitter_url',	'https://www.twitter.com/',	'',	NULL),
 ('developers_email',	'[\"hendrigunawan195@gmail.com\", \"winatasandi05@gmail.com\"]',	'',	NULL),
 ('education_category',	'[\"SD\", \"SMP\", \"SMA/SMK\", \"Sarjana\", \"Magister\", \"Doctor\"]',	'',	NULL),
+('genders',	'{\"1\":\"Male\",\"2\":\"Female\"}',	'',	NULL),
 ('main_metadesc',	'Temukan lowongan kerja dan masa depan karier yang lebih baik bersama FindKarir, salah satu situs penyedia informasi pekerjaan di Indonesia',	'',	NULL),
 ('main_metakey',	'findkarir in indonesia, Jakarta, Surabaya, Bandung, Medan, Palembang, Tangerang, indonesia jobs, indonesia, find karir,  IT jobs, HR jobs, finance jobs, sales jobs, marketing jobs, engineering jobs, customer service jobs, accounting jobs, management jobs, legal jobs, business development, career resource,  career, create resume, education career, employer, employment, employment opportunity, employment asia,  find job, free job posting, it recruitment, human resource, internet recruitment, jobstreet, job, job interview, job listing, job site, job vacancy, job opening, job placement, job opportunity, job seeker, karir tips,  job alert,  job online, job search, lowongan kerja, online job search, online recruitment,  post advertisement, recruitment, recruitment agency, findkarir, find karir',	'',	NULL),
+('married_status',	'{\"1\":\"Single\",\"2\":\"Married\"}',	'',	NULL),
 ('noreply_email',	'no-reply@findkarir.com',	'',	NULL);
 
 DROP TABLE IF EXISTS `currency`;
@@ -841,7 +848,9 @@ CREATE TABLE `education` (
   `created_by` bigint(20) DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `updated_by` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `education_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -862,17 +871,48 @@ CREATE TABLE `job` (
   `open_job_date` date NOT NULL,
   `close_job_date` date NOT NULL,
   `status` smallint(6) NOT NULL DEFAULT '0' COMMENT '0=inactive;1=active',
-  `created_at` datetime NOT NULL,
+  `status_updated_at` datetime DEFAULT NULL,
   `status_payment` smallint(6) NOT NULL COMMENT '0=waiting;1=paid;5=free;',
-  `created_by` bigint(20) NOT NULL,
-  `updated_by` bigint(20) NOT NULL,
-  `updated_at` datetime NOT NULL,
+  `status_payment_updated_at` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `created_by` bigint(20) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `updated_by` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`),
   KEY `company_id` (`company_id`),
   KEY `job_type_id` (`job_type_id`),
   CONSTRAINT `job_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `company` (`id`) ON DELETE CASCADE,
   CONSTRAINT `job_ibfk_2` FOREIGN KEY (`job_type_id`) REFERENCES `job_type` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+INSERT INTO `job` (`id`, `code`, `company_id`, `job_type_id`, `name`, `description`, `requirement`, `city_id`, `province_id`, `salary_currency_id`, `start_salary`, `end_salary`, `open_job_date`, `close_job_date`, `status`, `status_updated_at`, `status_payment`, `status_payment_updated_at`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(1,	'1/170314-000001',	4,	2,	'Staf Administrasi Migrasi Jaya',	'<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>\r\n\r\n<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>\r\n',	'<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>\r\n',	161,	12,	1,	3000000.00,	5000000.00,	'2017-03-18',	'2017-04-11',	1,	NULL,	1,	NULL,	'2017-03-14 18:15:47',	1,	NULL,	1);
+
+DROP TABLE IF EXISTS `job_apply`;
+CREATE TABLE `job_apply` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `job_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `review_by` bigint(20) DEFAULT NULL,
+  `review_counter` int(11) DEFAULT '0',
+  `status` smallint(6) NOT NULL DEFAULT '1' COMMENT '1=Active;2=Interview',
+  `status_interview_at` datetime DEFAULT NULL,
+  `status_updated_at` datetime DEFAULT NULL,
+  `interview_at` datetime DEFAULT NULL,
+  `venue` varchar(300) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `contact_person` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `contact_person_phone` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `created_by` bigint(20) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `updated_by` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `job_id` (`job_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `job_apply_ibfk_1` FOREIGN KEY (`job_id`) REFERENCES `job` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `job_apply_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -920,7 +960,8 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (11,	'Visitor',	NULL,	'/fkadmin/visitor/index',	30,	'return [\'icon\'=>\'fa fa-users\'];'),
 (12,	'Offer',	NULL,	'/fkadmin/offer/index',	25,	'return [\'icon\'=>\'fa fa-ravelry\'];'),
 (13,	'User Members',	NULL,	'/fkadmin/partner/index',	80,	'return [\'icon\'=>\'fa fa-users\'];'),
-(14,	'Partner',	13,	'/fkadmin/partner/index',	2,	'return [\'icon\'=>\'fa fa-circle-o\'];');
+(14,	'Partner',	13,	'/fkadmin/partner/index',	2,	'return [\'icon\'=>\'fa fa-circle-o\'];'),
+(15,	'Company',	NULL,	'/fkadmin/company/index',	16,	'return [\'icon\'=>\'fa fa-building-o\'];');
 
 DROP TABLE IF EXISTS `migration`;
 CREATE TABLE `migration` (
@@ -1089,6 +1130,8 @@ CREATE TABLE `partner_branch` (
   CONSTRAINT `partner_branch_ibfk_1` FOREIGN KEY (`partner_id`) REFERENCES `partner` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+INSERT INTO `partner_branch` (`id`, `partner_id`, `name`, `city_id`, `province_id`, `status`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(2,	1,	'Bandung',	166,	13,	1,	'2017-03-10 16:45:10',	1,	NULL,	1);
 
 DROP TABLE IF EXISTS `partner_has_user`;
 CREATE TABLE `partner_has_user` (
@@ -1117,7 +1160,9 @@ CREATE TABLE `passion` (
   `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `job_type_id` (`job_type_id`),
-  CONSTRAINT `passion_ibfk_2` FOREIGN KEY (`job_type_id`) REFERENCES `job_type` (`id`) ON DELETE CASCADE
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `passion_ibfk_2` FOREIGN KEY (`job_type_id`) REFERENCES `job_type` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `passion_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -1181,13 +1226,16 @@ CREATE TABLE `profile` (
   `salary` decimal(14,2) DEFAULT NULL COMMENT 'suggest salary',
   `cv` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `cv_updated_at` datetime DEFAULT NULL,
+  `status` smallint(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`),
   KEY `currency_id` (`currency_id`),
   CONSTRAINT `profile_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `profile` (`user_id`, `name`, `photo`, `public_email`, `phone`, `gender`, `gravatar_email`, `gravatar_id`, `location`, `website`, `hobby`, `married_status`, `bio`, `timezone`, `currency_id`, `salary`, `cv`, `cv_updated_at`) VALUES
-(1,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL);
+INSERT INTO `profile` (`user_id`, `name`, `photo`, `public_email`, `phone`, `gender`, `gravatar_email`, `gravatar_id`, `location`, `website`, `hobby`, `married_status`, `bio`, `timezone`, `currency_id`, `salary`, `cv`, `cv_updated_at`, `status`) VALUES
+(1,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	0),
+(13,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	0),
+(16,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	0);
 
 DROP TABLE IF EXISTS `province`;
 CREATE TABLE `province` (
@@ -1243,7 +1291,9 @@ CREATE TABLE `skill` (
   `created_by` bigint(20) DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `updated_by` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `skill_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
@@ -1299,7 +1349,9 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `user` (`id`, `username`, `email`, `password_hash`, `auth_key`, `confirmed_at`, `unconfirmed_email`, `blocked_at`, `registration_ip`, `created_at`, `updated_at`, `flags`, `last_login_at`, `category`) VALUES
-(1,	'admin',	'hendri.gnw@gmail.com',	'$2y$10$NG0aKRQ7PUu8LfzQbTiaC.Ae.3Ie8ERGbe9nuGpiUsvyx7xV2apZG',	'C1Hx8fAg_vgsvbQ47s6H1XJxDexAOXWM',	1488776878,	NULL,	NULL,	'::1',	1488776855,	1488776855,	0,	1489127726,	'superadmin');
+(1,	'admin',	'hendri.gnw@gmail.com',	'$2y$10$NG0aKRQ7PUu8LfzQbTiaC.Ae.3Ie8ERGbe9nuGpiUsvyx7xV2apZG',	'C1Hx8fAg_vgsvbQ47s6H1XJxDexAOXWM',	1488776878,	NULL,	NULL,	'::1',	1488776855,	1488776855,	0,	1489474131,	'superadmin'),
+(13,	'hendri.gunawan',	'hendri.gunawan@gmail.com',	'$2y$10$NdMT6IcnHTmwVnpLPQ/hn.d4fpTLBkfvRo51xe9MKKDJBeOqfO27O',	's21BZZCcqs89yEB1w4W1gAxXgOdNAdgq',	1489142430,	NULL,	NULL,	'::1',	1489142430,	1489142430,	0,	NULL,	'general-company'),
+(16,	'hendri.gnwn',	'hendri.gnwn@gmail.com',	'$2y$10$28QLRc.K6kURfBffgHwUCe3aG6320MFJO95aJCtTu0VQz3jCofcN6',	'EBG0HrWizyVe250yZ_JaCDV7sQ2qWs8l',	1489480936,	NULL,	NULL,	'::1',	1489480936,	1489480936,	0,	NULL,	'applicant');
 
 DROP TABLE IF EXISTS `visitor`;
 CREATE TABLE `visitor` (
@@ -1311,7 +1363,7 @@ CREATE TABLE `visitor` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `visitor` (`id`, `quantity`, `date`, `is_real`) VALUES
-(1,	1000,	'0000-00-00',	0),
+(1,	2000,	'0000-00-00',	0),
 (2,	1,	'2017-03-06',	1);
 
--- 2017-03-10 08:08:09
+-- 2017-03-14 11:55:10
