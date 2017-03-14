@@ -1,4 +1,4 @@
--- Adminer 4.2.2 MySQL dump
+-- Adminer 4.2.5 MySQL dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -106,6 +106,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/fkadmin/default/login',	2,	NULL,	NULL,	NULL,	1488812487,	1488812487),
 ('/fkadmin/default/logout',	2,	NULL,	NULL,	NULL,	1488812487,	1488812487),
 ('/fkadmin/job-type/index',	2,	NULL,	NULL,	NULL,	1489050384,	1489050384),
+('/fkadmin/job/index',	2,	NULL,	NULL,	NULL,	1489503969,	1489503969),
 ('/fkadmin/offer-type/index',	2,	NULL,	NULL,	NULL,	1489055541,	1489055541),
 ('/fkadmin/offer/index',	2,	NULL,	NULL,	NULL,	1489116977,	1489116977),
 ('/fkadmin/page/*',	2,	NULL,	NULL,	NULL,	1488880304,	1488880304),
@@ -961,7 +962,8 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (12,	'Offer',	NULL,	'/fkadmin/offer/index',	25,	'return [\'icon\'=>\'fa fa-ravelry\'];'),
 (13,	'User Members',	NULL,	'/fkadmin/partner/index',	80,	'return [\'icon\'=>\'fa fa-users\'];'),
 (14,	'Partner',	13,	'/fkadmin/partner/index',	2,	'return [\'icon\'=>\'fa fa-circle-o\'];'),
-(15,	'Company',	NULL,	'/fkadmin/company/index',	16,	'return [\'icon\'=>\'fa fa-building-o\'];');
+(15,	'Company',	NULL,	'/fkadmin/company/index',	16,	'return [\'icon\'=>\'fa fa-building-o\'];'),
+(16,	'Job',	NULL,	'/fkadmin/job/index',	10,	'return [\'icon\'=>\'fa fa-globe\'];\r\n');
 
 DROP TABLE IF EXISTS `migration`;
 CREATE TABLE `migration` (
@@ -1044,9 +1046,13 @@ CREATE TABLE `order` (
   `updated_by` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `offer_id` (`offer_id`),
-  CONSTRAINT `order_ibfk_1` FOREIGN KEY (`offer_id`) REFERENCES `offer` (`id`) ON DELETE CASCADE
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `order_ibfk_1` FOREIGN KEY (`offer_id`) REFERENCES `offer` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `order_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+INSERT INTO `order` (`id`, `code`, `user_id`, `description`, `offer_id`, `offer_expired_at`, `status`, `status_updated_at`, `status_paid_at`, `status_expired_at`, `currency_id`, `amount`, `admin_fee`, `final_amount`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(2,	'',	13,	'',	1,	'2017-03-14',	10,	'0000-00-00 00:00:00',	NULL,	NULL,	0,	0.00,	0.00,	0.00,	NULL,	NULL,	NULL,	NULL);
 
 DROP TABLE IF EXISTS `order_confirmation`;
 CREATE TABLE `order_confirmation` (
@@ -1366,4 +1372,4 @@ INSERT INTO `visitor` (`id`, `quantity`, `date`, `is_real`) VALUES
 (1,	2000,	'0000-00-00',	0),
 (2,	1,	'2017-03-06',	1);
 
--- 2017-03-14 11:55:10
+-- 2017-03-14 16:16:56

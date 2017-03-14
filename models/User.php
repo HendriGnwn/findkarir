@@ -152,7 +152,25 @@ class User extends BaseUser
      */
     public function getCompany()
     {
-        return $this->hasOne(Company::className(), ['user_id' => 'id']);
+        return $this->hasOne(Company::className(), ['id' => 'user_id']);
+    }
+    
+    /**
+     * @return yii\db\ActiveQuery
+     */
+    public function getOrders()
+    {
+        return $this->hasMany(Order::className(), ['user_id' => 'id']);
+    }
+    
+    /**
+     * @return yii\db\ActiveQuery
+     */
+    public function getOrderStillActive()
+    {
+        return $this->hasOne(Order::className(), ['user_id' => 'id'])
+                ->andWhere(['>=', 'offer_expired_at', date('Y-m-d')])
+                ->andWhere(['status' => Order::STATUS_PAID]);
     }
 	
 	/**

@@ -102,15 +102,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'data-confirm' => Yii::t('user', 'Are you sure you want to unblock this user?'),
                             ],
                         ],
-                        [
-                            'label' => Yii::t('user', 'Delete'),
-                            'url'   => ['/fkadmin/user/admin/delete', 'id' => $user->id],
-                            'linkOptions' => [
-                                'class' => 'text-danger',
-                                'data-method' => 'post',
-                                'data-confirm' => Yii::t('user', 'Are you sure you want to delete this user?'),
-                            ],
-                        ],
+//                        [
+//                            'label' => Yii::t('user', 'Delete'),
+//                            'url'   => ['/fkadmin/user/admin/delete', 'id' => $user->id],
+//                            'linkOptions' => [
+//                                'class' => 'text-danger',
+//                                'data-method' => 'post',
+//                                'data-confirm' => Yii::t('user', 'Are you sure you want to delete this user?'),
+//                            ],
+//                        ],
                     ],
                 ]) ?>
             </div>

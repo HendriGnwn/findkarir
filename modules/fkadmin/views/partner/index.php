@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class' => 'yii\grid\SerialColumn'],
 
                     [
-                        'header' => 'Have a Users',
+                        'header' => 'Users',
                         'content' => function ($model) {
                             return $model->getCountPartnerHasUsers();
                         }

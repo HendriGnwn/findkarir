@@ -325,7 +325,7 @@ class Job extends BaseActiveRecord
      * @param type $withCurrency
      * @return type
      */
-    public function getCombineStartAndEndSalary($withCurrency = true, $separator = ' - ')
+    public function getCombineSalary($withCurrency = true, $separator = ' - ')
     {
         return $this->getFormattedStartSalary($withCurrency) . $separator . $this->getFormattedEndSalary($withCurrency);
     }

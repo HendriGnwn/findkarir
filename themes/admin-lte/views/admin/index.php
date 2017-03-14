@@ -110,7 +110,8 @@ $this->params['breadcrumbs'][] = $this->title;
 				[
                     'class' => 'kartik\grid\ActionColumn',
                     'width' => '8%',
-                    'template' => '{switch} {resend_password} {update} {delete}',
+                    //'template' => '{switch} {resend_password} {update} {delete}',
+                    'template' => '{switch} {resend_password} {update}',
                     'buttons' => [
                         'resend_password' => function ($url, $model, $key) {
                             if (!$model->isAdmin) {
