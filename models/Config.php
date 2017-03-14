@@ -557,4 +557,20 @@ class Config extends \yii\db\ActiveRecord
     {
         return self::getValueJsonByName('education_category');
     }
+    
+    /**
+     * @return array
+     */
+    public static function getGenders()
+    {
+        return self::getValueJsonByName('genders');
+    }
+    
+    /**
+     * @return array
+     */
+    public static function getMarriedStatus()
+    {
+        return self::getValueJsonByName('married_status');
+    }
 }

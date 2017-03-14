@@ -50,6 +50,21 @@ $this->params['breadcrumbs'][] = $this->title;
                             'url' => ['/fkadmin/user/admin/company', 'id' => $user->id],
                             'visible' => $user->getIsCategoryGeneralCompany(),
                         ],
+                        [
+                            'label' => Yii::t('user', 'Education details'), 
+                            'url' => ['/fkadmin/education/index', 'id' => $user->id],
+                            'visible' => $user->getIsCategoryApplicant(),
+                        ],
+                        [
+                            'label' => Yii::t('user', 'Passion details'), 
+                            'url' => ['/fkadmin/passion/index', 'id' => $user->id],
+                            'visible' => $user->getIsCategoryApplicant(),
+                        ],
+                        [
+                            'label' => Yii::t('user', 'Skill details'), 
+                            'url' => ['/fkadmin/skill/index', 'id' => $user->id],
+                            'visible' => $user->getIsCategoryApplicant(),
+                        ],
                         ['label' => Yii::t('user', 'Information'), 'url' => ['/fkadmin/user/admin/info', 'id' => $user->id]],
                         [
                             'label' => Yii::t('user', 'Assignments'),

@@ -3,6 +3,9 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "passion".
@@ -14,8 +17,24 @@ use Yii;
  *
  * @property JobType $jobType
  */
-class Passion extends \app\models\BaseActiveRecord
+class Passion extends BaseActiveRecord
 {
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
+                ],
+                'value' => date('Y-m-d H:i:s'),
+            ],
+        ];
+    }
+    
     /**
      * @inheritdoc
      */
@@ -35,6 +54,7 @@ class Passion extends \app\models\BaseActiveRecord
             [['created_at'], 'safe'],
             [['job_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => JobType::className(), 'targetAttribute' => ['job_type_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['job_type_id', 'user_id'], 'unique', 'targetAttribute' => ['job_type_id','user_id']],
         ];
     }
 
@@ -45,14 +65,14 @@ class Passion extends \app\models\BaseActiveRecord
     {
         return [
             'id' => Yii::t('app.label', 'ID'),
-            'job_type_id' => Yii::t('app.label', 'Job Type ID'),
-            'user_id' => Yii::t('app.label', 'User ID'),
+            'job_type_id' => Yii::t('app.label', 'Job Type'),
+            'user_id' => Yii::t('app.label', 'User'),
             'created_at' => Yii::t('app.label', 'Created At'),
         ];
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getJobType()
     {
@@ -60,7 +80,7 @@ class Passion extends \app\models\BaseActiveRecord
     }
     
     /**
-     * @return \yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getUser()
     {

@@ -83,6 +83,7 @@ class Company extends BaseActiveRecord
             [['latitude', 'longitude', 'employee_quantity'], 'string', 'max' => 20],
             [['phone'], 'string', 'max' => 15],
             [['sector_area'], 'string', 'max' => 50],
+            [['website'], 'url'],
             [['code'], 'unique'],
             [['user_id', 'partner_id'], 'default', 'value' => null],
             [['status'], 'default', 'value' => self::STATUS_INACTIVE],
@@ -326,5 +327,14 @@ class Company extends BaseActiveRecord
         }
 
         return Html::a($name, $this->getPhotoUrl(), $options);
+    }
+    
+    public function getPhotoImg($options = ['class' => 'img-responsive'])
+    {
+        if (!$this->getPhotoUrl()) {
+            return null;
+        }
+        
+        return Html::img($this->getPhotoUrl(), $options);
     }
 }

@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'user_id',
                 'content' => function ($model) {
-                    return isset($model->user) ? $model->user->getName() : $model->user_id;
+                    return isset($model->user) ? $model->user->username : $model->user_id;
                 }
             ],
             [

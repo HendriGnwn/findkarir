@@ -9,6 +9,7 @@
  * file that was distributed with this source code.
  */
 
+use app\models\User;
 use dektrium\user\models\UserSearch;
 use kartik\grid\GridView;
 use yii\data\ActiveDataProvider;
@@ -40,7 +41,14 @@ $this->params['breadcrumbs'][] = $this->title;
 			'layout'        =>  "{items}\n{pager}",
 			'responsive' => true,
 			'columns' => [
-				'category',
+                [
+					'attribute' => 'category',
+                    'filter' => User::categoryLabels(),
+					'value' => function ($model) {
+						return $model->category;
+					},
+					'format' => 'html',
+				],
 				'username',
 				'email:email',
 				[

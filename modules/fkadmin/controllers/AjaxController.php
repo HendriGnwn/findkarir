@@ -8,6 +8,7 @@
 
 namespace app\modules\fkadmin\controllers;
 
+use app\models\Company;
 use app\models\Partner;
 use app\models\User;
 use Yii;
@@ -101,6 +102,39 @@ class AjaxController extends BaseController
 		}
 		else if ($id > 0) {
 			$out['results'] = ['id'=>$id, 'text'=> Partner::findOne($id)->name];
+		}
+		
+		return $out;
+	}
+    
+    /**
+	 * list partner for use in select2
+	 * 
+	 * @param type $name
+	 * @param type $id
+	 * @return json
+	 */
+	public function actionListCompany($name = null, $id = null)
+	{
+		Yii::$app->response->format = Response::FORMAT_JSON;
+		$out = ['results' => ['id'=>'', 'text'=>'']];
+		if (!is_null($name)) {
+			$query = Company::find()
+					->orWhere(['like', 'name', $name])
+					->orderBy(['name'=>SORT_ASC])
+					->limit(50)
+					->all();
+			$results = [];
+			$no = 0;
+			foreach($query as $data) {
+				$results[$no]['id'] = $data->id;
+				$results[$no]['text'] = $data->name;
+				$no++;
+			}
+			$out['results'] = $results;
+		}
+		else if ($id > 0) {
+			$out['results'] = ['id'=>$id, 'text'=> Company::findOne($id)->name];
 		}
 		
 		return $out;
