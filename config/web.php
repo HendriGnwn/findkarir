@@ -69,7 +69,7 @@ $config = [
                     '@app/views' => '@app/themes/'.$params['activeFrontTheme'].'/views',
 					/** for administrator module */
                     '@app/modules/fkadmin/views' => '@app/themes/'.$params['activeAdminTheme'].'/views',
-                    '@dektrium/user/views' => '@app/themes/'.$params['activeAdminTheme'].'/views'
+                    '@dektrium/user/views' => '@app/themes/'.$params['activeAdminTheme'].'/views',
 				],
 			],
 		],
@@ -94,24 +94,28 @@ $config = [
 		'user' => [
 			'class' => 'dektrium\user\Module',
 			'admins' => ['admin'],
-//			'controllerMap' => [
-//                'security' => [
-//					'class' => dektrium\user\controllers\SecurityController::className(),
-//					'layout' => '@app/themes/admin-lte/views/layouts/plain',
-//                ],
-//                'settings' => [
-//					'class' => 'app\controllers\user\SettingsController',
-//					'layout' => '@app/themes/admin-lte/views/layouts/main',
-//                ],
-//                'registration' => [
-//					'class' => dektrium\user\controllers\RegistrationController::className(),
-//					'layout' => '@app/themes/admin-lte/views/layouts/plain',
-//                ],
-//                'recovery' => [
-//					'class' => dektrium\user\controllers\RecoveryController::className(),
-//					'layout' => '@app/themes/admin-lte/views/layouts/plain',
-//                ],
-//			],
+			'controllerMap' => [
+                'profile' => [
+					'class' => 'app\controllers\user\ProfileController',
+					'layout' => '@app/views/layouts/main',
+                ],
+                'security' => [
+					'class' => 'app\controllers\user\SecurityController',
+					'layout' => '@app/views/layouts/main',
+                ],
+                'settings' => [
+					'class' => 'app\controllers\user\SettingsController',
+					'layout' => '@app/views/layouts/main',
+                ],
+                'registration' => [
+					'class' => 'app\controllers\user\RegistrationController',
+					'layout' => '@app/views/layouts/main',
+                ],
+                'recovery' => [
+					'class' => 'app\controllers\user\RecoveryController',
+					'layout' => '@app/views/layouts/main',
+                ],
+			],
 			'modelMap' => [
 				'UserSearch' => 'app\modules\fkadmin\models\UserSearch',
 				'User' => 'app\models\User',

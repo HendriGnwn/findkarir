@@ -262,7 +262,7 @@ class Job extends BaseActiveRecord
 	 */
 	public static function generateCode($type = 'GEN', $padLength = 6, $separator = '-')
 	{
-		$left = strtoupper($type) .'/'. date('ymd');
+		$left = strtoupper($type) .$separator. date('ymd');
         $leftLen = strlen($left);
         $increment = 1;
 

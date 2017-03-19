@@ -9,6 +9,7 @@
 namespace app\models\queries;
 
 use app\models\BaseActiveRecord;
+use app\models\Job;
 use yii\db\ActiveQuery;
 
 /**
@@ -49,6 +50,22 @@ class BaseActiveRecordQuery extends ActiveQuery
         return $this->orderBy([
             'order' => SORT_ASC,
         ]);
+    }
+    
+    /**
+     * function khusus untuk job
+     * 
+     * @return $this
+     */
+    public function jobPublished()
+    {
+        $this->andWhere([
+            'status' => BaseActiveRecord::STATUS_ACTIVE,
+        ]);
+        
+        $this->andWhere(['in', 'status_payment', [Job::STATUS_PAYMENT_PAID, Job::STATUS_PAYMENT_FREE]]);
+        
+        return $this;
     }
 	
 }

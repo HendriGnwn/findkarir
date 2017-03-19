@@ -186,6 +186,14 @@ class Company extends BaseActiveRecord
     /**
      * @return ActiveQuery
      */
+    public function getPartner()
+    {
+        return $this->hasOne(Partner::className(), ['id' => 'partner_id']);
+    }
+    
+    /**
+     * @return ActiveQuery
+     */
     public function getCity()
     {
         return $this->hasOne(City::className(), ['id' => 'city_id']);
@@ -336,5 +344,16 @@ class Company extends BaseActiveRecord
         }
         
         return Html::img($this->getPhotoUrl(), $options);
+    }
+    
+    /**
+     * @param type $id
+     * @return type
+     */
+    public static function isOwnPartner($id)
+    {
+        $query = self::findOne($id);
+        
+        return $query->getIsPartner();
     }
 }

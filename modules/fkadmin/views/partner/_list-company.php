@@ -40,9 +40,21 @@ use yii\helpers\Url;
 
                 [
                     'class' => 'yii\grid\ActionColumn',
+                    'template' => '{addJob}&nbsp;&nbsp;{view} {update}',
                     'urlCreator' => function($action, $model, $key, $index) { 
                         return Url::to(['company/'.$action,'id'=>$key]);
                     },
+                    'buttons' => [
+                        'addJob' => function ($url, $model, $key) {
+                            return \yii\bootstrap\Html::a(
+                                    '<i class=\'fa fa-plus-square\'></i>',
+                                    ['job/create', 'id'=>$model->id],
+                                    [
+                                        'title' => 'Add new Job',
+                                    ]
+                            );
+                        },
+                    ],
                     'options' => [
                         'width' => '15%',
                     ]

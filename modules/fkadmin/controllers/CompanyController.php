@@ -39,9 +39,25 @@ class CompanyController extends BaseController
     public function actionIndex()
     {
         $searchModel = new CompanySearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 'user');
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    
+    /**
+     * Lists all Company models.
+     * @return mixed
+     */
+    public function actionIndexPartner()
+    {
+        $searchModel = new CompanySearch();
+        $searchModel->user_id = null;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, 'partner');
+
+        return $this->render('index-partner', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

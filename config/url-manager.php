@@ -19,5 +19,14 @@ return [
             'pattern' => '/',
             'route' => 'site/index',
         ],
+        [
+            'pattern' => 'jobs/listing',
+            'route' => 'job/index',
+        ],
+        
+        [
+            'pattern' => 'user/skill',
+            'route' => 'skill/index',
+        ]
     ],
 ];

@@ -16,7 +16,9 @@ $this->title = Yii::t('app', 'Companies');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="company-index">
-
+    
+    <?= $this->render('_menu') ?>
+    
     <div class="box box-primary">
         <div class="box-header  with-border">
             <h3 class="box-title"><?= Html::encode($this->title) ?></h3>
@@ -33,12 +35,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute' => 'user_id',
                         'content' => function ($model) {
                             return isset($model->user) ? $model->user->username : $model->user_id;
-                        }
-                    ],
-                    [
-                        'attribute' => 'partner_id',
-                        'content' => function ($model) {
-                            return isset($model->partner) ? $model->partner->name : $model->partner_id;
                         }
                     ],
                     'code',
@@ -75,7 +71,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     // 'updated_by',
 
                     [
-                        'class' => 'yii\grid\ActionColumn'
+                        'class' => 'yii\grid\ActionColumn',
+                        'template' => '{view} {update}'
                     ],
                 ],
             ]); ?>

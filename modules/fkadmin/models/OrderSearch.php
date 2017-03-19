@@ -5,12 +5,12 @@ namespace app\modules\fkadmin\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Company;
+use app\models\Order;
 
 /**
- * CompanySearch represents the model behind the search form about `app\models\Company`.
+ * OrderSearch represents the model behind the search form about `app\models\Order`.
  */
-class CompanySearch extends Company
+class OrderSearch extends Order
 {
     /**
      * @inheritdoc
@@ -18,8 +18,9 @@ class CompanySearch extends Company
     public function rules()
     {
         return [
-            [['id', 'user_id', 'partner_id', 'city_id', 'province_id', 'status', 'created_by', 'updated_at', 'updated_by'], 'integer'],
-            [['code', 'name', 'address', 'latitude', 'longitude', 'phone', 'sector_area', 'employee_quantity', 'website', 'photo', 'description', 'created_at'], 'safe'],
+            [['id', 'user_id', 'offer_id', 'status', 'currency_id', 'created_by', 'updated_by'], 'integer'],
+            [['code', 'description', 'offer_expired_at', 'status_updated_at', 'status_paid_at', 'status_expired_at', 'created_at', 'updated_at'], 'safe'],
+            [['amount', 'admin_fee', 'final_amount'], 'number'],
         ];
     }
 
@@ -39,9 +40,9 @@ class CompanySearch extends Company
      *
      * @return ActiveDataProvider
      */
-    public function search($params, $filter = null)
+    public function search($params)
     {
-        $query = Company::find();
+        $query = Order::find();
 
         // add conditions that should always apply here
 
@@ -50,12 +51,6 @@ class CompanySearch extends Company
         ]);
 
         $this->load($params);
-        
-        if ($filter == 'user') {
-            $query->andWhere(['partner_id' => null]);
-        } else if ($filter == 'partner') {
-            $query->andWhere(['user_id' => null]);
-        }
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -67,10 +62,16 @@ class CompanySearch extends Company
         $query->andFilterWhere([
             'id' => $this->id,
             'user_id' => $this->user_id,
-            'partner_id' => $this->partner_id,
-            'city_id' => $this->city_id,
-            'province_id' => $this->province_id,
+            'offer_id' => $this->offer_id,
+            'offer_expired_at' => $this->offer_expired_at,
             'status' => $this->status,
+            'status_updated_at' => $this->status_updated_at,
+            'status_paid_at' => $this->status_paid_at,
+            'status_expired_at' => $this->status_expired_at,
+            'currency_id' => $this->currency_id,
+            'amount' => $this->amount,
+            'admin_fee' => $this->admin_fee,
+            'final_amount' => $this->final_amount,
             'created_at' => $this->created_at,
             'created_by' => $this->created_by,
             'updated_at' => $this->updated_at,
@@ -78,15 +79,6 @@ class CompanySearch extends Company
         ]);
 
         $query->andFilterWhere(['like', 'code', $this->code])
-            ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'address', $this->address])
-            ->andFilterWhere(['like', 'latitude', $this->latitude])
-            ->andFilterWhere(['like', 'longitude', $this->longitude])
-            ->andFilterWhere(['like', 'phone', $this->phone])
-            ->andFilterWhere(['like', 'sector_area', $this->sector_area])
-            ->andFilterWhere(['like', 'employee_quantity', $this->employee_quantity])
-            ->andFilterWhere(['like', 'website', $this->website])
-            ->andFilterWhere(['like', 'photo', $this->photo])
             ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;

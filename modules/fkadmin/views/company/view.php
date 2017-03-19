@@ -21,15 +21,19 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="box-tools">
                 <?php if ($model->getIsPartner()) : ?>
                     <?= Html::a(Yii::t('app', 'Goto Partner'), ['partner/view', 'id' => $model->partner_id], ['class' => 'btn btn-success btn-sm']) ?>
+                <?php else: ?>
+                    <?= Html::a(Yii::t('app', 'Goto User'), ['user/admin/update', 'id' => $model->user_id], ['class' => 'btn btn-success btn-sm']) ?>
                 <?php endif; ?>
                 <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary btn-sm']) ?>
-                <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-                    'class' => 'btn btn-danger btn-sm',
-                    'data' => [
-                        'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                        'method' => 'post',
-                    ],
-                ]) ?>
+                <?php if ($model->getIsPartner()) : ?>
+                    <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
+                        'class' => 'btn btn-danger btn-sm',
+                        'data' => [
+                            'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                            'method' => 'post',
+                        ],
+                    ]) ?>
+                <?php endif; ?>
             </div>
         </div>
         <div class="box-body">
@@ -65,6 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'photo',
                         'value' => $model->getPhotoUrlHtml(),
+                        'format' => 'raw',
                     ],
                     'description:ntext',
                     [

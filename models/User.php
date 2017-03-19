@@ -89,6 +89,22 @@ class User extends BaseUser
     /**
      * @return boolean
      */
+    public function getIsCategorySuperadmin()
+    {
+        return $this->category == self::ROLE_SUPERADMIN;
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function getIsCategoryUser()
+    {
+        return $this->category == self::ROLE_USER;
+    }
+    
+    /**
+     * @return boolean
+     */
     public static function getIsRoleToAccessFkadmin()
     {
         $user = Yii::$app->user;
@@ -152,7 +168,7 @@ class User extends BaseUser
      */
     public function getCompany()
     {
-        return $this->hasOne(Company::className(), ['id' => 'user_id']);
+        return $this->hasOne(Company::className(), ['user_id' => 'id']);
     }
     
     /**

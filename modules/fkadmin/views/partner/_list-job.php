@@ -17,7 +17,6 @@ use yii\helpers\Url;
     <div class="box-header  with-border">
         <h3 class="box-title"><?= Yii::t('app', 'List Jobs') ?></h3>
         <div class="box-tools">
-            <?= Html::a('<i class=\'fa fa-plus-square\'></i>&nbsp;&nbsp;' . Yii::t('app.button', 'Add New'), ['job/create', 'id'=>$model->id], ['class' => 'btn btn-success btn-sm']) ?>
         </div>
     </div>
     <div class="box-body">
@@ -33,6 +32,7 @@ use yii\helpers\Url;
 
                 [
                     'class' => 'yii\grid\ActionColumn',
+                    'template' => '{view}',
                     'urlCreator' => function($action, $model, $key, $index) { 
                         return Url::to(['job/'.$action,'id'=>$key]);
                     },

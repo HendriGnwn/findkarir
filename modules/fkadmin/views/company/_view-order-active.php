@@ -15,7 +15,7 @@ use yii\widgets\DetailView;
     </div>
     <div class="box-body">
         <?= DetailView::widget([
-            'model' => $order,
+            'model' => $order ? $order : [],
             'attributes' => [
                 'code',
                 'description',

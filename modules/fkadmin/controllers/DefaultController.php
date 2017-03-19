@@ -85,8 +85,9 @@ class DefaultController extends Controller
         $this->performAjaxValidation($model);
 
         $this->trigger(SecurityController::EVENT_BEFORE_LOGIN, $event);
+        $model->category = \app\models\User::ROLE_SUPERADMIN;
 
-        if ($model->load(\Yii::$app->getRequest()->post()) && $model->loginAdmin()) {
+        if ($model->load(\Yii::$app->getRequest()->post()) && $model->login()) {
             $this->trigger(SecurityController::EVENT_AFTER_LOGIN, $event);
             return $this->goBack(['fkadmin']);
         }
