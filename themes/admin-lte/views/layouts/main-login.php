@@ -27,7 +27,7 @@ app\assets\LoginAsset::register($this);
 		
 	</div>
 	<div class="login-logo text-center">
-		<?= Yii::$app->name ?>
+		<h1><?= Yii::$app->name ?></h1>
 	</div>
 	<?= $content ?>
 

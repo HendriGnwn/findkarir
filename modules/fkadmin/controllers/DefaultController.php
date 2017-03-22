@@ -77,6 +77,8 @@ class DefaultController extends Controller
         if (!\Yii::$app->user->isGuest) {
             $this->goHome();
         }
+        
+        $this->layout = '@app/themes/'.Yii::$app->params['activeAdminTheme'].'/views/layouts/main-login';
 
         /** @var LoginForm $model */
         $model = \Yii::createObject(LoginForm::className());
