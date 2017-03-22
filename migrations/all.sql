@@ -1,4 +1,4 @@
--- Adminer 4.2.5 MySQL dump
+-- Adminer 4.2.2 MySQL dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -16,6 +16,8 @@ CREATE TABLE `auth_assignment` (
 
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('applicant',	'16',	1489480937),
+('applicant',	'17',	1490172252),
+('applicant',	'18',	1490172436),
 ('general-company',	'13',	1489142430),
 ('superadmin',	'1',	1488812605);
 
@@ -36,6 +38,19 @@ CREATE TABLE `auth_item` (
 
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
 ('/*',	2,	NULL,	NULL,	NULL,	1488812489,	1488812489),
+('/ajax/*',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/ajax/get-user',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/ajax/list-city',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/ajax/list-province',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/ajax/list-user',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/base-user/*',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/base/*',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/company/*',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/company/auth',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/company/index',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/company/login',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/company/logout',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/company/register',	2,	NULL,	NULL,	NULL,	1490172989,	1490172989),
 ('/debug/*',	2,	NULL,	NULL,	NULL,	1488812489,	1488812489),
 ('/debug/default/*',	2,	NULL,	NULL,	NULL,	1488812489,	1488812489),
 ('/debug/default/db-explain',	2,	NULL,	NULL,	NULL,	1488812489,	1488812489),
@@ -43,6 +58,12 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/debug/default/index',	2,	NULL,	NULL,	NULL,	1488812489,	1488812489),
 ('/debug/default/toolbar',	2,	NULL,	NULL,	NULL,	1488812489,	1488812489),
 ('/debug/default/view',	2,	NULL,	NULL,	NULL,	1488812489,	1488812489),
+('/education/*',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/education/create',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/education/delete',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/education/index',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/education/update',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/education/view',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
 ('/fkadmin/*',	2,	NULL,	NULL,	NULL,	1488812487,	1488812487),
 ('/fkadmin/admin/*',	2,	NULL,	NULL,	NULL,	1488812485,	1488812485),
 ('/fkadmin/admin/assignment/*',	2,	NULL,	NULL,	NULL,	1488812483,	1488812483),
@@ -97,18 +118,77 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/fkadmin/admin/user/reset-password',	2,	NULL,	NULL,	NULL,	1488812485,	1488812485),
 ('/fkadmin/admin/user/signup',	2,	NULL,	NULL,	NULL,	1488812485,	1488812485),
 ('/fkadmin/admin/user/view',	2,	NULL,	NULL,	NULL,	1488812485,	1488812485),
+('/fkadmin/ajax/*',	2,	NULL,	NULL,	NULL,	1490167166,	1490167166),
+('/fkadmin/ajax/get-user',	2,	NULL,	NULL,	NULL,	1490167166,	1490167166),
+('/fkadmin/ajax/list-company',	2,	NULL,	NULL,	NULL,	1490167166,	1490167166),
+('/fkadmin/ajax/list-partner',	2,	NULL,	NULL,	NULL,	1490167166,	1490167166),
+('/fkadmin/ajax/list-user',	2,	NULL,	NULL,	NULL,	1490167166,	1490167166),
+('/fkadmin/base/*',	2,	NULL,	NULL,	NULL,	1490167166,	1490167166),
+('/fkadmin/city/*',	2,	NULL,	NULL,	NULL,	1490167166,	1490167166),
+('/fkadmin/city/bulk-delete',	2,	NULL,	NULL,	NULL,	1490167166,	1490167166),
+('/fkadmin/city/create',	2,	NULL,	NULL,	NULL,	1490167166,	1490167166),
+('/fkadmin/city/delete',	2,	NULL,	NULL,	NULL,	1490167166,	1490167166),
 ('/fkadmin/city/index',	2,	NULL,	NULL,	NULL,	1489055300,	1489055300),
+('/fkadmin/city/update',	2,	NULL,	NULL,	NULL,	1490167166,	1490167166),
+('/fkadmin/city/view',	2,	NULL,	NULL,	NULL,	1490167166,	1490167166),
+('/fkadmin/company/*',	2,	NULL,	NULL,	NULL,	1490167166,	1490167166),
+('/fkadmin/company/create',	2,	NULL,	NULL,	NULL,	1490167166,	1490167166),
+('/fkadmin/company/delete',	2,	NULL,	NULL,	NULL,	1490167166,	1490167166),
 ('/fkadmin/company/index',	2,	NULL,	NULL,	NULL,	1489474149,	1489474149),
+('/fkadmin/company/index-partner',	2,	NULL,	NULL,	NULL,	1490167166,	1490167166),
+('/fkadmin/company/update',	2,	NULL,	NULL,	NULL,	1490167166,	1490167166),
+('/fkadmin/company/view',	2,	NULL,	NULL,	NULL,	1490167166,	1490167166),
+('/fkadmin/currency/*',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/currency/bulk-delete',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/currency/create',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/currency/delete',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
 ('/fkadmin/currency/index',	2,	NULL,	NULL,	NULL,	1489056621,	1489056621),
+('/fkadmin/currency/update',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/currency/view',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
 ('/fkadmin/default/*',	2,	NULL,	NULL,	NULL,	1488812487,	1488812487),
 ('/fkadmin/default/error',	2,	NULL,	NULL,	NULL,	1488812487,	1488812487),
 ('/fkadmin/default/index',	2,	NULL,	NULL,	NULL,	1488812487,	1488812487),
 ('/fkadmin/default/login',	2,	NULL,	NULL,	NULL,	1488812487,	1488812487),
 ('/fkadmin/default/logout',	2,	NULL,	NULL,	NULL,	1488812487,	1488812487),
+('/fkadmin/education/*',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/education/bulk-delete',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/education/create',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/education/delete',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/education/index',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/education/update',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/education/view',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/job-type/*',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/job-type/bulk-delete',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/job-type/create',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/job-type/delete',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
 ('/fkadmin/job-type/index',	2,	NULL,	NULL,	NULL,	1489050384,	1489050384),
-('/fkadmin/job/index',	2,	NULL,	NULL,	NULL,	1489503969,	1489503969),
+('/fkadmin/job-type/update',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/job-type/view',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/job/*',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/job/create',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/job/delete',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/job/index',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/job/update',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/job/view',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/offer-type/*',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/offer-type/bulk-delete',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/offer-type/create',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/offer-type/delete',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
 ('/fkadmin/offer-type/index',	2,	NULL,	NULL,	NULL,	1489055541,	1489055541),
+('/fkadmin/offer-type/update',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/offer-type/view',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/offer/*',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/offer/bulk-delete',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/offer/create',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/offer/delete',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
 ('/fkadmin/offer/index',	2,	NULL,	NULL,	NULL,	1489116977,	1489116977),
+('/fkadmin/offer/update',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/offer/view',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/order/*',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/order/delete',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/order/index',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/order/update',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
+('/fkadmin/order/view',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
 ('/fkadmin/page/*',	2,	NULL,	NULL,	NULL,	1488880304,	1488880304),
 ('/fkadmin/page/bulk-delete',	2,	NULL,	NULL,	NULL,	1488880304,	1488880304),
 ('/fkadmin/page/create',	2,	NULL,	NULL,	NULL,	1488880304,	1488880304),
@@ -116,14 +196,64 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/fkadmin/page/index',	2,	NULL,	NULL,	NULL,	1488880303,	1488880303),
 ('/fkadmin/page/update',	2,	NULL,	NULL,	NULL,	1488880304,	1488880304),
 ('/fkadmin/page/view',	2,	NULL,	NULL,	NULL,	1488880304,	1488880304),
+('/fkadmin/partner-branch/*',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/partner-branch/create',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/partner-branch/delete',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/partner-branch/index',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/partner-branch/update',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/partner-branch/view',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/partner-has-user/*',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/partner-has-user/create',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/partner-has-user/delete',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/partner-has-user/index',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/partner-has-user/update',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/partner-has-user/view',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/partner/*',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/partner/create',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/partner/delete',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
 ('/fkadmin/partner/index',	2,	NULL,	NULL,	NULL,	1489117176,	1489117176),
+('/fkadmin/partner/update',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/partner/view',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/passion/*',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/passion/bulk-delete',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/passion/create',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/passion/delete',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/passion/index',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/passion/update',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/passion/view',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/payment-type/*',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/payment-type/bulk-delete',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/payment-type/create',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/payment-type/delete',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
 ('/fkadmin/payment-type/index',	2,	NULL,	NULL,	NULL,	1489055926,	1489055926),
+('/fkadmin/payment-type/update',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/payment-type/view',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/payment/*',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/payment/bulk-delete',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/payment/create',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/payment/delete',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
 ('/fkadmin/payment/index',	2,	NULL,	NULL,	NULL,	1489055926,	1489055926),
+('/fkadmin/payment/update',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/payment/view',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/province/*',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/province/bulk-delete',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/province/create',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/province/delete',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
 ('/fkadmin/province/index',	2,	NULL,	NULL,	NULL,	1489055300,	1489055300),
+('/fkadmin/province/update',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/province/view',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/skill/*',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/fkadmin/skill/bulk-delete',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/skill/create',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/skill/delete',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/skill/index',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/skill/update',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/skill/view',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
 ('/fkadmin/user/*',	2,	NULL,	NULL,	NULL,	1488812487,	1488812487),
 ('/fkadmin/user/admin/*',	2,	NULL,	NULL,	NULL,	1488812486,	1488812486),
 ('/fkadmin/user/admin/assignments',	2,	NULL,	NULL,	NULL,	1488812486,	1488812486),
 ('/fkadmin/user/admin/block',	2,	NULL,	NULL,	NULL,	1488812486,	1488812486),
+('/fkadmin/user/admin/company',	2,	NULL,	NULL,	NULL,	1490167166,	1490167166),
 ('/fkadmin/user/admin/confirm',	2,	NULL,	NULL,	NULL,	1488812486,	1488812486),
 ('/fkadmin/user/admin/create',	2,	NULL,	NULL,	NULL,	1488812485,	1488812485),
 ('/fkadmin/user/admin/delete',	2,	NULL,	NULL,	NULL,	1488812486,	1488812486),
@@ -155,7 +285,13 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/fkadmin/user/settings/disconnect',	2,	NULL,	NULL,	NULL,	1488812486,	1488812486),
 ('/fkadmin/user/settings/networks',	2,	NULL,	NULL,	NULL,	1488812486,	1488812486),
 ('/fkadmin/user/settings/profile',	2,	NULL,	NULL,	NULL,	1488812486,	1488812486),
+('/fkadmin/visitor/*',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/fkadmin/visitor/bulk-delete',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/fkadmin/visitor/create',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/fkadmin/visitor/delete',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
 ('/fkadmin/visitor/index',	2,	NULL,	NULL,	NULL,	1489056795,	1489056795),
+('/fkadmin/visitor/update',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/fkadmin/visitor/view',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
 ('/gii/*',	2,	NULL,	NULL,	NULL,	1488812489,	1488812489),
 ('/gii/default/*',	2,	NULL,	NULL,	NULL,	1488812489,	1488812489),
 ('/gii/default/action',	2,	NULL,	NULL,	NULL,	1488812489,	1488812489),
@@ -166,6 +302,13 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/gridview/*',	2,	NULL,	NULL,	NULL,	1488812483,	1488812483),
 ('/gridview/export/*',	2,	NULL,	NULL,	NULL,	1488812483,	1488812483),
 ('/gridview/export/download',	2,	NULL,	NULL,	NULL,	1488812483,	1488812483),
+('/job/*',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/job/detail',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/job/index',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/passion/*',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/passion/create',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/passion/delete',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/passion/index',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
 ('/site/*',	2,	NULL,	NULL,	NULL,	1488812489,	1488812489),
 ('/site/about',	2,	NULL,	NULL,	NULL,	1488812489,	1488812489),
 ('/site/captcha',	2,	NULL,	NULL,	NULL,	1488812489,	1488812489),
@@ -174,6 +317,14 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/site/index',	2,	NULL,	NULL,	NULL,	1488812489,	1488812489),
 ('/site/login',	2,	NULL,	NULL,	NULL,	1488812489,	1488812489),
 ('/site/logout',	2,	NULL,	NULL,	NULL,	1488812489,	1488812489),
+('/skill/*',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/skill/create',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/skill/delete',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/skill/index',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/user-dashboard/*',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/user-dashboard/index',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/user-dashboard/job-apply',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/user-dashboard/walk-interview',	2,	NULL,	NULL,	NULL,	1490172989,	1490172989),
 ('/user/*',	2,	NULL,	NULL,	NULL,	1488812489,	1488812489),
 ('/user/admin/*',	2,	NULL,	NULL,	NULL,	1488812488,	1488812488),
 ('/user/admin/assignments',	2,	NULL,	NULL,	NULL,	1488812487,	1488812487),
@@ -190,6 +341,7 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/user/profile/*',	2,	NULL,	NULL,	NULL,	1488812488,	1488812488),
 ('/user/profile/index',	2,	NULL,	NULL,	NULL,	1488812488,	1488812488),
 ('/user/profile/show',	2,	NULL,	NULL,	NULL,	1488812488,	1488812488),
+('/user/profile/update',	2,	NULL,	NULL,	NULL,	1490167961,	1490167961),
 ('/user/recovery/*',	2,	NULL,	NULL,	NULL,	1488812488,	1488812488),
 ('/user/recovery/request',	2,	NULL,	NULL,	NULL,	1488812488,	1488812488),
 ('/user/recovery/reset',	2,	NULL,	NULL,	NULL,	1488812488,	1488812488),
@@ -227,7 +379,25 @@ CREATE TABLE `auth_item_child` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
-('superadmin',	'/*');
+('superadmin',	'/*'),
+('applicant',	'/education/*'),
+('applicant',	'/education/create'),
+('applicant',	'/education/delete'),
+('applicant',	'/education/index'),
+('applicant',	'/education/update'),
+('applicant',	'/education/view'),
+('applicant',	'/passion/*'),
+('applicant',	'/passion/create'),
+('applicant',	'/passion/delete'),
+('applicant',	'/passion/index'),
+('applicant',	'/skill/*'),
+('applicant',	'/skill/create'),
+('applicant',	'/skill/delete'),
+('applicant',	'/skill/index'),
+('applicant',	'/user-dashboard/*'),
+('applicant',	'/user-dashboard/index'),
+('applicant',	'/user-dashboard/job-apply'),
+('applicant',	'/user/profile/update');
 
 DROP TABLE IF EXISTS `auth_rule`;
 CREATE TABLE `auth_rule` (
@@ -784,8 +954,7 @@ CREATE TABLE `company` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `company` (`id`, `user_id`, `partner_id`, `code`, `name`, `address`, `city_id`, `province_id`, `latitude`, `longitude`, `phone`, `sector_area`, `employee_quantity`, `website`, `photo`, `description`, `status`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(4,	13,	NULL,	'GEN201703-000001',	'PT Migrasi Jaya',	'Jl Rahmat',	169,	13,	'1234321',	'546123123',	'09289312312',	'Technology',	'59',	'http://www.atc.co.id',	'pt-migrasi-jaya-dfjdfq5ftjqfl2ry06q.png',	'Test',	1,	'2017-03-10 17:40:30',	1,	2017,	1),
-(5,	NULL,	1,	'PART201703-000001',	'Lokodarma Inteligence',	'Test',	162,	12,	'-21903012',	'120391023',	'018238123',	'Kehutanan',	'19',	'http://cranium.id',	'lokodarma-inteligence-22tp3cbb4jp7nx-e6w81.png',	'sd fsaf sadf asdf ',	1,	'2017-03-16 16:13:36',	1,	NULL,	1);
+(4,	13,	NULL,	'GEN201703-000001',	'PT Migrasi Jaya',	'Jl Rahmat',	169,	13,	'1234321',	'546123123',	'09289312312',	'Technology',	'59',	'http://www.atc.co.id',	'pt-migrasi-jaya-dfjdfq5ftjqfl2ry06q.png',	'Test',	1,	'2017-03-10 17:40:30',	1,	2017,	1);
 
 DROP TABLE IF EXISTS `config`;
 CREATE TABLE `config` (
@@ -964,7 +1133,7 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (13,	'User Members',	NULL,	'/fkadmin/partner/index',	80,	'return [\'icon\'=>\'fa fa-users\'];'),
 (14,	'Partner',	13,	'/fkadmin/partner/index',	2,	'return [\'icon\'=>\'fa fa-circle-o\'];'),
 (15,	'Company',	NULL,	'/fkadmin/company/index',	16,	'return [\'icon\'=>\'fa fa-building-o\'];'),
-(16,	'Job',	NULL,	'/fkadmin/job/index',	10,	'return [\'icon\'=>\'fa fa-globe\'];\r\n');
+(16,	'Jobs',	NULL,	'/fkadmin/job/index',	5,	'return [\'icon\'=>\'fa fa-globe\'];');
 
 DROP TABLE IF EXISTS `migration`;
 CREATE TABLE `migration` (
@@ -1012,8 +1181,7 @@ CREATE TABLE `offer` (
 
 INSERT INTO `offer` (`id`, `offer_type_id`, `name`, `description`, `day_limit`, `currency_id`, `amount`, `admin_fee`, `status`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
 (1,	1,	'Silver',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',	30,	1,	50000.00,	0.00,	1,	'2017-03-10 10:26:38',	1,	NULL,	1),
-(2,	2,	'Active 30 Day',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',	30,	1,	30000.00,	1000.00,	1,	'2017-03-10 10:35:52',	1,	NULL,	1),
-(3,	1,	'Platinum',	'This is Platinum',	30,	1,	60000.00,	2500.00,	1,	'2017-03-16 16:24:55',	1,	NULL,	1);
+(2,	2,	'Active 30 Day',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',	30,	1,	30000.00,	1000.00,	1,	'2017-03-10 10:35:52',	1,	NULL,	1);
 
 DROP TABLE IF EXISTS `offer_type`;
 CREATE TABLE `offer_type` (
@@ -1030,12 +1198,10 @@ DROP TABLE IF EXISTS `order`;
 CREATE TABLE `order` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `code` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` bigint(20) DEFAULT NULL,
-  `partner_id` bigint(20) DEFAULT NULL,
+  `user_id` bigint(20) NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
   `offer_id` int(11) NOT NULL,
-  `job_quantity_limit` int(11) DEFAULT NULL,
-  `offer_expired_at` date DEFAULT NULL,
+  `offer_expired_at` date NOT NULL,
   `status` int(11) NOT NULL DEFAULT '0' COMMENT '0=waiting payment;1=confirmed by user;5=expired;10=paid;',
   `status_updated_at` datetime NOT NULL,
   `status_paid_at` datetime DEFAULT NULL,
@@ -1050,13 +1216,9 @@ CREATE TABLE `order` (
   `updated_by` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `offer_id` (`offer_id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `order_ibfk_1` FOREIGN KEY (`offer_id`) REFERENCES `offer` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `order_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+  CONSTRAINT `order_ibfk_1` FOREIGN KEY (`offer_id`) REFERENCES `offer` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `order` (`id`, `code`, `user_id`, `partner_id`, `description`, `offer_id`, `job_quantity_limit`, `offer_expired_at`, `status`, `status_updated_at`, `status_paid_at`, `status_expired_at`, `currency_id`, `amount`, `admin_fee`, `final_amount`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(2,	'',	13,	0,	'',	1,	NULL,	'2017-03-14',	10,	'0000-00-00 00:00:00',	NULL,	NULL,	1,	1.00,	1.00,	2.00,	NULL,	NULL,	NULL,	NULL);
 
 DROP TABLE IF EXISTS `order_confirmation`;
 CREATE TABLE `order_confirmation` (
@@ -1245,7 +1407,9 @@ CREATE TABLE `profile` (
 INSERT INTO `profile` (`user_id`, `name`, `photo`, `public_email`, `phone`, `gender`, `gravatar_email`, `gravatar_id`, `location`, `website`, `hobby`, `married_status`, `bio`, `timezone`, `currency_id`, `salary`, `cv`, `cv_updated_at`, `status`) VALUES
 (1,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	0),
 (13,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	0),
-(16,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	0);
+(16,	'Hendri Gunawan',	'hendri-gunawan-yjfsnj6afj6okq-zt-r.jpg',	NULL,	'08561471500',	1,	NULL,	NULL,	NULL,	NULL,	'Test',	1,	'Testing Doang',	NULL,	1,	5000000.00,	'hendri-gunawan-iztesbpeiwzbax3lf7x.pdf',	'2017-03-22 14:58:31',	1),
+(17,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	0),
+(18,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	0);
 
 DROP TABLE IF EXISTS `province`;
 CREATE TABLE `province` (
@@ -1359,9 +1523,11 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `user` (`id`, `username`, `email`, `password_hash`, `auth_key`, `confirmed_at`, `unconfirmed_email`, `blocked_at`, `registration_ip`, `created_at`, `updated_at`, `flags`, `last_login_at`, `category`) VALUES
-(1,	'admin',	'hendri.gnw@gmail.com',	'$2y$10$NG0aKRQ7PUu8LfzQbTiaC.Ae.3Ie8ERGbe9nuGpiUsvyx7xV2apZG',	'C1Hx8fAg_vgsvbQ47s6H1XJxDexAOXWM',	1488776878,	NULL,	NULL,	'::1',	1488776855,	1488776855,	0,	1489925311,	'superadmin'),
-(13,	'hendri.gunawan',	'hendri.gunawan@gmail.com',	'$2y$10$NdMT6IcnHTmwVnpLPQ/hn.d4fpTLBkfvRo51xe9MKKDJBeOqfO27O',	's21BZZCcqs89yEB1w4W1gAxXgOdNAdgq',	1489142430,	NULL,	NULL,	'::1',	1489142430,	1489142430,	0,	NULL,	'general-company'),
-(16,	'hendri.gnwn',	'hendri.gnwn@gmail.com',	'$2y$10$NG0aKRQ7PUu8LfzQbTiaC.Ae.3Ie8ERGbe9nuGpiUsvyx7xV2apZG',	'EBG0HrWizyVe250yZ_JaCDV7sQ2qWs8l',	1489480936,	NULL,	NULL,	'::1',	1489480936,	1489480936,	0,	1489925348,	'applicant');
+(1,	'admin',	'hendri.gnw@gmail.com',	'$2y$10$NG0aKRQ7PUu8LfzQbTiaC.Ae.3Ie8ERGbe9nuGpiUsvyx7xV2apZG',	'C1Hx8fAg_vgsvbQ47s6H1XJxDexAOXWM',	1488776878,	NULL,	NULL,	'::1',	1488776855,	1488776855,	0,	1490167083,	'superadmin'),
+(13,	'hendri.gunawan',	'hendri.gunawan@gmail.com',	'$2y$10$NdMT6IcnHTmwVnpLPQ/hn.d4fpTLBkfvRo51xe9MKKDJBeOqfO27O',	's21BZZCcqs89yEB1w4W1gAxXgOdNAdgq',	1489142430,	NULL,	NULL,	'::1',	1489142430,	1489142430,	0,	1490173751,	'general-company'),
+(16,	'hendri.gnwn',	'hendri.gnwn@gmail.com',	'$2y$10$28QLRc.K6kURfBffgHwUCe3aG6320MFJO95aJCtTu0VQz3jCofcN6',	'EBG0HrWizyVe250yZ_JaCDV7sQ2qWs8l',	1489480936,	NULL,	NULL,	'::1',	1489480936,	1489480936,	0,	1490176845,	'applicant'),
+(17,	'gunawan',	'gunawan@gmail.com',	'$2y$10$SjhwxPfQFDl.tzsLFaWA2OcX6eJS72F32XvQOxIH.LXLmWhwtW3sy',	'mhr4YMZJWc55djCiSeQ4sFLpTPp1r0aY',	1490172251,	NULL,	NULL,	'::1',	1490172251,	1490172251,	0,	NULL,	'applicant'),
+(18,	'gunawan123',	'gunawan123@gmail.com',	'$2y$10$iQVxVJEfnYHLNU54FEJ7XOMS9Kxo3TnsboXTw94dPtjwtphb4aW9K',	'ZLLjtl4iOOGp6Sz6-eFgZ95gbGpAmtK9',	1490172498,	NULL,	NULL,	'::1',	1490172436,	1490172436,	0,	NULL,	'applicant');
 
 DROP TABLE IF EXISTS `visitor`;
 CREATE TABLE `visitor` (
@@ -1376,4 +1542,4 @@ INSERT INTO `visitor` (`id`, `quantity`, `date`, `is_real`) VALUES
 (1,	2000,	'0000-00-00',	0),
 (2,	1,	'2017-03-06',	1);
 
--- 2017-03-20 08:21:38
+-- 2017-03-22 10:05:41
