@@ -13,7 +13,7 @@ use yii\helpers\Html;
 
 /**
  * @var \yii\web\View $this
- * @var \dektrium\user\models\Profile $profile
+ * @var \app\models\Profile $profile
  */
 
 $this->title = $profile->user->getName();
@@ -25,36 +25,51 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $this->render('@app/views/layouts/_menu-applicant') ?>
     </div>
     <div class="col-xs-12 col-md-10">
-        <div class="row">
-            <div class="col-sm-6 col-md-4">
-                <?= Html::img($profile->getAvatarUrl(230), [
-                    'class' => 'img-rounded img-responsive',
-                    'alt' => $profile->user->username,
-                ]) ?>
-            </div>
-        </div>
+        <?= Html::a(Yii::t('app.button', 'Update'), ['/user/profile/update'], ['class' => 'btn btn-primary']) ?>
         <div class="row">
             <div class="col-xs-12 col-md-12">
                 <?= \yii\widgets\DetailView::widget([
                     'model' => $profile,
                     'attributes' => [
+                        [
+                            'attribute' => 'avatar_id',
+                            'value' => Html::img($profile->getAvatarUrl(20), [
+                                'class' => 'img-rounded img-responsive',
+                                'alt' => $profile->user->username,
+                            ]),
+                            'format' => 'raw',
+                        ],
                         'name',
-                        'photo',
-                        'public_email',
+                        [
+                            'attribute' => 'photo',
+                            'value' => $profile->getPhotoImg(['width' => '80px']),
+                            'format' => 'raw',
+                        ],
                         'phone',
-                        'gender',
-                        'gravatar_email',
-                        'gravatar_id',
-                        'location',
-                        'website',
+                        [
+                            'attribute' => 'gender',
+                            'value' => $profile->getGenderLabel(),
+                            'format' => 'raw',
+                        ],
                         'hobby',
-                        'married_status',
+                        [
+                            'attribute' => 'married_status',
+                            'value' => $profile->getMarriedStatusLabel(),
+                            'format' => 'raw',
+                        ],
                         'bio',
-                        'timezone',
-                        'salary',
-                        'cv',
-                        'cv_updated_at',
-                        'status',
+                        [
+                            'attribute' => 'salary',
+                            'value' => $profile->getFormattedExpectedSalary(),
+                            'format' => 'raw',
+                        ],
+                        [
+                            'attribute' => 'cv',
+                            'value' => $profile->getCvUrlHtml(),
+                            'format' => 'raw',
+                        ],
+                        'cv_updated_at:datetime',
+                        'status:boolean',
                     ]
                 ]) ?>
             </div>

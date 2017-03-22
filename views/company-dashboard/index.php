@@ -1,17 +1,16 @@
 <?php
 
-use yii\helpers\Html;
 use yii\web\View;
 /* @var $this View */
 
 $this->title = 'Dashboard';
-$this->params['breadcrumbs'][] = ['url' => ['/user-dashboard/index'], 'label' => 'User'];
+$this->params['breadcrumbs'][] = ['url' => ['/company-dashboard/index'], 'label' => 'User'];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="row">
     <div class="col-xs-12 col-md-2">
-        <?= $this->render('@app/views/layouts/_menu-applicant') ?>
+        <?= $this->render('@app/views/layouts/_menu-company') ?>
     </div>
     <div class="col-xs-12 col-md-10">
         <div class="row">

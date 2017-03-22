@@ -120,6 +120,7 @@ $config = [
 				'UserSearch' => 'app\modules\fkadmin\models\UserSearch',
 				'User' => 'app\models\User',
 				'Profile' => 'app\models\Profile',
+                'RegistrationForm' => 'app\models\RegistrationForm',
 			],
 		],
 	],

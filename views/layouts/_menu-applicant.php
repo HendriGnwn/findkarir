@@ -1,5 +1,6 @@
 <?php
 
+use kartik\helpers\Html;
 use yii\bootstrap\Nav;
 
 /* 
@@ -10,15 +11,39 @@ use yii\bootstrap\Nav;
 
 
 ?>
-<?= Nav::widget([
-    'options' => ['class' => ''],
-    'items' => [
-        ['label'=>Yii::t('app.menu', 'Dashboard'), 'url'=>['/user-dashboard/index']],
-        ['label'=>Yii::t('app.menu', 'Profile'), 'url'=>['/user/profile']],
-        ['label'=>Yii::t('app.menu', 'Skills'), 'url'=>['/skill/index']],
-        ['label'=>Yii::t('app.menu', 'Passions'), 'url'=>['/passion/index']],
-        ['label'=>Yii::t('app.menu', 'Educations'), 'url'=>['/education/index']],
-        ['label'=>Yii::t('app.menu', 'Job Applies'), 'url'=>['/user-dashboard/job-apply']],
-        ['label'=>Yii::t('app.menu', 'Walk in Interviews'), 'url'=>['/user-dashboard/walk-interview']],
+<?= Html::listGroup([
+    [
+        'content' => Yii::t('app.menu', 'Dashboard'), 
+        'url' => ['/user-dashboard/index'],
+        'badge' => '14',
+        //'active' => true
+    ],
+    [
+        'content' => Yii::t('app.menu', 'Profile'),
+        'url' => ['/user/profile/index'],
+    ],
+        [
+        'content' => Yii::t('app.menu', 'Skills'),
+        'url' => ['/skill/index'],
+    ],
+        [
+        'content' => Yii::t('app.menu', 'Passions'),
+        'url' => ['/passion/index'],
+    ],
+        [
+        'content' => Yii::t('app.menu', 'Educations'),
+        'url' => ['/education/index'],
+    ],
+        [
+        'content' => Yii::t('app.menu', 'Job Applies'),
+        'url' => ['/user-dashboard/job-apply'],
+    ],
+    [
+        'content' => Yii::t('app.menu', 'Walk in Interviews'),
+        'url' => ['/user-dashboard/walk-interview'],
+    ],
+    [
+        'content' => Yii::t('app.menu', 'Account Details'),
+        'url' => ['/user/settings/account'],
     ],
 ]) ?>

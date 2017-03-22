@@ -11,6 +11,7 @@ namespace app\models;
 use dektrium\user\models\Profile as BaseProfile;
 use Yii;
 use yii\helpers\ArrayHelper;
+use app\helpers\FormatConverter;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
 use yii\helpers\Url;
@@ -38,6 +39,8 @@ class Profile extends BaseProfile
 {
 	const IS_COMPLETE_TRUE = 1;
 	const IS_COMPLETE_FALSE = 0;
+    
+    const SCENARIO_UPDATE_APPLICANT = 'updateApplicant';
     
     /**
      * @var UploadedFile
@@ -71,7 +74,10 @@ class Profile extends BaseProfile
                 'extensions' => ['doc', 'pdf'],
                 'maxSize' => 1024 * 1024 * 1],
             [['status'], 'default', 'value' => BaseActiveRecord::STATUS_INACTIVE],
-            [['phone', 'salary'], 'integer'],
+            [['phone', 'salary'], 'number'],
+            [['currency_id', 'hobby'], 'safe'],
+            [['name', 'currency_id', 'gender', 'phone', 'hobby', 
+                'married_status', 'bio', 'currency_id', 'salary'], 'required', 'on' => self::SCENARIO_UPDATE_APPLICANT],
         ]);
     }
     
@@ -81,6 +87,11 @@ class Profile extends BaseProfile
             'salary' => Yii::t('app.label', 'Expected Salary'),
             'cvFile' => Yii::t('app.label', 'CV File'),
         ]);
+    }
+    
+    public function getCurrency()
+    {
+        return $this->hasOne(Currency::className(), ['id' => 'currency_id']);
     }
     
     /**
@@ -256,5 +267,47 @@ class Profile extends BaseProfile
     public function getPath()
     {
         return $this->_path;
+    }
+    
+    /**
+     * returns formatted amount
+     * 
+     * @param type $withCurrency
+     * @return type
+     */
+    public function getFormattedExpectedSalary($withCurrency = true)
+    {
+        $currency = '';
+        switch ($this->currency_id) {
+            case Currency::RUPIAH : $amount = FormatConverter::rupiahFormat($this->salary, 2); break;
+            case Currency::DOLLAR : $amount = FormatConverter::dollarFormat($this->salary, 2); break;
+            default : $amount = $this->salary;
+        }
+        if ($this->currency_id && $withCurrency) {
+            $currency = $this->currency->code .' ';
+        }
+        
+        
+        return $currency . $amount;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getGenderLabel()
+    {
+        $list = Config::getGenders();
+        
+        return $list[$this->gender] ? $list[$this->gender] : $this->gender;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getMarriedStatusLabel()
+    {
+        $list = Config::getMarriedStatus();
+        
+        return $list[$this->married_status] ? $list[$this->married_status] : $this->married_status;
     }
 }

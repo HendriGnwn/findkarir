@@ -11,8 +11,8 @@
 
 namespace app\controllers\user;
 
+use app\models\RegistrationForm;
 use dektrium\user\controllers\RegistrationController as BaseRegistrationController;
-use dektrium\user\models\RegistrationForm;
 use dektrium\user\models\ResendForm;
 use dektrium\user\models\User;
 use dektrium\user\Module;
@@ -152,8 +152,6 @@ class RegistrationController extends BaseRegistrationController
             throw new NotFoundHttpException();
         }
         
-        var_dump('test');die;
-
         /** @var ResendForm $model */
         $model = Yii::createObject(ResendForm::className());
         $event = $this->getFormEvent($model);

@@ -8,45 +8,44 @@
 
 namespace app\controllers\user;
 
-use app\models\Profile;
-use dektrium\user\controllers\SettingsController as BaseSettingsController;
+use dektrium\user\models\SettingsForm;
+use dektrium\user\traits\AjaxValidationTrait;
+use dektrium\user\traits\EventTrait;
 use Yii;
 use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
+use yii\web\Controller;
+use yii\web\Response;
 
 /**
  * Description of SettingsController
  *
  * @author 
  */
-class SettingsController extends BaseSettingsController 
+class SettingsController extends \app\controllers\BaseUserController 
 {	
-	/** @inheritdoc */
-    public function behaviors()
+    use AjaxValidationTrait;
+    use EventTrait;
+    
+    /**
+     * Displays page where user can update account settings (username, email or password).
+     *
+     * @return string|Response
+     */
+    public function actionAccount()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'disconnect' => ['post'],
-                    'delete'     => ['post'],
-                ],
-            ],
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow'   => true,
-                        'actions' => ['profile', 'account', 'networks', 'disconnect', 'delete'],
-                        'roles'   => ['@'],
-                    ],
-                    [
-                        'allow'   => true,
-                        'actions' => ['confirm'],
-                        'roles'   => ['?', '@'],
-                    ],
-                ],
-            ],
-        ];
+        /** @var SettingsForm $model */
+        $model = Yii::createObject(SettingsForm::className());
+        $event = $this->getFormEvent($model);
+
+        $this->performAjaxValidation($model);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('user', 'Your account details have been updated'));
+            return $this->refresh();
+        }
+
+        return $this->render('@app/views/user/settings/account', [
+            'model' => $model,
+        ]);
     }
 }

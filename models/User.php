@@ -5,11 +5,13 @@ namespace app\models;
 use app\helpers\MailHelper;
 use dektrium\user\helpers\Password;
 use dektrium\user\models\Profile;
+use dektrium\user\models\Token;
 use dektrium\user\models\User as BaseUser;
 use Exception;
 use mdm\admin\models\Assignment;
 use RuntimeException;
 use Yii;
+use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -164,7 +166,7 @@ class User extends BaseUser
 	}
     
     /**
-     * @return yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getCompany()
     {
@@ -172,7 +174,7 @@ class User extends BaseUser
     }
     
     /**
-     * @return yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getOrders()
     {
@@ -180,7 +182,7 @@ class User extends BaseUser
     }
     
     /**
-     * @return yii\db\ActiveQuery
+     * @return ActiveQuery
      */
     public function getOrderStillActive()
     {
@@ -326,5 +328,50 @@ class User extends BaseUser
         ]);
         
         return $mail;
+    }
+    
+    /**
+     * This method is used to register new user account. If Module::enableConfirmation is set true, this method
+     * will generate new confirmation token and use mailer to send it to the user.
+     *
+     * @return bool
+     */
+    public function registerApplicant()
+    {
+        if ($this->getIsNewRecord() == false) {
+            throw new \RuntimeException('Calling "' . __CLASS__ . '::' . __METHOD__ . '" on existing user');
+        }
+
+        $transaction = $this->getDb()->beginTransaction();
+
+        try {
+            $this->category = self::ROLE_APPLICANT;
+            $this->confirmed_at = $this->module->enableConfirmation ? null : time();
+            $this->password     = $this->module->enableGeneratingPassword ? Password::generate(8) : $this->password;
+
+            $this->trigger(self::BEFORE_REGISTER);
+
+            if (!$this->save()) {
+                $transaction->rollBack();
+                return false;
+            }
+
+            if ($this->module->enableConfirmation) {
+                /** @var Token $token */
+                $token = \Yii::createObject(['class' => Token::className(), 'type' => Token::TYPE_CONFIRMATION]);
+                $token->link('user', $this);
+            }
+
+            $this->mailer->sendWelcomeMessage($this, isset($token) ? $token : null);
+            $this->trigger(self::AFTER_REGISTER);
+
+            $transaction->commit();
+
+            return true;
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            \Yii::warning($e->getMessage());
+            throw $e;
+        }
     }
 }

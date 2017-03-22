@@ -18,7 +18,7 @@ use yii\web\NotFoundHttpException;
  *
  * @author acer
  */
-class BaseUserController extends BaseController
+class BaseCompanyController extends BaseController
 {
     /* @var app\models\User */
     protected $user;
@@ -28,7 +28,9 @@ class BaseUserController extends BaseController
     {
         parent::init();
         
-        $this->user = User::findOne(['id' => Yii::$app->user->id, 'category' => User::ROLE_APPLICANT]);
+        $this->user = User::find()
+                ->andWhere(['id' => Yii::$app->user->id])
+                ->andWhere(['in', 'category', [User::ROLE_GENERAL_COMPANY, User::ROLE_MEMBER]]);
         if (!$this->user) {
             throw new NotFoundHttpException('Page is not found');
         }
@@ -50,7 +52,7 @@ class BaseUserController extends BaseController
 				],
                 'denyCallback' => function () {
                     Yii::$app->user->logout();
-                    return $this->redirect(['/user/login']);
+                    return $this->redirect(['/company/login']);
                 }
             ],
         ];

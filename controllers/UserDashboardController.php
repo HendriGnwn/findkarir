@@ -13,5 +13,10 @@ class UserDashboardController extends \app\controllers\BaseUserController
     {
         return $this->render('job-apply');
     }
+    
+    public function actionWalkInterview()
+    {
+        return $this->render('walk-interview');
+    }
 
 }
