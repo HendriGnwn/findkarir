@@ -18,7 +18,7 @@ use yii\bootstrap\ActiveForm;
  * @var dektrium\user\Module      $module
  */
 
-$this->title = Yii::t('user', 'Sign up for Applicant');
+$this->title = Yii::t('user', 'Sign up for Company');
 $this->params['breadcrumbs'][] = $this->title;
 
 $fieldOptions1 = [
@@ -51,9 +51,7 @@ $fieldOptions3 = [
 
                 <?= $form->field($model, 'username', $fieldOptions2)->textInput(['placeholder' => $model->getAttributeLabel('username')]) ?>
 
-                <?php if ($module->enableGeneratingPassword == false): ?>
-                    <?= $form->field($model, 'password', $fieldOptions3)->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
-                <?php endif ?>
+                <?= $form->field($model, 'password', $fieldOptions3)->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
 
                 <?= Html::submitButton(Yii::t('user', 'Sign up'), ['class' => 'btn btn-skin btn-block']) ?>
 
@@ -61,7 +59,7 @@ $fieldOptions3 = [
             </div>
 			<div class="box-footer">
 				<p class="text-right">
-					<?= Html::a(Yii::t('user', 'Already registered? Sign in!'), ['/user/security/login']) ?>
+					<?= Html::a(Yii::t('user', 'Already registered? Sign in!'), ['/company/login']) ?>
 				</p>
 			</div>
         </div>

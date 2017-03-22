@@ -100,7 +100,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <p class="text-center">
                 <?= Html::a(Yii::t('user', 'Don\'t have an account? Sign up!'), ['/user/registration/register']) ?>
                 <br/>
-                <?= Html::a(Yii::t('user', 'Already registered company account? Sign In here!'), ['/company/registration/register']) ?>
+                <?= Html::a(Yii::t('user', 'Already registered company account? Sign In here!'), ['/company/register']) ?>
             </p>
         <?php endif ?>
         <?= Connect::widget([

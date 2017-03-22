@@ -66,13 +66,15 @@ class CompanyController extends SecurityController
         /** @var RegistrationForm $model */
         $model = Yii::createObject(RegistrationForm::className());
         $event = $this->getFormEvent($model);
+        
+        $this->performAjaxValidation($model);
 
         if ($model->load(Yii::$app->request->post()) && $model->register()) {
             Yii::$app->session->setFlash('success', 'Your account has been created');
             return $this->redirect(['/company/login']);
         }
         
-        return $this->render('@app/views/user/registration/register', [
+        return $this->render('@app/views/company/registration/register', [
             'model'  => $model,
             'module' => $this->module,
         ]);
