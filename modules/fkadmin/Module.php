@@ -74,6 +74,13 @@ class Module extends BaseModule
 		
 		/** checkIsLogin */
 		$this->checkIsLogin();
+        
+        if (!\Yii::$app->user->getIsGuest()) {
+            $user = \app\models\User::findOne(\Yii::$app->user->id);
+            if (!$user->getIsRoleToAccessFkadmin()) {
+                throw new \yii\web\NotFoundHttpException('Page is not found.');
+            }
+        }
     }
 	
 	/**

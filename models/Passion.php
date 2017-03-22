@@ -65,7 +65,7 @@ class Passion extends BaseActiveRecord
     {
         return [
             'id' => Yii::t('app.label', 'ID'),
-            'job_type_id' => Yii::t('app.label', 'Job Type'),
+            'job_type_id' => Yii::t('app.label', 'Passion'),
             'user_id' => Yii::t('app.label', 'User'),
             'created_at' => Yii::t('app.label', 'Created At'),
         ];

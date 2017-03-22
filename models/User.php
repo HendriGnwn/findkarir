@@ -109,7 +109,7 @@ class User extends BaseUser
     {
         $user = Yii::$app->user;
         return ($user->can(self::ROLE_SUPERADMIN) == true) || 
-            ($user->can(self::ROLE_MEMBER) == true) || 
+            //($user->can(self::ROLE_MEMBER) == true) || 
             ($user->can(self::ROLE_USER) == true);
     }
     
