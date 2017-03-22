@@ -44,8 +44,6 @@ class OrderSearch extends Order
     {
         $query = Order::find();
 
-        // add conditions that should always apply here
-
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
@@ -58,7 +56,6 @@ class OrderSearch extends Order
             return $dataProvider;
         }
 
-        // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
             'user_id' => $this->user_id,

@@ -9,6 +9,7 @@
 namespace app\controllers;
 
 use app\models\City;
+use app\models\Offer;
 use app\models\Province;
 use app\models\User;
 use Yii;

@@ -16,6 +16,7 @@ use yii\helpers\Html;
  * @property string $partner_id
  * @property string $description
  * @property integer $offer_id
+ * @property string $offer_at
  * @property string $offer_expired_at
  * @property integer $status
  * @property string $status_updated_at
@@ -40,6 +41,19 @@ class Order extends BaseActiveRecord
     const STATUS_EXPIRED = 5;
     const STATUS_PAID = 10;
     
+    const EVENT_AFTER_STATUS_PAID = 'afterStatusPaid';
+    const EVENT_AFTER_STATUS_EXPIRED = 'afterStatusExpired';
+    const EVENT_AFTER_STATUS_CONFIRMED_BY_USER = 'afterStatusConfirmedByUser';
+    
+    public function init() 
+    {
+        parent::init();
+        
+        $this->on(self::EVENT_AFTER_STATUS_PAID, [$this, 'afterStatusPaid']);
+        $this->on(self::EVENT_AFTER_STATUS_EXPIRED, [$this, 'afterStatusExpired']);
+        $this->on(self::EVENT_AFTER_STATUS_CONFIRMED_BY_USER, [$this, 'afterStatusConfirmedByUser']);
+    }
+    
     /**
      * @inheritdoc
      */
@@ -55,9 +69,9 @@ class Order extends BaseActiveRecord
     {
         return [
             [['user_id', 'description', 'offer_id', 'amount', 'admin_fee', 'final_amount'], 'required'],
-            [['user_id', 'offer_id', 'status', 'currency_id', 'created_by', 'updated_by'], 'integer'],
+            [['user_id', 'offer_id', 'status', 'currency_id', 'created_by', 'updated_by', 'partner_id'], 'integer'],
             [['description'], 'string'],
-            [['partner_id', 'currency_id', 'code', 'offer_expired_at', 'status_updated_at', 'status_paid_at', 'status_expired_at', 'created_at', 'updated_at'], 'safe'],
+            [['partner_id', 'currency_id', 'partner_id', 'code', 'offer_at', 'offer_expired_at', 'status_updated_at', 'status_paid_at', 'status_expired_at', 'created_at', 'updated_at'], 'safe'],
             [['amount', 'admin_fee', 'final_amount'], 'number'],
             [['code'], 'string', 'max' => 100],
             [['offer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Offer::className(), 'targetAttribute' => ['offer_id' => 'id']],
@@ -79,6 +93,7 @@ class Order extends BaseActiveRecord
             'partner_id' => Yii::t('app.label', 'Partner'),
             'description' => Yii::t('app.label', 'Description'),
             'offer_id' => Yii::t('app.label', 'Offer'),
+            'offer_at' => Yii::t('app.label', 'Offer At'),
             'offer_expired_at' => Yii::t('app.label', 'Offer Expired At'),
             'status' => Yii::t('app.label', 'Status'),
             'status_updated_at' => Yii::t('app.label', 'Status Updated At'),
@@ -94,6 +109,67 @@ class Order extends BaseActiveRecord
             'updated_by' => Yii::t('app.label', 'Updated By'),
         ];
     }
+    
+    public function beforeSave($insert) 
+    {
+        if ($insert) {
+            $this->code = self::generateCode();
+            $this->status = self::STATUS_WAITING_PAYMENT;
+            $this->status_updated_at = date('Y-m-d H:i:s');
+        }
+        
+        parent::beforeSave($insert);
+    }
+    
+    /**
+     * event after status paid
+     * 
+     * @return boolean
+     */
+    public function afterStatusConfirmedByUser()
+    {
+        $this->status_updated_at = date('Y-m-d H:i:s');
+        $this->update();
+        
+        // send email to admin that there an order has been confirmed
+        
+        return true;
+    }
+    
+    /**
+     * event after status paid
+     * 
+     * @return boolean
+     */
+    public function afterStatusPaid()
+    {
+        $this->status_paid_at = date('Y-m-d H:i:s');
+        $this->status_updated_at = date('Y-m-d H:i:s');
+        $this->update();
+        
+        // send email to user that there an order has been paid
+        // if there a jobs is waiting payment or free, change this to PAID
+        
+        return true;
+    }
+    
+    /**
+     * event after status expired
+     * 
+     * @return boolean
+     */
+    public function afterStatusExpired()
+    {
+        $this->status_expired_at = date('Y-m-d H:i:s');
+        $this->status_updated_at = date('Y-m-d H:i:s');
+        $this->update();
+        
+        // send email to user that there an order has been expired
+        // if there a jobs is PAID, change this to FREE
+        
+        return true;
+    }
+    
 
     /**
      * @return ActiveQuery
@@ -240,5 +316,48 @@ class Order extends BaseActiveRecord
 			default :
 				return Html::label($this->getStatusLabel(), null, ['class'=>'label label-default label-sm']);
 		}
+	}
+    
+    /**
+	 * generate code with format `[prefix][Ymd]-[xxxxxx]` where:
+	 * [prefix] INV
+	 * [Y] is current year in php date format.
+	 * [m] is current month in php date format.
+	 * [d] is current day in php date format.
+	 * [xxxxxx] is incremental number of order each day pad by certain length.
+	 * 
+	 * eg:
+	 * - INV-20161201-0001
+	 * - INV-20161201-0002
+	 * - INV-20161202-0001
+	 * - INV-20161202-0002
+	 * - INV-20170101-0001
+	 * 
+	 * @param type $prefix INV
+	 * @param type $padLength increment pad length
+	 * @param type $separator
+	 * @return string
+	 */
+	public static function generateCode($prefix = 'INV', $padLength = 4, $separator = '-')
+	{
+		$left = strtoupper($prefix) .$separator. date('ymd');
+        $leftLen = strlen($left);
+        $increment = 1;
+
+        $last = self::find()
+            ->select('code')
+            ->where(['LIKE', 'code', $left])
+            ->orderBy(['id' => SORT_DESC])
+            ->limit(1)
+            ->scalar();
+
+        if ($last) {
+            $increment = (int) substr($last, $leftLen, $padLength);
+            $increment++;
+        }
+
+        $number = str_pad($increment, $padLength, '0', STR_PAD_LEFT);
+
+        return $left . $separator . $number;
 	}
 }

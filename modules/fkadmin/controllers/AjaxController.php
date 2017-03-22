@@ -9,6 +9,7 @@
 namespace app\modules\fkadmin\controllers;
 
 use app\models\Company;
+use app\models\Offer;
 use app\models\Partner;
 use app\models\User;
 use Yii;
@@ -53,8 +54,10 @@ class AjaxController extends BaseController
 		if (!is_null($username)) {
 			$query = User::find()
 					->joinWith('profile p', true, 'INNER JOIN')
+					->joinWith('company c', true, 'INNER JOIN')
 					->orWhere(['like', 'p.name', $username])
 					->orWhere(['like', 'username', $username])
+					->orWhere(['like', 'c.name', $username])
 					->orderBy(['username'=>SORT_ASC])
 					->limit(50)
 					->all();
@@ -157,4 +160,22 @@ class AjaxController extends BaseController
 		
 		echo json_encode(ArrayHelper::merge($model->attributes, $relations));
 	}
+    
+    
+    /**
+     * get offer by id
+     * 
+     * @param type $id
+     * @return boolean
+     */
+    public function actionGetOffer($id)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $offer = Offer::findOne($id);
+        if (!$offer) {
+            return false;
+        }
+        
+        return $offer->attributes;
+    }
 }

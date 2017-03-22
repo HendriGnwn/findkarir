@@ -190,3 +190,11 @@ vendor/bin/codecept run functional,unit -- --coverage-html --coverage-xml
 ```
 
 You can see code coverage output under the `tests/_output` directory.
+
+
+Create Job
+- Company ID 
+	- cek apakah company ini partner atau tidak
+	- jika partner maka tidak cek lagi
+	- jika bukan partner, maka cek juga apakah dia memiliki limit order
+	- kalau tidak maka set status payment menjadi FREE

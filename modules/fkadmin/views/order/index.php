@@ -1,77 +1,74 @@
 <?php
-
+use yii\helpers\Url;
 use yii\helpers\Html;
-use yii\grid\GridView;
-use yii\widgets\Pjax;
+use yii\bootstrap\Modal;
+use kartik\grid\GridView;
+use johnitvn\ajaxcrud\CrudAsset; 
+use johnitvn\ajaxcrud\BulkButtonWidget;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\fkadmin\models\OrderSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Orders');
 $this->params['breadcrumbs'][] = $this->title;
+
+CrudAsset::register($this);
+
 ?>
 <div class="order-index">
-    
-    <div class="box box-primary">
-        <div class="box-header  with-border">
-            <h3 class="box-title"><?= Html::encode($this->title) ?></h3>
-            <div class="box-tools">
-            </div>
-        </div>
-        <div class="box-body table-responsive">
-            <?php Pjax::begin(); ?>    
-            <?= GridView::widget([
-                'dataProvider' => $dataProvider,
-                'filterModel' => $searchModel,
-                'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
-
-                    'code',
-                    [
-                        'attribute' => 'user_id',
-                        'content' => function ($model) {
-                            return $model->user->getName();
-                        }
-                    ],
-                    //'description:ntext',
-                    //'offer_id',
-                    [
-                        'attribute' => 'offer_id',
-                        'content' => function ($model) {
-                            return $model->offer->name;
-                        }
-                    ],
-                    'offer_expired_at',
-                    [
-                        'attribute' => 'status',
-                        'content' => function ($model) {
-                            return $model->getStatusWithStyle();
-                        }
-                    ],
-                    // 'status_updated_at',
-                    // 'status_paid_at',
-                    // 'status_expired_at',
-                    // 'currency_id',
-                    // 'amount',
-                    // 'admin_fee',
-                    [
-                        'attribute' => 'final_amount',
-                        'content' => function ($model) {
-                            return $model->getFormattedFinalAmount();
-                        }
-                    ],
-                    // 'created_at',
-                    // 'created_by',
-                    // 'updated_at',
-                    // 'updated_by',
-
-                    ['class' => 'yii\grid\ActionColumn'],
+    <div id="ajaxCrudDatatable">
+        <?=GridView::widget([
+            'id'=>'crud-datatable',
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'pjax'=>true,
+            'columns' => require(__DIR__.'/_columns.php'),
+            'toolbar'=> [
+                ['content'=>
+                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['create'],
+                    ['role'=>'modal-remote','title'=> 'Create new Orders','class'=>'btn btn-default']).
+                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', [''],
+                    ['data-pjax'=>1, 'class'=>'btn btn-default', 'title'=>'Reset Grid']).
+                    '{toggleData}'.
+                    '{export}'
                 ],
-            ]); ?>
-            <?php Pjax::end(); ?>
-        </div>
-        <div class="box-footer">
-            
-        </div>
+            ],          
+            'striped' => true,
+            'condensed' => true,
+            'responsive' => true,          
+            'panel' => [
+                'type' => 'primary', 
+                'heading' => '<i class="glyphicon glyphicon-list"></i> Orders listing',
+                'before'=>'<em>* Resize table columns just like a spreadsheet by dragging the column edges.</em>',
+                'after'=>BulkButtonWidget::widget([
+                            'buttons'=>Html::a('<i class="glyphicon glyphicon-trash"></i>&nbsp; Delete All',
+                                ["bulk-delete"] ,
+                                [
+                                    "class"=>"btn btn-danger btn-xs",
+                                    'role'=>'modal-remote-bulk',
+                                    'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
+                                    'data-request-method'=>'post',
+                                    'data-confirm-title'=>'Are you sure?',
+                                    'data-confirm-message'=>'Are you sure want to delete this item'
+                                ]),
+                        ]).                        
+                        '<div class="clearfix"></div>',
+            ]
+        ])?>
     </div>
 </div>
+<?php Modal::begin([
+    "id"=>"ajaxCrudModal",
+	'size'=> Modal::SIZE_LARGE,
+    "footer"=>"",
+	'clientOptions' => [
+		'keyboard'=>false,
+		'backdrop'=> 'static',
+	],
+	'options' => [
+		'tabindex' => false,
+	]
+])?>
+<?php Modal::end(); ?>
+

@@ -134,4 +134,9 @@ class Offer extends BaseActiveRecord
         
         return $currency . $amount;
     }
+    
+    public function getOfferTypeWithNameWithAmount($separator = ' - ')
+    {
+        return $this->offerType->name . $separator . $this->name. $separator . $this->getFormattedAmount();
+    }
 }
