@@ -35,4 +35,14 @@ class ConsoleController extends Controller
         $response = $schedules ? 'Success' : 'Failure';
         echo "   > ".$response;
     }
+    
+    public function actionChangeOrderStatusToExpired()
+    {
+        echo "   > change order status to expired \n";
+        $order = \app\models\Order::consoleChangeOrderStatusToExpired();
+        
+        $response = $order ? 'Success' : 'Failure';
+        
+        echo "   > ".$response;
+    }
 }

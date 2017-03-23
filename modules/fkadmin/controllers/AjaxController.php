@@ -8,6 +8,7 @@
 
 namespace app\modules\fkadmin\controllers;
 
+use app\helpers\FormatConverter;
 use app\models\Company;
 use app\models\Offer;
 use app\models\Partner;
@@ -176,6 +177,10 @@ class AjaxController extends BaseController
             return false;
         }
         
-        return $offer->attributes;
+        $offerExpiredAt = FormatConverter::dateInIntervalFormat(date('Y-m-d'), $offer->day_limit);
+        
+        return ArrayHelper::merge($offer->attributes, [
+            'offer_expired_at' => $offerExpiredAt,
+        ]);
     }
 }

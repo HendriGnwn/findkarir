@@ -33,6 +33,7 @@ use yii\helpers\Html;
  *
  * @property Offer $offer
  * @property OrderConfirmation[] $orderConfirmations
+ * @property OrderConfirmation $orderConfirmation
  */
 class Order extends BaseActiveRecord
 {
@@ -52,6 +53,7 @@ class Order extends BaseActiveRecord
         $this->on(self::EVENT_AFTER_STATUS_PAID, [$this, 'afterStatusPaid']);
         $this->on(self::EVENT_AFTER_STATUS_EXPIRED, [$this, 'afterStatusExpired']);
         $this->on(self::EVENT_AFTER_STATUS_CONFIRMED_BY_USER, [$this, 'afterStatusConfirmedByUser']);
+        $this->on(self::EVENT_AFTER_INSERT, [$this, 'afterInsert']);
     }
     
     /**
@@ -74,11 +76,35 @@ class Order extends BaseActiveRecord
             [['partner_id', 'currency_id', 'partner_id', 'code', 'offer_at', 'offer_expired_at', 'status_updated_at', 'status_paid_at', 'status_expired_at', 'created_at', 'updated_at'], 'safe'],
             [['amount', 'admin_fee', 'final_amount'], 'number'],
             [['code'], 'string', 'max' => 100],
+            [['code'], 'unique'],
             [['offer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Offer::className(), 'targetAttribute' => ['offer_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['status'], 'default', 'value' => self::STATUS_WAITING_PAYMENT],
             [['currency_id'], 'default', 'value' => Currency::RUPIAH],
+            [['user_id'], 'validateUser'],
         ];
+    }
+    
+    /**
+     * @param type $attribute
+     * @param type $params
+     * @return boolean
+     */
+    public function validateUser($attribute, $params)
+    {
+        $activedOrder = self::find()
+                ->andWhere([
+                    'user_id' => $this->$attribute,
+                    'status' => self::STATUS_PAID,
+                ])
+                ->andWhere(['>=', 'offer_expired_at', date('Y-m-d')])
+                ->one();
+        if ($activedOrder) {
+            $this->addError($attribute, Yii::t('app.message', 'This User cannot be create order again, because already order still actived.'));
+            return false;
+        }
+        
+        return true;
     }
 
     /**
@@ -116,9 +142,21 @@ class Order extends BaseActiveRecord
             $this->code = self::generateCode();
             $this->status = self::STATUS_WAITING_PAYMENT;
             $this->status_updated_at = date('Y-m-d H:i:s');
+            $this->offer_at = date('Y-m-d H:i:s');
         }
         
-        parent::beforeSave($insert);
+        return parent::beforeSave($insert);
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function afterInsert()
+    {
+        $orderConfirmation = new OrderConfirmation();
+        $orderConfirmation->link('order', $this);
+        
+        return true;
     }
     
     /**
@@ -193,6 +231,14 @@ class Order extends BaseActiveRecord
     public function getOrderConfirmations()
     {
         return $this->hasMany(OrderConfirmation::className(), ['order_id' => 'id']);
+    }
+    
+    /**
+     * @return ActiveQuery
+     */
+    public function getOrderConfirmation()
+    {
+        return $this->hasOne(OrderConfirmation::className(), ['order_id' => 'id']);
     }
     
     /**
@@ -338,11 +384,11 @@ class Order extends BaseActiveRecord
 	 * @param type $separator
 	 * @return string
 	 */
-	public static function generateCode($prefix = 'INV', $padLength = 4, $separator = '-')
+	public static function generateCode($prefix = 'INV', $padLength = 6, $separator = '-')
 	{
-		$left = strtoupper($prefix) .$separator. date('ymd');
+		$left = strtoupper($prefix) . $separator . date('ymd') . $separator;
         $leftLen = strlen($left);
-        $increment = 1;
+        $increment = rand(1000, 5000);
 
         $last = self::find()
             ->select('code')
@@ -353,11 +399,36 @@ class Order extends BaseActiveRecord
 
         if ($last) {
             $increment = (int) substr($last, $leftLen, $padLength);
-            $increment++;
+            $increment += rand(1, 3);
         }
 
         $number = str_pad($increment, $padLength, '0', STR_PAD_LEFT);
 
-        return $left . $separator . $number;
+        return $left . $number;
 	}
+    
+    /**
+     * this function is running on cron job
+     * - change order status to expired when offer_expired_at has been expired.
+     * 
+     * @return boolean
+     */
+    public static function consoleChangeOrderStatusToExpired()
+    {
+        $models = self::find()
+                ->andWhere(['<=', 'offer_expired_at', date('Y-m-d')])
+                ->andWhere(['!=', 'status', self::STATUS_EXPIRED])
+                ->all();
+        
+        foreach ($models as $model) {
+            Yii::info('change Order status to expired . ' . json_encode($model->attributes), 'order');
+            $model->status = self::STATUS_EXPIRED;
+            $model->save();
+            $model->trigger(self::EVENT_AFTER_STATUS_EXPIRED);
+        }
+        
+        Yii::info('change Order status to expired has been successful.', 'order');
+        
+        return true;
+    }
 }

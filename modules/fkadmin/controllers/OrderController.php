@@ -17,22 +17,6 @@ use yii\helpers\Html;
 class OrderController extends BaseController
 {
     /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                    'bulk-delete' => ['post'],
-                ],
-            ],
-        ];
-    }
-
-    /**
      * Lists all Order models.
      * @return mixed
      */
@@ -108,7 +92,7 @@ class OrderController extends BaseController
                             Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
         
                 ];         
-            }else{           
+            }else{      
                 return [
                     'title'=> "Create new Order",
                     'content'=>$this->renderAjax('create', [

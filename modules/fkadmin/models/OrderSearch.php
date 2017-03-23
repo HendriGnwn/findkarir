@@ -19,7 +19,7 @@ class OrderSearch extends Order
     {
         return [
             [['id', 'user_id', 'offer_id', 'status', 'currency_id', 'created_by', 'updated_by'], 'integer'],
-            [['code', 'description', 'offer_expired_at', 'status_updated_at', 'status_paid_at', 'status_expired_at', 'created_at', 'updated_at'], 'safe'],
+            [['offer_at', 'code', 'description', 'offer_expired_at', 'status_updated_at', 'status_paid_at', 'status_expired_at', 'created_at', 'updated_at'], 'safe'],
             [['amount', 'admin_fee', 'final_amount'], 'number'],
         ];
     }
@@ -60,6 +60,7 @@ class OrderSearch extends Order
             'id' => $this->id,
             'user_id' => $this->user_id,
             'offer_id' => $this->offer_id,
+            'offer_at' => $this->offer_at,
             'offer_expired_at' => $this->offer_expired_at,
             'status' => $this->status,
             'status_updated_at' => $this->status_updated_at,

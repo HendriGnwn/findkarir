@@ -55,6 +55,12 @@ $config = [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
+					'class' => 'yii\log\FileTarget',
+					'levels' => ['info'],
+					'categories' => ['order*'],
+					'logFile' => '@app/runtime/logs/order-info.log',
+				],
+                [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],

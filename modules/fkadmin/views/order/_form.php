@@ -1,9 +1,10 @@
 <?php
 
-use app\models\Company;
 use app\models\Currency;
 use app\models\Offer;
 use app\models\Order;
+use app\models\User;
+use kartik\date\DatePicker;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -20,10 +21,12 @@ use yii\widgets\ActiveForm;
 <div class="order-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    
+    <?= $form->errorSummary($model) ?>
 
     <?= $form->field($model, 'user_id')->widget(Select2::className(), [
         'theme'=>Select2::THEME_DEFAULT,
-        'initValueText' => isset($model->user_id) ? Company::findOne($model->user_id)->getName() : '',
+        'initValueText' => isset($model->user_id) ? User::findOne($model->user_id)->getName() : null,
         'pluginOptions'=>[
             'allowClear'=>true,
             'minimumInputLength' => 3,
@@ -52,14 +55,22 @@ use yii\widgets\ActiveForm;
         ]
     ]) ?>
 
-    <?= $form->field($model, 'offer_expired_at')->textInput() ?>
+    <?= $form->field($model, 'offer_expired_at')->widget(DatePicker::className(), [
+        'pluginOptions' => [
+            'format' => 'yyyy-mm-dd',
+            'todayHighlight' => true,
+        ],
+    ]) ?>
 
     <?= $form->field($model, 'currency_id')->widget(Select2::className(), [
         'theme' => Select2::THEME_DEFAULT,
         'data' => ArrayHelper::map(Currency::find()->ordered()->all(), 'id', 'name'),
         'options' => [
             'prompt' => 'Choose one',
-        ]
+        ],
+        'pluginOptions' => [
+            'allowClear' => true,
+        ],
     ]) ?>
 
     <?= $form->field($model, 'amount')->textInput(['maxlength' => true]) ?>
@@ -98,11 +109,16 @@ $this->registerJs("
 			},
 			success: function(result) {
                 if (result) {
+                    //offerExpiredAt.val(result.offer_expired_at);
+                    offerExpiredAt.val('2017-04-02').trigger('change');
+                    currencyId.val(result.currency_id).trigger('change');
                     amount.val(result.amount);
                     adminFee.val(result.admin_fee);
                     var final = Number(result.amount) + Number(result.admin_fee);
                     finalAmount.val(final);
                 } else {
+                    offerExpiredAt.val('');
+                    currencyId.val('').trigger('change');
                     amount.val('');
                     adminFee.val('');
                     finalAmount.val('');
@@ -119,4 +135,4 @@ $this->registerJs("
         finalAmount.val(Number(adminFee.val()) + Number($(this).val()));
     });
 
-", View::POS_READY, 'order');
+", View::POS_END, 'order');
