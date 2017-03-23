@@ -1,4 +1,4 @@
--- Adminer 4.2.2 MySQL dump
+-- Adminer 4.2.5 MySQL dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -1199,8 +1199,10 @@ CREATE TABLE `order` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `code` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` bigint(20) NOT NULL,
+  `partner_id` bigint(20) DEFAULT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
   `offer_id` int(11) NOT NULL,
+  `offer_at` date NOT NULL,
   `offer_expired_at` date NOT NULL,
   `status` int(11) NOT NULL DEFAULT '0' COMMENT '0=waiting payment;1=confirmed by user;5=expired;10=paid;',
   `status_updated_at` datetime NOT NULL,
@@ -1523,7 +1525,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `user` (`id`, `username`, `email`, `password_hash`, `auth_key`, `confirmed_at`, `unconfirmed_email`, `blocked_at`, `registration_ip`, `created_at`, `updated_at`, `flags`, `last_login_at`, `category`) VALUES
-(1,	'admin',	'hendri.gnw@gmail.com',	'$2y$10$NG0aKRQ7PUu8LfzQbTiaC.Ae.3Ie8ERGbe9nuGpiUsvyx7xV2apZG',	'C1Hx8fAg_vgsvbQ47s6H1XJxDexAOXWM',	1488776878,	NULL,	NULL,	'::1',	1488776855,	1488776855,	0,	1490167083,	'superadmin'),
+(1,	'admin',	'hendri.gnw@gmail.com',	'$2y$10$NG0aKRQ7PUu8LfzQbTiaC.Ae.3Ie8ERGbe9nuGpiUsvyx7xV2apZG',	'C1Hx8fAg_vgsvbQ47s6H1XJxDexAOXWM',	1488776878,	NULL,	NULL,	'::1',	1488776855,	1488776855,	0,	1490196185,	'superadmin'),
 (13,	'hendri.gunawan',	'hendri.gunawan@gmail.com',	'$2y$10$NdMT6IcnHTmwVnpLPQ/hn.d4fpTLBkfvRo51xe9MKKDJBeOqfO27O',	's21BZZCcqs89yEB1w4W1gAxXgOdNAdgq',	1489142430,	NULL,	NULL,	'::1',	1489142430,	1489142430,	0,	1490173751,	'general-company'),
 (16,	'hendri.gnwn',	'hendri.gnwn@gmail.com',	'$2y$10$28QLRc.K6kURfBffgHwUCe3aG6320MFJO95aJCtTu0VQz3jCofcN6',	'EBG0HrWizyVe250yZ_JaCDV7sQ2qWs8l',	1489480936,	NULL,	NULL,	'::1',	1489480936,	1489480936,	0,	1490176845,	'applicant'),
 (17,	'gunawan',	'gunawan@gmail.com',	'$2y$10$SjhwxPfQFDl.tzsLFaWA2OcX6eJS72F32XvQOxIH.LXLmWhwtW3sy',	'mhr4YMZJWc55djCiSeQ4sFLpTPp1r0aY',	1490172251,	NULL,	NULL,	'::1',	1490172251,	1490172251,	0,	NULL,	'applicant'),
@@ -1542,4 +1544,4 @@ INSERT INTO `visitor` (`id`, `quantity`, `date`, `is_real`) VALUES
 (1,	2000,	'0000-00-00',	0),
 (2,	1,	'2017-03-06',	1);
 
--- 2017-03-22 10:05:41
+-- 2017-03-23 06:29:19
