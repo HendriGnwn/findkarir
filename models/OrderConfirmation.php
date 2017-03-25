@@ -87,7 +87,7 @@ class OrderConfirmation extends BaseActiveRecord
     {
         return [
             'order_id' => Yii::t('app.label', 'Order ID'),
-            'user_id' => Yii::t('app.label', 'User ID'),
+            'user_id' => Yii::t('app.label', 'User'),
             'photo' => Yii::t('app.label', 'Photo'),
             'description' => Yii::t('app.label', 'Description'),
             'payment_id' => Yii::t('app.label', 'Payment To'),
@@ -100,6 +100,28 @@ class OrderConfirmation extends BaseActiveRecord
             'updated_at' => Yii::t('app.label', 'Updated At'),
             'updated_by' => Yii::t('app.label', 'Updated By'),
         ];
+    }
+    
+    /**
+     * - check whether order status is expired or not
+     * 
+     * @return boolean
+     */
+    public function beforeValidate() 
+    {
+        $order = $this->order;
+        if (!isset($order)) {
+            $this->addError('order_id', Yii::t('app.message', 'Order is not found.'));
+            return false;
+        }
+        
+        /** check order status */
+        if(!$order->getIsStatusWaitingPayment()) {
+            $this->addError('order_id', Yii::t('app.message', 'Confirmation is failed, because Order already {status}', ['status' => $order->getStatusLabel()]));
+            return false;
+        }
+        
+        return parent::beforeValidate();
     }
     
     /**

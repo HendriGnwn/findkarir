@@ -343,6 +343,22 @@ class Order extends BaseActiveRecord
     {
         return $this->status == self::STATUS_PAID;
     }
+    
+    /**
+     * @return boolean
+     */
+    public function getIsStatusExpired()
+    {
+        return ($this->status == self::STATUS_EXPIRED);
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function getIsStatusWaitingPayment()
+    {
+        return ($this->status == self::STATUS_WAITING_PAYMENT);
+    }
 	
 	public function getStatusLabel()
 	{
