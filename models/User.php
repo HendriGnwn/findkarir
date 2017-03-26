@@ -184,11 +184,28 @@ class User extends BaseUser
     /**
      * @return ActiveQuery
      */
+    public function getSkills()
+    {
+        return $this->hasMany(Skill::className(), ['user_id' => 'id']);
+    }
+    
+    /**
+     * @return ActiveQuery
+     */
+    public function getPassions()
+    {
+        return $this->hasMany(Passion::className(), ['user_id' => 'id']);
+    }
+    
+    /**
+     * @return ActiveQuery
+     */
     public function getOrderStillActive()
     {
         return $this->hasOne(Order::className(), ['user_id' => 'id'])
                 ->andWhere(['>=', 'offer_expired_at', date('Y-m-d')])
-                ->andWhere(['status' => Order::STATUS_PAID]);
+                ->andWhere(['status' => Order::STATUS_PAID])
+                ->orderBy(['created_at' => SORT_DESC]);
     }
 	
 	/**
