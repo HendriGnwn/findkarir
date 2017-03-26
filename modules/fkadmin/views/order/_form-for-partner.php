@@ -3,7 +3,6 @@
 use app\models\Currency;
 use app\models\Offer;
 use app\models\Order;
-use app\models\User;
 use kartik\date\DatePicker;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
@@ -24,9 +23,9 @@ use yii\widgets\ActiveForm;
     
     <?= $form->errorSummary($model) ?>
 
-    <?= $form->field($model, 'user_id')->widget(Select2::className(), [
+    <?= $form->field($model, 'partner_id')->widget(Select2::className(), [
         'theme'=>Select2::THEME_DEFAULT,
-        'initValueText' => isset($model->user) ? $model->user->getName() : null,
+        'initValueText' => isset($model->partner) ? $model->partner->name : null,
         'pluginOptions'=>[
             'allowClear'=>true,
             'minimumInputLength' => 3,
@@ -34,9 +33,9 @@ use yii\widgets\ActiveForm;
                 'errorLoading' => new JsExpression("function () { return 'Waiting for results...';}"),
             ],
             'ajax' => [
-                'url' => Url::to(['ajax/list-user'], true),
+                'url' => Url::to(['ajax/list-partner'], true),
                 'dataType' => 'json',
-                'data' => new JsExpression("function (params) { return {username:params.term};}")
+                'data' => new JsExpression("function (params) { return {name:params.term};}")
             ],
             'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
             'templateResult' => new JsExpression('function(user) { return user.text; }'),
@@ -49,11 +48,14 @@ use yii\widgets\ActiveForm;
         'data' => ArrayHelper::map(Offer::find()->actived()->ordered()->all(), 'id', 'offerTypeWithNameWithAmount'),
         'options' => [
             'prompt' => 'Choose One',
+            'readonly' => true,
         ],
         'pluginOptions'=>[
             'allowClear'=>true,
         ]
     ]) ?>
+    
+    <?= $form->field($model, 'offer_limit')->textInput() ?>
 
     <?= $form->field($model, 'offer_expired_at')->widget(DatePicker::className(), [
         'pluginOptions' => [
@@ -67,15 +69,16 @@ use yii\widgets\ActiveForm;
         'data' => ArrayHelper::map(Currency::find()->ordered()->all(), 'id', 'name'),
         'options' => [
             'prompt' => 'Choose one',
+            'readonly' => true,
         ],
         'pluginOptions' => [
             'allowClear' => true,
         ],
     ]) ?>
 
-    <?= $form->field($model, 'amount')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'amount')->textInput(['maxlength' => true,'readonly' => true]) ?>
 
-    <?= $form->field($model, 'admin_fee')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'admin_fee')->textInput(['maxlength' => true, 'readonly' => true]) ?>
 
     <?= $form->field($model, 'final_amount')->textInput(['maxlength' => true, 'readonly' => true]) ?>
     
@@ -126,6 +129,8 @@ $this->registerJs("
 			},
 		});
     });
+    
+    $('#order-offer_id').change();
     
     adminFee.keyup(function() {
         finalAmount.val(Number(amount.val()) + Number($(this).val()));

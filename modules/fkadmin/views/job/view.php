@@ -89,5 +89,5 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     
-    <?= $this->render('_list-apply', []) ?>
+    <?= $this->render('_list-apply', ['model' => $model, 'applier' => $model->jobApplies]) ?>
 </div>

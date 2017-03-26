@@ -1,12 +1,10 @@
 <?php
 
-use app\models\City;
 use app\models\Job;
 use app\modules\fkadmin\models\JobSearch;
 use kartik\grid\GridView;
 use kartik\select2\Select2;
 use yii\data\ActiveDataProvider;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\JsExpression;
@@ -109,7 +107,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'content'=>function($model) {
                             return $model->getStatusWithStyle();
                         },
-                        'width'=>'15%',
+                        'width'=>'8%',
                         'filter' => Job::statusLabels(),
                         'filterType'=>GridView::FILTER_SELECT2,
                         'filterWidgetOptions'=>[
@@ -130,7 +128,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'content'=>function($model) {
                             return $model->getStatusPaymentWithStyle();
                         },
-                        'width'=>'15%',
+                        'width'=>'8%',
                         'filter' => Job::statusPaymentLabels(),
                         'filterType'=>GridView::FILTER_SELECT2,
                         'filterWidgetOptions'=>[
@@ -145,7 +143,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'format'=>'raw',
                     ],
                     // 'status_payment_updated_at',
-                    // 'created_at',
+                    'created_at',
                     // 'created_by',
                     // 'updated_at',
                     // 'updated_by',

@@ -92,6 +92,7 @@ class AjaxController extends BaseController
 		if (!is_null($name)) {
 			$query = Partner::find()
 					->orWhere(['like', 'name', $name])
+					->orWhere(['like', 'code', $name])
 					->orderBy(['name'=>SORT_ASC])
 					->limit(50)
 					->all();

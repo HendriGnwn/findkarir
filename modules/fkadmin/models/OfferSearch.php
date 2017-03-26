@@ -46,6 +46,11 @@ class OfferSearch extends Offer
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'order' => SORT_ASC,
+                ],
+            ],
         ]);
 
         $this->load($params);

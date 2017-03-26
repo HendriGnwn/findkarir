@@ -20,7 +20,7 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute' => 'user_id',
+        'attribute' => 'partner_id',
         'filterType' => GridView::FILTER_SELECT2,
         'filterWidgetOptions'=>[
             'theme'=>Select2::THEME_DEFAULT,
@@ -31,9 +31,9 @@ return [
                     'errorLoading' => new JsExpression("function () { return 'Waiting for results...';}"),
                 ],
                 'ajax' => [
-                    'url' => Url::to(['ajax/list-user'], true),
+                    'url' => Url::to(['ajax/list-partner'], true),
                     'dataType' => 'json',
-                    'data' => new JsExpression("function (params) { return {username:params.term};}")
+                    'data' => new JsExpression("function (params) { return {name:params.term};}")
                 ],
                 'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
                 'templateResult' => new JsExpression('function(user) { return user.text; }'),
@@ -43,7 +43,7 @@ return [
         'filterInputOptions'=>['placeholder'=>'Select'],
         'format'=>'raw',
         'content' => function ($model) {
-            return isset($model->user) ? $model->user->getName() : $model->user_id;
+            return isset($model->partner) ? $model->partner->name : $model->partner_id;
         },
     ],
     [
@@ -138,7 +138,10 @@ return [
         'dropdown' => false,
         'vAlign'=>'middle',
         'urlCreator' => function($action, $model, $key, $index) { 
-                return Url::to([$action,'id'=>$key]);
+            if ($action == 'update') {
+                return Url::to(['update-for-partner','id'=>$key]);
+            }
+            return Url::to([$action,'id'=>$key]);
         },
         'viewOptions'=>['role'=>'modal-remote','title'=>'View','data-toggle'=>'tooltip'],
         'updateOptions'=>['role'=>'modal-remote','title'=>'Update', 'data-toggle'=>'tooltip'],

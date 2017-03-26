@@ -1,7 +1,9 @@
 <?php
 
 use app\helpers\DetailViewHelper;
+use app\models\Company;
 use app\models\Partner;
+use yii\bootstrap\Alert;
 use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\DetailView;
@@ -71,6 +73,48 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     
+    <div class="box box-primary">
+        <div class="box-header  with-border">
+            <h3 class="box-title"><?= Yii::t('app', 'Order still Active') ?></h3>
+            <div class="box-tools">
+                
+            </div>
+        </div>
+        <div class="box-body">
+            <?php
+            $order = $model->orderStillActive;
+            if (is_null($order)) {
+                echo Alert::widget(['options'=>['class'=>'alert-info'], 'body'=>Yii::t('app.message', 'Now, Order is not actived.')]);
+            } else {
+                echo DetailView::widget([
+                    'model' => $order,
+                    'attributes' => [
+                        'code',
+                        [
+                            'attribute' => 'offer_id',
+                            'value' => isset($order->offer) ? $order->offer->name : $order->offer_id,
+                        ],
+                        'offer_limit',
+                        'offer_at',
+                        'offer_expired_at',
+                        [
+                            'attribute' => 'status',
+                            'value' => $order->getStatusWithStyle(),
+                            'format' => 'raw',
+                        ],
+                        'description:ntext',
+                        'created_at',
+                        'updated_at',
+                    ],
+                ]);
+            }
+            ?>
+        </div>
+        <div class="box-footer">
+            
+        </div>
+    </div>
+    
     <div class="row">
     
         <div class="col-xs-12 col-md-6">
@@ -91,7 +135,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
 
         <div class="col-xs-12 col-md-6">
-            <?= $this->render('_list-job', ['jobs' => app\models\Company::find()->where(['id'=>1]), 'model' => $model]) ?>
+            <?= $this->render('_list-job', ['jobs' => Company::find()->where(['id'=>1]), 'model' => $model]) ?>
         </div>
     </div>
     

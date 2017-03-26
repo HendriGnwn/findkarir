@@ -48,23 +48,6 @@ return [
     ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'width'=>'18%',
-        'attribute'=>'offer_id',
-        'filterType' => GridView::FILTER_SELECT2,
-        'filter' => ArrayHelper::map(Offer::find()->actived()->ordered()->all(), 'id', 'name'),
-        'filterWidgetOptions'=>[
-            'theme'=>Select2::THEME_DEFAULT,
-            'pluginOptions'=>['allowClear'=>true],
-        ],
-        'filterInputOptions'=>['placeholder'=>'Select'],
-        'format'=>'raw',
-        'width'=>'10%',
-        'content' => function ($model) {
-            return isset($model->offer) ? $model->offer->name : $model->offer_id;
-        }
-    ],
-    [
-        'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'offer_at',
         'width'=>'10%',
     ],
@@ -72,6 +55,13 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'offer_expired_at',
         'width'=>'10%',
+    ],
+    [
+        'class'=>'\kartik\grid\DataColumn',
+        'attribute'=>'final_amount',
+        'content' => function ($model) {
+            return $model->getFormattedFinalAmount();
+        }
     ],
     [
         'attribute' => 'status',
@@ -115,10 +105,6 @@ return [
     // ],
     // [
         // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'final_amount',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
         // 'attribute'=>'created_at',
     // ],
     // [
@@ -137,11 +123,15 @@ return [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign'=>'middle',
+        'template' => '{view} {update}',
         'urlCreator' => function($action, $model, $key, $index) { 
-                return Url::to([$action,'id'=>$key]);
+            if ($action == 'update') {
+                return Url::to(['confirmation','id'=>$key]);
+            }
+            return Url::to([$action,'id'=>$key]);
         },
         'viewOptions'=>['role'=>'modal-remote','title'=>'View','data-toggle'=>'tooltip'],
-        'updateOptions'=>['role'=>'modal-remote','title'=>'Update', 'data-toggle'=>'tooltip'],
+        'updateOptions'=>['role'=>'modal-remote','title'=>'Confirmation', 'data-toggle'=>'tooltip'],
         'deleteOptions'=>['role'=>'modal-remote','title'=>'Delete', 
                           'data-confirm'=>false, 'data-method'=>false,// for overide yii data api
                           'data-request-method'=>'post',

@@ -34,6 +34,7 @@ use yii\widgets\DetailView;
                 'value' => $model->getStatusWithStyle(),
                 'format' => 'raw',
             ],
+            'order',
             'created_at',
             'updated_at',
             DetailViewHelper::author($model, 'created_by'),

@@ -18,12 +18,23 @@ use yii\widgets\DetailView;
             'model' => $order ? $order : [],
             'attributes' => [
                 'code',
-                'description',
-                'offer_id',
+                [
+                    'attribute' => 'offer_id',
+                    'value' => $order ? $order->offer->name : null,
+                ],
                 'offer_expired_at',
-                'status',
+                [
+                    'attribute' => 'status',
+                    'value' => $order ? $order->getStatusWithStyle() : null,
+                    'format' => 'raw',
+                ],
                 'status_updated_at',
-                'amount',
+                [
+                    'attribute' => 'final_amount',
+                    'value' => $order ? $order->getFormattedFinalAmount() : null,
+                ],
+                
+                'description',
             ],
         ]) ?>
     </div>

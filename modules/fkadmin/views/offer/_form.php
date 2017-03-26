@@ -53,6 +53,8 @@ use yii\widgets\ActiveForm;
             'allowClear' => true
         ],
     ]) ?>
+    
+    <?= $form->field($model, 'order')->textInput(['maxlength' => true]) ?>
 
 	<?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">

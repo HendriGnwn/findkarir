@@ -124,22 +124,6 @@ use yii\web\View;
             ]
         ],
     ]) ?>
-    
-    <?= $form->field($model, 'status')->widget(Select2::className(), [
-        'theme' => Select2::THEME_DEFAULT,
-        'data' => Job::statusLabels(),
-        'options' => [
-            'prompt' => 'Choose one',
-        ]
-    ]) ?>
-    
-    <?= $form->field($model, 'status_payment')->widget(Select2::className(), [
-        'theme' => Select2::THEME_DEFAULT,
-        'data' => Job::statusPaymentLabels(),
-        'options' => [
-            'prompt' => 'Choose one',
-        ]
-    ]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -23,63 +23,13 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
     
     <?= $form->errorSummary($model) ?>
-
-    <?= $form->field($model, 'user_id')->widget(Select2::className(), [
-        'theme'=>Select2::THEME_DEFAULT,
-        'initValueText' => isset($model->user) ? $model->user->getName() : null,
-        'pluginOptions'=>[
-            'allowClear'=>true,
-            'minimumInputLength' => 3,
-            'language' => [
-                'errorLoading' => new JsExpression("function () { return 'Waiting for results...';}"),
-            ],
-            'ajax' => [
-                'url' => Url::to(['ajax/list-user'], true),
-                'dataType' => 'json',
-                'data' => new JsExpression("function (params) { return {username:params.term};}")
-            ],
-            'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-            'templateResult' => new JsExpression('function(user) { return user.text; }'),
-            'templateSelection' => new JsExpression('function (user) { return user.text; }'),
-        ],
-    ]) ?>
-
-    <?= $form->field($model, 'offer_id')->widget(Select2::className(), [
-        'theme' => Select2::THEME_DEFAULT,
-        'data' => ArrayHelper::map(Offer::find()->actived()->ordered()->all(), 'id', 'offerTypeWithNameWithAmount'),
-        'options' => [
-            'prompt' => 'Choose One',
-        ],
-        'pluginOptions'=>[
-            'allowClear'=>true,
-        ]
-    ]) ?>
-
-    <?= $form->field($model, 'offer_expired_at')->widget(DatePicker::className(), [
-        'pluginOptions' => [
-            'format' => 'yyyy-mm-dd',
-            'todayHighlight' => true,
-        ],
-    ]) ?>
-
-    <?= $form->field($model, 'currency_id')->widget(Select2::className(), [
-        'theme' => Select2::THEME_DEFAULT,
-        'data' => ArrayHelper::map(Currency::find()->ordered()->all(), 'id', 'name'),
-        'options' => [
-            'prompt' => 'Choose one',
-        ],
-        'pluginOptions' => [
-            'allowClear' => true,
-        ],
-    ]) ?>
-
-    <?= $form->field($model, 'amount')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'admin_fee')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'final_amount')->textInput(['maxlength' => true, 'readonly' => true]) ?>
     
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    <?php
+    $status = Order::statusLabels();
+    ?>
+
+    <?= $form->field($model, 'status')->dropDownList($status) ?>
+    <?= Html::label(Yii::t('app.message', 'Order status cannot be change to {status}', ['status' => 'Paid, Waiting Payment, Confirmed by User']), '#order-status', ['class'=>'label label-warning']) ?>
   
 	<?php if (!Yii::$app->request->isAjax){ ?>
 	  	<div class="form-group">
