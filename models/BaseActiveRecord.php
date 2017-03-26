@@ -120,7 +120,7 @@ abstract class BaseActiveRecord extends ActiveRecord
 	public function getStatusLabel()
 	{
 		$list = self::statusLabels();
-		return $list[$this->status] ? $list[$this->status] : $this->status;
+		return isset($list[$this->status]) ? $list[$this->status] : $this->status;
 	}
 	
 	public function getStatusWithStyle()
@@ -141,7 +141,26 @@ abstract class BaseActiveRecord extends ActiveRecord
      */
     public static function find()
     {
+        $model = new static();
+        
+        if ($model->hasAttribute('status')) {
+            return (new BaseActiveRecordQuery(get_called_class()))->where(['!=', 'status', self::STATUS_SOFT_DELETE]);
+        }
         return new BaseActiveRecordQuery(get_called_class());
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function delete() 
+    {
+        $model = new static();
+        
+        if ($model->hasAttribute('status')) {
+            $this->softDelete();
+            return true;
+        }
+        return parent::delete();
     }
     
     /**
