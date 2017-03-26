@@ -18,6 +18,7 @@ use yii\db\ActiveQuery;
  * @property string $amount
  * @property string $admin_fee
  * @property integer $status
+ * @property integer $order
  * @property string $created_at
  * @property string $created_by
  * @property string $updated_at
@@ -29,6 +30,8 @@ use yii\db\ActiveQuery;
  */
 class Offer extends BaseActiveRecord
 {
+    const OFFER_PLATINUM = 4; // primary key
+    
     /**
      * @inheritdoc
      */
@@ -43,7 +46,7 @@ class Offer extends BaseActiveRecord
     public function rules()
     {
         return [
-            [['offer_type_id', 'name', 'description', 'day_limit', 'currency_id', 'amount'], 'required'],
+            [['offer_type_id', 'name', 'description', 'day_limit', 'currency_id', 'amount', 'order'], 'required'],
             [['offer_type_id', 'day_limit', 'currency_id', 'status', 'created_by', 'updated_by'], 'integer'],
             [['day_limit'], 'integer', 'min' => 0],
             [['description'], 'string'],
