@@ -35,6 +35,7 @@ use yii\web\UploadedFile;
  * @property string $updated_by
  *
  * @property User $user
+ * @property Partner $partner
  * @property Job[] $jobs
  */
 class Company extends BaseActiveRecord
@@ -228,7 +229,7 @@ class Company extends BaseActiveRecord
 	 */
 	public static function generateCode($type = 'GEN', $padLength = 6, $separator = '-')
 	{
-		$left = strtoupper($type) . date('Ym');
+		$left = strtoupper($type) . date('Ym') . $separator;
         $leftLen = strlen($left);
         $increment = 1;
 
@@ -238,7 +239,7 @@ class Company extends BaseActiveRecord
             ->orderBy(['id' => SORT_DESC])
             ->limit(1)
             ->scalar();
-
+        
         if ($last) {
             $increment = (int) substr($last, $leftLen, $padLength);
             $increment++;
@@ -246,7 +247,7 @@ class Company extends BaseActiveRecord
 
         $number = str_pad($increment, $padLength, '0', STR_PAD_LEFT);
 
-        return $left . $separator . $number;
+        return $left . $number;
 	}
     
     /**
