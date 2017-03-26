@@ -35,6 +35,7 @@ class JobApply extends BaseActiveRecord
 	const STATUS_INTERVIEW = 2;
     
     const EVENT_AFTER_SAVE_STATUS_TO_INTERVIEW = 'afterSaveStatusToInterview';
+    const SCENARIO_INTERVIEW = 'interview';
     
     public function init() 
     {
@@ -58,6 +59,7 @@ class JobApply extends BaseActiveRecord
     {
         return [
             [['job_id', 'user_id', 'description'], 'required'],
+            [['interview_at', 'venue', 'contact_person', 'contact_person_phone'], 'required', 'on' => self::SCENARIO_INTERVIEW],
             [['job_id', 'user_id', 'review_by', 'review_counter', 'status', 'created_by', 'updated_by'], 'integer'],
             [['status_interview_at', 'status_updated_at', 'interview_at', 'created_at', 'updated_at'], 'safe'],
             [['description'], 'string', 'max' => 255],
@@ -109,6 +111,14 @@ class JobApply extends BaseActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+    
+    /**
+     * @return ActiveQuery
+     */
+    public function getReviewBy()
+    {
+        return $this->hasOne(User::className(), ['id' => 'review_by']);
     }
     
     public static function statusLabels()

@@ -35,6 +35,7 @@ use yii\helpers\Html;
  *
  * @property Company $company
  * @property JobType $jobType
+ * @property JobApply[] $jobApplies
  */
 class Job extends BaseActiveRecord
 {
@@ -71,7 +72,7 @@ class Job extends BaseActiveRecord
     public function rules()
     {
         return [
-            [['job_type_id', 'name', 'description', 'requirement', 'city_id',  'salary_currency_id', 'start_salary', 'end_salary', 'open_job_date', 'close_job_date'], 'required'],
+            [['company_id', 'job_type_id', 'name', 'description', 'requirement', 'city_id',  'salary_currency_id', 'start_salary', 'end_salary', 'open_job_date', 'close_job_date'], 'required'],
             [['company_id', 'job_type_id', 'city_id', 'province_id', 'salary_currency_id', 'province_id', 'status', 'status_payment', 'created_by', 'updated_by', 'status_payment'], 'integer'],
             [['description', 'requirement'], 'string'],
             [['start_salary', 'end_salary'], 'number'],
@@ -83,9 +84,42 @@ class Job extends BaseActiveRecord
             [['job_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => JobType::className(), 'targetAttribute' => ['job_type_id' => 'id']],
             [['status'], 'default', 'value' => self::STATUS_INACTIVE],
             [['status_payment'], 'default', 'value' => self::STATUS_PAYMENT_WAITING],
+            [['company_id'], 'validateCompanyPartner'],
         ];
     }
-
+    
+    /**
+     * @param type $attribute
+     * @param type $params
+     * @return boolean
+     */
+    public function validateCompanyPartner($attribute, $params)
+    {
+        $company = new Company();//Company::find()->where(['id'=>$this->company_id])->actived()->one();
+        if (!$company->getIsPartner()) {
+            return true;
+        }
+        
+        if (!isset($company->partner->orderStillActive)) {
+            $this->addError($attribute, Yii::t('app.message', 'This partner is not order actived.'));
+            return false;
+        }
+        $orderActive = $company->partner->orderStillActive;
+        $offerLimit = $orderActive->offer_limit;
+        
+        $jobHistory = self::find()
+                ->andWhere(['company_id' => $this->company_id])
+                ->andWhere(['between', 'open_job_date', $orderActive->offer_at, $orderActive->offer_expired_at])
+                ->count();
+        
+        if ($jobHistory > $offerLimit) {
+            $this->addError($attribute, Yii::t('app.message', 'This partner is no limit.'));
+            return false;
+        }
+        
+        return true;
+    }
+    
     /**
      * @inheritdoc
      */
@@ -137,6 +171,35 @@ class Job extends BaseActiveRecord
             $city = City::findOne($this->city_id);
             $this->province_id = $city->province_id;
         }
+        
+        if (
+            $this->job_type_id != null ||
+            $this->name != null ||
+            $this->description != null ||
+            $this->requirement != null ||
+            $this->open_job_date != null ||
+            $this->close_job_date != null
+        ) {
+            $this->status = self::STATUS_ACTIVE;
+        } else {
+            $this->status = self::STATUS_INACTIVE;
+        }
+        $this->status_updated_at = date('Y-m-d H:i:s');
+        
+        $company = Company::find()->where(['id'=>$this->company_id])->actived()->one();
+        if ($company->getIsUser()) {
+            if (isset($company->user->orderStillActive)) {
+                $this->status_payment = self::STATUS_PAYMENT_PAID;
+                return true;
+            }
+        } else if ($company->getIsPartner()) {
+            if (isset($company->partner->orderStillActive)) {
+                $this->status_payment = self::STATUS_PAYMENT_PAID;
+                return true;
+            }
+        }
+        $this->status_payment = self::STATUS_PAYMENT_FREE;
+        $this->status_payment_updated_at = $this->status_updated_at;
         
         return parent::beforeSave($insert);
     }
