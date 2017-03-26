@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\db\ActiveQuery;
+use app\helpers\FormatConverter;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
 use yii\helpers\Url;
@@ -12,6 +13,7 @@ use yii\web\UploadedFile;
 /**
  * This is the model class for table "order_confirmation".
  *
+ * @property integer $id
  * @property string $order_id
  * @property string $user_id
  * @property string $photo
@@ -20,6 +22,8 @@ use yii\web\UploadedFile;
  * @property string $from_bank_name
  * @property string $from_behalf_of
  * @property string $form_bill_no
+ * @property string $currency_id
+ * @property string $nominal
  * @property string $payment_updated_at
  * @property string $status
  * @property string $created_at
@@ -29,6 +33,7 @@ use yii\web\UploadedFile;
  *
  * @property Order $order
  * @property Payment $payment
+ * @property Currency $currency
  */
 class OrderConfirmation extends BaseActiveRecord
 {
@@ -48,6 +53,8 @@ class OrderConfirmation extends BaseActiveRecord
         if (!is_dir(Yii::getAlias('@app/' . $this->path))) {
             mkdir(Yii::getAlias('@app/' . $this->path));
         }
+        
+        $this->on(self::EVENT_AFTER_UPDATE, [$this, 'afterUpdate']);
 
         return true;
     }
@@ -66,11 +73,11 @@ class OrderConfirmation extends BaseActiveRecord
     public function rules()
     {
         return [
-            [['order_id', 'user_id', 'description', 'payment_id', 'from_bank_name', 'from_behalf_of', 'from_bill_no'], 'required'],
-            [['order_id', 'user_id', 'payment_id', 'created_by', 'updated_by'], 'integer'],
-            [['from_bill_no'], 'number'],
+            [['order_id', 'user_id', 'description', 'payment_id', 'from_bank_name', 'from_behalf_of', 'from_bill_no', 'currency_id', 'nominal'], 'required'],
+            [['order_id', 'user_id', 'payment_id', 'created_by', 'currency_id', 'updated_by'], 'integer'],
+            [['from_bill_no', 'nominal'], 'number'],
             [['description'], 'string'],
-            [['status', 'photo', 'payment_updated_at', 'created_at', 'updated_at'], 'safe'],
+            [['status', 'photo', 'payment_updated_at', 'created_at', 'updated_at', 'currency_id', 'nominal'], 'safe'],
             [['photo'], 'string', 'max' => 100],
             [['order_id'], 'exist', 'skipOnError' => true, 'targetClass' => Order::className(), 'targetAttribute' => ['order_id' => 'id']],
             [['photoFile'], 'file', 'skipOnEmpty' => true, 'checkExtensionByMimeType' => false,
@@ -94,6 +101,8 @@ class OrderConfirmation extends BaseActiveRecord
             'from_bank_name' => Yii::t('app.label', 'From Bank Name'),
             'from_behalf_of' => Yii::t('app.label', 'From Behalf of'),
             'from_bill_no' => Yii::t('app.label', 'From Bill No'),
+            'currency_id' => Yii::t('app.label', 'Currency'),
+            'nominal' => Yii::t('app.label', 'Nominal'),
             'payment_updated_at' => Yii::t('app.label', 'Payment Updated At'),
             'created_at' => Yii::t('app.label', 'Created At'),
             'created_by' => Yii::t('app.label', 'Created By'),
@@ -136,7 +145,9 @@ class OrderConfirmation extends BaseActiveRecord
             $this->photo != null ||
             $this->from_bank_name != null ||
             $this->from_behalf_of != null ||
-            $this->payment_id != null
+            $this->payment_id != null ||
+            $this->currency_id != null ||
+            $this->nominal != null
         ) {
             $this->status = self::STATUS_COMPLETE;
         } else {
@@ -144,6 +155,26 @@ class OrderConfirmation extends BaseActiveRecord
         }
         
         return parent::beforeSave($insert);
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function afterUpdate()
+    {
+        if (!$this->getIsStatusComplete()) {
+            return true;
+        }
+        
+        $order = $this->order;
+        if (!$order->getIsStatusWaitingPayment()) {
+            return true;
+        }
+        $order->status = Order::STATUS_CONFIRMED_BY_USER;
+        $order->trigger(Order::EVENT_AFTER_STATUS_CONFIRMED_BY_USER);
+        $order->save();
+        
+        return true;
     }
 
     /**
@@ -160,6 +191,22 @@ class OrderConfirmation extends BaseActiveRecord
     public function getPayment()
     {
         return $this->hasOne(Payment::className(), ['id' => 'payment_id']);
+    }
+    
+    /**
+     * @return ActiveQuery
+     */
+    public function getCurrency()
+    {
+        return $this->hasOne(Currency::className(), ['id' => 'currency_id']);
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function getIsStatusComplete()
+    {
+        return $this->status == self::STATUS_COMPLETE;
     }
     
     /**
@@ -241,5 +288,23 @@ class OrderConfirmation extends BaseActiveRecord
         }
         
         return Html::img($this->getPhotoUrl(), $options);
+    }
+    
+    /**
+     * returns formatted nominal
+     * 
+     * @param type $withCurrency
+     * @return type
+     */
+    public function getFormattedNominal($withCurrency = true)
+    {
+        switch ($this->currency_id) {
+            case Currency::RUPIAH : $amount = FormatConverter::rupiahFormat($this->nominal, 2); break;
+            case Currency::DOLLAR : $amount = FormatConverter::dollarFormat($this->nominal, 2); break;
+            default : return FormatConverter::dollarFormat($this->nominal, 2);
+        }
+        $currency = $withCurrency ? $this->currency->code .' ' : '';
+        
+        return $currency . $amount;
     }
 }

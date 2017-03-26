@@ -16,6 +16,7 @@ use yii\helpers\Html;
  * @property string $partner_id
  * @property string $description
  * @property integer $offer_id
+ * @property integer $offer_limit
  * @property string $offer_at
  * @property string $offer_expired_at
  * @property integer $status
@@ -34,6 +35,7 @@ use yii\helpers\Html;
  * @property Offer $offer
  * @property OrderConfirmation[] $orderConfirmations
  * @property OrderConfirmation $orderConfirmation
+ * @property Partner $partner
  */
 class Order extends BaseActiveRecord
 {
@@ -41,10 +43,16 @@ class Order extends BaseActiveRecord
     const STATUS_CONFIRMED_BY_USER = 1;
     const STATUS_EXPIRED = 5;
     const STATUS_PAID = 10;
+    const STATUS_FREE_FOR_PARTNER = 15;
+    const STATUS_BLOCKED = 99;
     
     const EVENT_AFTER_STATUS_PAID = 'afterStatusPaid';
     const EVENT_AFTER_STATUS_EXPIRED = 'afterStatusExpired';
     const EVENT_AFTER_STATUS_CONFIRMED_BY_USER = 'afterStatusConfirmedByUser';
+    
+    const SCENARIO_PARTNER = 'partner';
+    const SCENARIO_USER = 'user';
+    const SCENARIO_UPDATE_STATUS = 'updateStatus';
     
     public function init() 
     {
@@ -70,8 +78,10 @@ class Order extends BaseActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'description', 'offer_id', 'amount', 'admin_fee', 'final_amount'], 'required'],
-            [['user_id', 'offer_id', 'status', 'currency_id', 'created_by', 'updated_by', 'partner_id'], 'integer'],
+            [['description', 'offer_id', 'amount', 'admin_fee', 'final_amount'], 'required'],
+            [['user_id'], 'required', 'on' => self::SCENARIO_USER],
+            [['partner_id'], 'required', 'on' => self::SCENARIO_PARTNER],
+            [['user_id', 'offer_id', 'status', 'currency_id', 'created_by', 'updated_by', 'partner_id', 'offer_limit'], 'integer'],
             [['description'], 'string'],
             [['partner_id', 'currency_id', 'partner_id', 'code', 'offer_at', 'offer_expired_at', 'status_updated_at', 'status_paid_at', 'status_expired_at', 'created_at', 'updated_at'], 'safe'],
             [['amount', 'admin_fee', 'final_amount'], 'number'],
@@ -80,8 +90,11 @@ class Order extends BaseActiveRecord
             [['offer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Offer::className(), 'targetAttribute' => ['offer_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['status'], 'default', 'value' => self::STATUS_WAITING_PAYMENT],
+            [['offer_limit', 'user_id', 'partner_id'], 'default', 'value' => null],
             [['currency_id'], 'default', 'value' => Currency::RUPIAH],
-            [['user_id'], 'validateUser'],
+            [['user_id'], 'validateUser', 'on' => self::SCENARIO_USER],
+            [['partner_id'], 'validatePartner', 'on' => self::SCENARIO_PARTNER],
+            [['status'], 'validateUpdateStatus', 'on' => self::SCENARIO_UPDATE_STATUS],
         ];
     }
     
@@ -106,6 +119,47 @@ class Order extends BaseActiveRecord
         
         return true;
     }
+        
+    /**
+     * @param type $attribute
+     * @param type $params
+     * @return boolean
+     */
+    public function validatePartner($attribute, $params)
+    {
+        $activedOrder = self::find()
+                ->andWhere([
+                    'partner_id' => $this->$attribute,
+                    'status' => self::STATUS_FREE_FOR_PARTNER,
+                ])
+                ->andWhere(['>=', 'offer_expired_at', date('Y-m-d')])
+                ->one();
+        if ($activedOrder) {
+            $this->addError($attribute, Yii::t('app.message', 'This Partner cannot be create order again, because already order still actived.'));
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * @param type $attribute
+     * @param type $params
+     * @return boolean
+     */
+    public function validateUpdateStatus($attribute, $params)
+    {
+        if (
+            $this->getIsStatusPaid() ||
+            $this->getIsStatusWaitingPayment() ||
+            $this->getIsStatusConfirmed()
+        ) {
+            $this->addError('status', Yii::t('app.message', 'Order status cannot change to '. $this->getStatusLabel()));
+            return false;
+        }
+        
+        return true;
+    }
 
     /**
      * @inheritdoc
@@ -119,6 +173,7 @@ class Order extends BaseActiveRecord
             'partner_id' => Yii::t('app.label', 'Partner'),
             'description' => Yii::t('app.label', 'Description'),
             'offer_id' => Yii::t('app.label', 'Offer'),
+            'offer_limit' => Yii::t('app.label', 'Offer Limit'),
             'offer_at' => Yii::t('app.label', 'Offer At'),
             'offer_expired_at' => Yii::t('app.label', 'Offer Expired At'),
             'status' => Yii::t('app.label', 'Status'),
@@ -143,6 +198,10 @@ class Order extends BaseActiveRecord
             $this->status = self::STATUS_WAITING_PAYMENT;
             $this->status_updated_at = date('Y-m-d H:i:s');
             $this->offer_at = date('Y-m-d H:i:s');
+            
+            if ($this->partner_id != null) {
+                $this->status = self::STATUS_FREE_FOR_PARTNER;
+            }
         }
         
         return parent::beforeSave($insert);
@@ -183,7 +242,7 @@ class Order extends BaseActiveRecord
     {
         $this->status_paid_at = date('Y-m-d H:i:s');
         $this->status_updated_at = date('Y-m-d H:i:s');
-        $this->update();
+        $this->save();
         
         // send email to user that there an order has been paid
         // if there a jobs is waiting payment or free, change this to PAID
@@ -333,6 +392,8 @@ class Order extends BaseActiveRecord
 			self::STATUS_CONFIRMED_BY_USER => Yii::t('app.label', 'Confirmed By User'),
 			self::STATUS_EXPIRED => Yii::t('app.label', 'Expired'),
 			self::STATUS_PAID => Yii::t('app.label', 'Paid'),
+			self::STATUS_FREE_FOR_PARTNER => Yii::t('app.label', 'Free for Partner'),
+			self::STATUS_BLOCKED => Yii::t('app.label', 'Blocked'),
 		];
 	}
     
@@ -355,6 +416,14 @@ class Order extends BaseActiveRecord
     /**
      * @return boolean
      */
+    public function getIsStatusConfirmed()
+    {
+        return ($this->status == self::STATUS_CONFIRMED_BY_USER);
+    }
+    
+    /**
+     * @return boolean
+     */
     public function getIsStatusWaitingPayment()
     {
         return ($this->status == self::STATUS_WAITING_PAYMENT);
@@ -369,6 +438,7 @@ class Order extends BaseActiveRecord
 	public function getStatusWithStyle()
 	{
 		switch ($this->status) {
+            case self::STATUS_FREE_FOR_PARTNER :
 			case self::STATUS_PAID :
 				return Html::label($this->getStatusLabel(), null, ['class'=>'label label-success label-sm']);
 			case self::STATUS_WAITING_PAYMENT :
