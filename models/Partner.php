@@ -31,6 +31,7 @@ use yii\web\UploadedFile;
  *
  * @property PartnerBranch[] $partnerBranches
  * @property PartnerHasUser[] $partnerHasUsers
+ * @property Order $orderStillActive
  */
 class Partner extends BaseActiveRecord
 {
@@ -183,6 +184,17 @@ class Partner extends BaseActiveRecord
     public function getProvince()
     {
         return $this->hasOne(Province::className(), ['id' => 'province_id']);
+    }
+    
+    /**
+     * @return ActiveQuery
+     */
+    public function getOrderStillActive()
+    {
+        return $this->hasOne(Order::className(), ['partner_id' => 'id'])
+                ->andWhere(['>=', 'offer_expired_at', date('Y-m-d')])
+                ->andWhere(['status' => Order::STATUS_FREE_FOR_PARTNER])
+                ->orderBy(['created_at' => SORT_DESC]);
     }
     
     /**
