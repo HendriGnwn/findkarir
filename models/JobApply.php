@@ -78,8 +78,8 @@ class JobApply extends BaseActiveRecord
     {
         return [
             'id' => Yii::t('app.label', 'ID'),
-            'job_id' => Yii::t('app.label', 'Job ID'),
-            'user_id' => Yii::t('app.label', 'User ID'),
+            'job_id' => Yii::t('app.label', 'Job'),
+            'user_id' => Yii::t('app.label', 'User'),
             'description' => Yii::t('app.label', 'Description'),
             'review_by' => Yii::t('app.label', 'Review By'),
             'review_counter' => Yii::t('app.label', 'Review Counter'),

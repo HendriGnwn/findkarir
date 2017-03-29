@@ -30,11 +30,16 @@ class BaseCompanyController extends BaseController
         
         $this->user = User::find()
                 ->andWhere(['id' => Yii::$app->user->id])
-                ->andWhere(['in', 'category', [User::ROLE_GENERAL_COMPANY, User::ROLE_MEMBER]]);
+                ->andWhere(['in', 'category', [User::ROLE_GENERAL_COMPANY, User::ROLE_MEMBER]])
+                ->one();
         if (!$this->user) {
             throw new NotFoundHttpException('Page is not found');
         }
         
+        $this->view->registerMetaTag(['name' => 'robots',  'content' => 'noindex,nofollow']);
+        $this->view->registerMetaTag(['name' => 'googlebot',  'content' => 'noindex,nofollow']);
+        
+        $this->layout = 'main-company';
         return true;
     }
 

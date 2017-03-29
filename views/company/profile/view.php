@@ -9,55 +9,34 @@
  * file that was distributed with this source code.
  */
 
+use dektrium\user\models\Profile;
 use yii\helpers\Html;
+use yii\web\View;
+use yii\widgets\DetailView;
 
 /**
- * @var \yii\web\View $this
- * @var \dektrium\user\models\Profile $profile
+ * @var View $this
+ * @var Profile $profile
  */
 
 $this->title = $profile->user->getName();
 $this->params['breadcrumbs'][] = ['url' => ['/user-dashboard/index'], 'label' => 'User'];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="row">
-    <div class="col-xs-12 col-md-2">
-        <?= $this->render('@app/views/layouts/_menu-applicant') ?>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div class="pull-right">
+            <?= Html::a(Yii::t('app.button', 'Update'), ['/company-dashboard/update-profile'], ['class' => 'btn btn-primary btn-sm']) ?>
+        </div>
+        <h3 class="panel-title"><?= Yii::t('app.label', 'Profile Details') ?></h3>
     </div>
-    <div class="col-xs-12 col-md-10">
-        <div class="row">
-            <div class="col-sm-6 col-md-4">
-                <?= Html::img($profile->getAvatarUrl(230), [
-                    'class' => 'img-rounded img-responsive',
-                    'alt' => $profile->user->username,
-                ]) ?>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-md-12">
-                <?= \yii\widgets\DetailView::widget([
-                    'model' => $profile,
-                    'attributes' => [
-                        'name',
-                        'photo',
-                        'public_email',
-                        'phone',
-                        'gender',
-                        'gravatar_email',
-                        'gravatar_id',
-                        'location',
-                        'website',
-                        'hobby',
-                        'married_status',
-                        'bio',
-                        'timezone',
-                        'salary',
-                        'cv',
-                        'cv_updated_at',
-                        'status',
-                    ]
-                ]) ?>
-            </div>
-        </div>
+    <div class="panel-body">
+        <?= DetailView::widget([
+            'model' => $profile,
+            'attributes' => [
+                'name',
+                
+            ]
+        ]) ?>
     </div>
 </div>

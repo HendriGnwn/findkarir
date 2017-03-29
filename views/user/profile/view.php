@@ -25,20 +25,17 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $this->render('@app/views/layouts/_menu-applicant') ?>
     </div>
     <div class="col-xs-12 col-md-10">
-        <?= Html::a(Yii::t('app.button', 'Update'), ['/user/profile/update'], ['class' => 'btn btn-primary']) ?>
-        <div class="row">
-            <div class="col-xs-12 col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="pull-right">
+                    <?= Html::a(Yii::t('app.button', 'Update'), ['/user/profile/update'], ['class' => 'btn btn-primary btn-sm']) ?>
+                </div>
+                <h3 class="panel-title"><?= Yii::t('app.label', 'Profile Details') ?></h3>
+            </div>
+            <div class="panel-body">
                 <?= \yii\widgets\DetailView::widget([
                     'model' => $profile,
                     'attributes' => [
-                        [
-                            'attribute' => 'avatar_id',
-                            'value' => Html::img($profile->getAvatarUrl(20), [
-                                'class' => 'img-rounded img-responsive',
-                                'alt' => $profile->user->username,
-                            ]),
-                            'format' => 'raw',
-                        ],
                         'name',
                         [
                             'attribute' => 'photo',

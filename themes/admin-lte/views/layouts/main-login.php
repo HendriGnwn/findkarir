@@ -1,13 +1,15 @@
 <?php
-use backend\assets\AppAsset;
-use yii\helpers\Html;
 
-/* @var $this \yii\web\View */
+use app\assets\LoginAsset;
+use yii\helpers\Html;
+use yii\web\View;
+
+/* @var $this View */
 /* @var $content string */
 
 $title = $this->title .' | ' . Yii::$app->name;
 
-app\assets\LoginAsset::register($this);
+LoginAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

@@ -21,7 +21,6 @@ class HomeAsset extends AssetBundle
         'yii\bootstrap\BootstrapAsset',
         'app\assets\FontAsset',
         'app\assets\FontAwesomeAsset',
-        'app\assets\SliderAsset',
     ];
     
     public function init() 
@@ -31,30 +30,34 @@ class HomeAsset extends AssetBundle
         $theme = \Yii::$app->params['activeFrontTheme'];
         
         $this->css = [
-            'themes/'.$theme.'/magnific-popup/magnific-popup.min.css',
-            'themes/'.$theme.'/materialize/css/materialize.min.css',
-            'themes/'.$theme.'/bootstrap/css/bootstrap.min.css',
-            'themes/'.$theme.'/css/shortcodes/shortcodesae52.css?v=5',
-            'themes/'.$theme.'/css/skins/creative.css',
-            'themes/'.$theme.'/styleae52.css?v=5',
+            'themes/'.$theme.'/css/style.css',
+            'themes/'.$theme.'/css/headers/header-default.css',
+            'themes/'.$theme.'/css/footers/footer-v3.css',
+            'themes/'.$theme.'/plugins/animate.css',
+            'themes/'.$theme.'/plugins/line-icons/line-icons.css',
+            'themes/'.$theme.'/plugins/owl-carousel/owl-carousel/owl.carousel.css',
+            'themes/'.$theme.'/plugins/layer-slider/layerslider/css/layerslider.css',
+            'themes/'.$theme.'/plugins/image-hover/css/img-hover.css',
+            'themes/'.$theme.'/css/pages/page_job.css',
+            'themes/'.$theme.'/css/theme-colors/blue.css',
+            'themes/'.$theme.'/css/theme-skins/dark.css',
+            'themes/'.$theme.'/css/custom.css',
             'css/site.css',
         ];
         
         $this->js = [
-            'themes/'.$theme.'/bootstrap/js/bootstrap.min.js',
-            'themes/'.$theme.'/materialize/js/materialize.min.js',
-            'themes/'.$theme.'/js/menuzord.min.js',
-            'themes/'.$theme.'/js/bootstrap-tabcollapse.min.js',
-            'themes/'.$theme.'/js/jquery.easing.min.js',
-            'themes/'.$theme.'/js/jquery.sticky.min.js',
-            'themes/'.$theme.'/js/smoothscroll.min.js',
+            'themes/'.$theme.'/plugins/jquery/jquery.min.js',
+            'themes/'.$theme.'/plugins/jquery/jquery-migrate.min.js',
+            'themes/'.$theme.'/plugins/bootstrap/js/bootstrap.min.js',
+            'themes/'.$theme.'/plugins/back-to-top.js',
+            'themes/'.$theme.'/plugins/smoothScroll.js',
+            'themes/'.$theme.'/plugins/jquery.parallax.js',
+            'themes/'.$theme.'/plugins/image-hover/js/modernizr.js',
+            'themes/'.$theme.'/js/custom.js',
             'themes/'.$theme.'/js/imagesloaded.min.js',
-            'themes/'.$theme.'/js/jquery.stellar.min.js',
-            'themes/'.$theme.'/js/jquery.inview.min.js',
-            'themes/'.$theme.'/js/jquery.shuffle.min.js',
-            'themes/'.$theme.'/magnific-popup/jquery.magnific-popup.min.js',
-            'themes/'.$theme.'/js/twitterFetcher.min.js',
-            'themes/'.$theme.'/js/scriptsae52.js?v=5',
+            'themes/'.$theme.'/js/app.js',
+            'themes/'.$theme.'/plugins/style-switcher.js',
+            'themes/'.$theme.'/js/init-parallax.js',
         ];
     }
 }

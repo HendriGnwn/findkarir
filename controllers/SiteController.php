@@ -2,14 +2,13 @@
 
 namespace app\controllers;
 
+use app\models\ContactForm;
+use app\models\LoginForm;
 use Yii;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\ContactForm;
 
-class SiteController extends Controller
+class SiteController extends BaseController
 {
     /**
      * @inheritdoc
@@ -60,6 +59,12 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        //$jobs = (new \app\models\search\JobSearch())->search([]);
+//        echo "<pre>";
+//        foreach ($jobs->models as $job) {
+//            var_dump($job->attributes);
+//        }
+        $this->layout = 'home';
         return $this->render('index');
     }
 

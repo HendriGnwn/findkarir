@@ -16,11 +16,13 @@ use dektrium\user\controllers\ProfileController as BaseProfileController;
 use dektrium\user\Module;
 use dektrium\user\traits\EventTrait;
 use Yii;
+use yii\base\ExitException;
 use yii\base\Model;
 use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
+use yii\widgets\ActiveForm;
 
 /**
  * ProfileController shows users profiles.
@@ -57,6 +59,10 @@ class ProfileController extends BaseProfileController
     public function actionIndex()
     {
         $profile = $this->finder->findProfileById(Yii::$app->user->id);
+        
+        if (!Yii::$app->user->identity->getIsCategoryApplicant()) {
+            throw new NotFoundHttpException('Page is not found.');
+        }
 
         if ($profile === null) {
             throw new NotFoundHttpException();
@@ -78,6 +84,10 @@ class ProfileController extends BaseProfileController
     public function actionUpdate()
     {
         $profile = $this->finder->findProfileById(Yii::$app->user->id);
+        
+        if (!Yii::$app->user->identity->getIsCategoryApplicant()) {
+            throw new NotFoundHttpException('Page is not found.');
+        }
 
         if ($profile === null) {
             throw new NotFoundHttpException();

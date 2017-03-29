@@ -6,11 +6,11 @@ use yii\helpers\Html;
 
 $title = $this->title .' | ' . Yii::$app->name;
 
-if (class_exists('backend\assets\AppAsset')) {
-	backend\assets\AppAsset::register($this);
-} else {
-	app\assets\AppAsset::register($this);
-}
+//if (class_exists('backend\assets\AppAsset')) {
+//	backend\assets\AppAsset::register($this);
+//} else {
+//	app\assets\AppAsset::register($this);
+//}
 
 $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
 ?>

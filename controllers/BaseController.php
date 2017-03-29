@@ -18,5 +18,11 @@ use yii\web\Controller;
  */
 class BaseController extends Controller
 {
-
+    public function init()
+    {
+        parent::init();
+        
+        $this->view->registerMetaTag(['name' => 'robots',  'content' => 'index,follow']);
+        $this->view->registerMetaTag(['name' => 'googlebot',  'content' => 'index,follow']);
+    }
 }

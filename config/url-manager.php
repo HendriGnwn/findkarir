@@ -24,6 +24,10 @@ return [
             'route' => 'job/index',
         ],
         
+        [
+            'pattern' => 'jobs/detail/<code:\w+>',
+            'route' => 'job/detail',
+        ],
         
         [
             'pattern' => 'user/skill',

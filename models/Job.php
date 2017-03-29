@@ -392,4 +392,12 @@ class Job extends BaseActiveRecord
     {
         return $this->getFormattedStartSalary($withCurrency) . $separator . $this->getFormattedEndSalary($withCurrency);
     }
+    
+    /**
+     * @return string
+     */
+    public function getDetailUrl($scheme = true)
+    {
+        return \yii\helpers\Url::to(['/job/detail', 'code' => $this->code], $scheme);
+    }
 }

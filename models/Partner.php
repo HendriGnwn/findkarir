@@ -198,6 +198,14 @@ class Partner extends BaseActiveRecord
     }
     
     /**
+     * @return ActiveQuery
+     */
+    public function getOrders()
+    {
+        return $this->hasMany(Order::className(), ['partner_id' => 'id']);
+    }
+    
+    /**
 	 * generate code with format `[prefix][Ym]-[xxxxxx]` where:
 	 * [prefix] PARTNER
 	 * [Y] is current year in php date format.

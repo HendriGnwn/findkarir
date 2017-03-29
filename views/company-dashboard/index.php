@@ -9,10 +9,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="row">
-    <div class="col-xs-12 col-md-2">
-        <?= $this->render('@app/views/layouts/_menu-company') ?>
-    </div>
-    <div class="col-xs-12 col-md-10">
+    <div class="col-xs-12 col-md-12">
         <div class="row">
             <div class="col-sm-6 col-md-4">
                 <div class="thumbnail">

@@ -521,6 +521,16 @@ class Config extends \yii\db\ActiveRecord
     }
     
     /**
+     * returns meta keywords for home
+     * 
+     * @return string
+     */
+    public static function getAppNameUrl()
+    {
+        return self::getValueByName('app_name_url');
+    }
+    
+    /**
      * returns meta description for home
      * 
      * @return string

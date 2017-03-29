@@ -33,6 +33,9 @@ class BaseUserController extends BaseController
             throw new NotFoundHttpException('Page is not found');
         }
         
+        $this->view->registerMetaTag(['name' => 'robots',  'content' => 'noindex,nofollow']);
+        $this->view->registerMetaTag(['name' => 'googlebot',  'content' => 'noindex,nofollow']);
+        
         return true;
     }
 

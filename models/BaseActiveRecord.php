@@ -141,11 +141,11 @@ abstract class BaseActiveRecord extends ActiveRecord
      */
     public static function find()
     {
-        $model = new static();
-        
-        if ($model->hasAttribute('status')) {
-            return (new BaseActiveRecordQuery(get_called_class()))->where(['!=', 'status', self::STATUS_SOFT_DELETE]);
-        }
+//        $model = new static();
+//        
+//        if ($model->hasAttribute('status')) {
+//            return (new BaseActiveRecordQuery(get_called_class()))->where(['!=', 'status', self::STATUS_SOFT_DELETE]);
+//        }
         return new BaseActiveRecordQuery(get_called_class());
     }
     

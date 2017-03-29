@@ -72,7 +72,7 @@ class Profile extends BaseProfile
                 'maxSize' => 1024 * 1024 * 1],
             [['cvFile'], 'file', 'skipOnEmpty' => true, 'checkExtensionByMimeType' => false,
                 'extensions' => ['doc', 'pdf'],
-                'maxSize' => 1024 * 1024 * 1],
+                'maxSize' => 1024 * 1024 * 2.5],
             [['status'], 'default', 'value' => BaseActiveRecord::STATUS_INACTIVE],
             [['phone', 'salary'], 'number'],
             [['currency_id', 'hobby'], 'safe'],
@@ -240,9 +240,9 @@ class Profile extends BaseProfile
         return Url::to('@' . $path, true);
     }
 
-    public function getCvUrlHtml($name = null, $options = ['target' => '_blank']) 
+    public function getCvUrlHtml($name = null, $options = ['target' => '_blank', 'class' => 'btn btn-primary btn-sm']) 
     {
-        $name = $name ? $name : $this->cv;
+        $name = $name ? $name : '<i class=\'fa fa-file-pdf-o\'></i>&nbsp;&nbsp;'.FormatConverter::dateFormat($this->cv_updated_at, 'd M Y H:i');
 
         if (!$this->getCvUrl()) {
             return $name;
