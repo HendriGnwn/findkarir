@@ -1,4 +1,4 @@
--- Adminer 4.2.2 MySQL dump
+-- Adminer 4.2.5 MySQL dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -19,6 +19,7 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('applicant',	'17',	1490172252),
 ('applicant',	'18',	1490172436),
 ('general-company',	'13',	1489142430),
+('general-company',	'21',	1490460412),
 ('superadmin',	'1',	1488812605);
 
 DROP TABLE IF EXISTS `auth_item`;
@@ -43,8 +44,11 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/ajax/list-city',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
 ('/ajax/list-province',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
 ('/ajax/list-user',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/base-company/*',	2,	NULL,	NULL,	NULL,	1490459539,	1490459539),
 ('/base-user/*',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
 ('/base/*',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
+('/company-dashboard/*',	2,	NULL,	NULL,	NULL,	1490459539,	1490459539),
+('/company-dashboard/index',	2,	NULL,	NULL,	NULL,	1490459539,	1490459539),
 ('/company/*',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
 ('/company/auth',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
 ('/company/index',	2,	NULL,	NULL,	NULL,	1490167169,	1490167169),
@@ -185,6 +189,8 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 ('/fkadmin/offer/update',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
 ('/fkadmin/offer/view',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
 ('/fkadmin/order/*',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
+('/fkadmin/order/bulk-delete',	2,	NULL,	NULL,	NULL,	1490459539,	1490459539),
+('/fkadmin/order/create',	2,	NULL,	NULL,	NULL,	1490459539,	1490459539),
 ('/fkadmin/order/delete',	2,	NULL,	NULL,	NULL,	1490167168,	1490167168),
 ('/fkadmin/order/index',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
 ('/fkadmin/order/update',	2,	NULL,	NULL,	NULL,	1490167167,	1490167167),
@@ -954,7 +960,9 @@ CREATE TABLE `company` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `company` (`id`, `user_id`, `partner_id`, `code`, `name`, `address`, `city_id`, `province_id`, `latitude`, `longitude`, `phone`, `sector_area`, `employee_quantity`, `website`, `photo`, `description`, `status`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(4,	13,	NULL,	'GEN201703-000001',	'PT Migrasi Jaya',	'Jl Rahmat',	169,	13,	'1234321',	'546123123',	'09289312312',	'Technology',	'59',	'http://www.atc.co.id',	'pt-migrasi-jaya-dfjdfq5ftjqfl2ry06q.png',	'Test',	1,	'2017-03-10 17:40:30',	1,	2017,	1);
+(4,	13,	NULL,	'GEN201703-000001',	'PT Migrasi Jaya',	'Jl Rahmat',	169,	13,	'1234321',	'546123123',	'09289312312',	'Technology',	'59',	'http://www.atc.co.id',	'pt-migrasi-jaya-dfjdfq5ftjqfl2ry06q.png',	'Test',	1,	'2017-03-10 17:40:30',	1,	2017,	1),
+(7,	21,	NULL,	'GEN201703-000002',	'PT Karya Anak Bangsa',	'Jl Merdeka Barat No 12 Jakarta Pusat',	162,	12,	'545678990',	'-0987665',	'021 6181 891',	'Technology',	'68',	'http://www.gojek.id',	'pt-karya-anak-bangsa-gvpivoncb9mia7r3mevb.png',	'tes ',	1,	'2017-03-25 17:46:52',	1,	2017,	1),
+(8,	NULL,	1,	'PART201703-000001',	'PT Dari Member',	'Jl Test',	162,	12,	'1223412',	'4434323',	'01238901232',	'Pertanian',	'56',	'http://darimata.id',	'pt-dari-member-xdsuepr6pmjlw26zmq1j.png',	'test',	1,	'2017-03-26 04:40:53',	1,	NULL,	1);
 
 DROP TABLE IF EXISTS `config`;
 CREATE TABLE `config` (
@@ -1058,7 +1066,8 @@ CREATE TABLE `job` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `job` (`id`, `code`, `company_id`, `job_type_id`, `name`, `description`, `requirement`, `city_id`, `province_id`, `salary_currency_id`, `start_salary`, `end_salary`, `open_job_date`, `close_job_date`, `status`, `status_updated_at`, `status_payment`, `status_payment_updated_at`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1,	'1/170314-000001',	4,	2,	'Staf Administrasi Migrasi Jaya',	'<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>\r\n\r\n<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>\r\n',	'<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>\r\n',	161,	12,	1,	3000000.00,	5000000.00,	'2017-03-18',	'2017-04-11',	1,	NULL,	1,	NULL,	'2017-03-14 18:15:47',	1,	NULL,	1);
+(1,	'1/170314-000001',	4,	2,	'Staf Administrasi Migrasi Jaya',	'<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>\r\n\r\n<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>\r\n',	'<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#39;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>\r\n',	161,	12,	1,	3000000.00,	5000000.00,	'2017-03-18',	'2017-04-11',	1,	NULL,	1,	NULL,	'2017-03-14 18:15:47',	1,	NULL,	1),
+(2,	'8-170326-000001',	8,	2,	'Administrasi terpadu',	'<p>Test online</p>\r\n',	'<p>test fisik</p>\r\n',	162,	12,	1,	3000000.00,	4000000.00,	'2017-03-30',	'2017-04-19',	1,	NULL,	1,	NULL,	'2017-03-26 04:58:59',	1,	'2017-03-26 05:03:30',	1);
 
 DROP TABLE IF EXISTS `job_apply`;
 CREATE TABLE `job_apply` (
@@ -1086,6 +1095,8 @@ CREATE TABLE `job_apply` (
   CONSTRAINT `job_apply_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+INSERT INTO `job_apply` (`id`, `job_id`, `user_id`, `description`, `review_by`, `review_counter`, `status`, `status_interview_at`, `status_updated_at`, `interview_at`, `venue`, `contact_person`, `contact_person_phone`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(1,	2,	16,	'Pelamar',	NULL,	0,	1,	NULL,	NULL,	NULL,	'',	'',	'',	'2017-03-26 18:04:05',	NULL,	'2017-03-26 13:53:59',	1);
 
 DROP TABLE IF EXISTS `job_type`;
 CREATE TABLE `job_type` (
@@ -1133,7 +1144,8 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 (13,	'User Members',	NULL,	'/fkadmin/partner/index',	80,	'return [\'icon\'=>\'fa fa-users\'];'),
 (14,	'Partner',	13,	'/fkadmin/partner/index',	2,	'return [\'icon\'=>\'fa fa-circle-o\'];'),
 (15,	'Company',	NULL,	'/fkadmin/company/index',	16,	'return [\'icon\'=>\'fa fa-building-o\'];'),
-(16,	'Jobs',	NULL,	'/fkadmin/job/index',	5,	'return [\'icon\'=>\'fa fa-globe\'];');
+(16,	'Jobs',	NULL,	'/fkadmin/job/index',	5,	'return [\'icon\'=>\'fa fa-globe\'];'),
+(17,	'Order',	NULL,	'/fkadmin/order/index',	14,	'return [\'icon\'=>\'fa fa-list\'];');
 
 DROP TABLE IF EXISTS `migration`;
 CREATE TABLE `migration` (
@@ -1170,6 +1182,7 @@ CREATE TABLE `offer` (
   `amount` decimal(14,2) NOT NULL,
   `admin_fee` decimal(14,2) DEFAULT NULL,
   `status` smallint(1) DEFAULT '1',
+  `order` int(11) DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
   `created_by` bigint(20) DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
@@ -1179,9 +1192,11 @@ CREATE TABLE `offer` (
   CONSTRAINT `offer_ibfk_1` FOREIGN KEY (`offer_type_id`) REFERENCES `offer_type` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `offer` (`id`, `offer_type_id`, `name`, `description`, `day_limit`, `currency_id`, `amount`, `admin_fee`, `status`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1,	1,	'Silver',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',	30,	1,	50000.00,	0.00,	1,	'2017-03-10 10:26:38',	1,	NULL,	1),
-(2,	2,	'Active 30 Day',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',	30,	1,	30000.00,	1000.00,	1,	'2017-03-10 10:35:52',	1,	NULL,	1);
+INSERT INTO `offer` (`id`, `offer_type_id`, `name`, `description`, `day_limit`, `currency_id`, `amount`, `admin_fee`, `status`, `order`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(1,	1,	'Silver',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',	30,	1,	35000.00,	2000.00,	1,	1,	'2017-03-10 10:26:38',	1,	'2017-03-26 05:41:58',	1),
+(2,	2,	'Active 30 Day',	'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',	30,	1,	30000.00,	1000.00,	0,	0,	'2017-03-10 10:35:52',	1,	'2017-03-26 05:33:13',	1),
+(3,	1,	'Gold',	'Jajaran listing teratas',	30,	1,	80000.00,	2500.00,	1,	10,	'2017-03-25 17:36:35',	1,	'2017-03-26 05:41:40',	1),
+(4,	1,	'Platinum',	'Jajaran pertengahan antara silver dengan gold',	30,	1,	50000.00,	2500.00,	1,	5,	'2017-03-25 17:37:04',	1,	'2017-03-26 05:41:49',	1);
 
 DROP TABLE IF EXISTS `offer_type`;
 CREATE TABLE `offer_type` (
@@ -1198,10 +1213,11 @@ DROP TABLE IF EXISTS `order`;
 CREATE TABLE `order` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `code` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
   `partner_id` bigint(20) DEFAULT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
   `offer_id` int(11) NOT NULL,
+  `offer_limit` int(11) DEFAULT NULL COMMENT 'limit untuk job create, khusus untuk member/partner',
   `offer_at` date NOT NULL,
   `offer_expired_at` date NOT NULL,
   `status` int(11) NOT NULL DEFAULT '0' COMMENT '0=waiting payment;1=confirmed by user;5=expired;10=paid;',
@@ -1221,11 +1237,15 @@ CREATE TABLE `order` (
   CONSTRAINT `order_ibfk_1` FOREIGN KEY (`offer_id`) REFERENCES `offer` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `order` (`id`, `code`, `user_id`, `partner_id`, `description`, `offer_id`, `offer_at`, `offer_expired_at`, `status`, `status_updated_at`, `status_paid_at`, `status_expired_at`, `currency_id`, `amount`, `admin_fee`, `final_amount`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1,	'INV-170323-003890',	13,	NULL,	'test',	1,	'2017-03-23',	'2017-03-23',	5,	'2017-03-23 18:55:02',	NULL,	'2017-03-23 18:55:02',	1,	50000.00,	0.00,	50000.00,	'2017-03-23 18:27:31',	1,	'2017-03-23 18:55:02',	NULL);
+INSERT INTO `order` (`id`, `code`, `user_id`, `partner_id`, `description`, `offer_id`, `offer_limit`, `offer_at`, `offer_expired_at`, `status`, `status_updated_at`, `status_paid_at`, `status_expired_at`, `currency_id`, `amount`, `admin_fee`, `final_amount`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(1,	'INV-170323-003890',	13,	NULL,	'test',	1,	NULL,	'2017-03-23',	'2017-03-23',	5,	'2017-03-23 18:55:02',	NULL,	'2017-03-23 18:55:02',	1,	50000.00,	0.00,	50000.00,	'2017-03-23 18:27:31',	1,	'2017-03-23 18:55:02',	NULL),
+(2,	'INV-170325-004867',	13,	NULL,	'test',	1,	NULL,	'2017-03-25',	'2017-04-02',	10,	'2017-03-25 18:47:13',	'2017-03-25 18:47:13',	NULL,	1,	50000.00,	0.00,	50000.00,	'2017-03-25 09:42:35',	1,	'2017-03-25 18:47:13',	1),
+(3,	'INV-170325-004870',	21,	NULL,	'karya anak bangsa',	1,	NULL,	'2017-03-25',	'2017-04-02',	1,	'2017-03-25 18:20:16',	NULL,	NULL,	1,	35000.00,	2000.00,	37000.00,	'2017-03-25 17:49:23',	1,	'2017-03-25 18:20:16',	1),
+(4,	'INV-170326-004768',	NULL,	1,	'tests',	4,	15,	'2017-03-26',	'2017-04-02',	15,	'2017-03-26 03:32:30',	NULL,	NULL,	1,	50000.00,	2500.00,	52500.00,	'2017-03-26 03:32:30',	1,	'2017-03-26 03:56:05',	1);
 
 DROP TABLE IF EXISTS `order_confirmation`;
 CREATE TABLE `order_confirmation` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `order_id` bigint(20) NOT NULL,
   `user_id` bigint(11) DEFAULT NULL,
   `photo` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
@@ -1235,18 +1255,24 @@ CREATE TABLE `order_confirmation` (
   `from_bank_name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `from_behalf_of` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `from_bill_no` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `currency_id` int(11) DEFAULT NULL,
+  `nominal` decimal(14,2) DEFAULT NULL,
   `status` smallint(6) NOT NULL DEFAULT '0' COMMENT '0=incomplete;1=complete',
   `created_at` datetime DEFAULT NULL,
   `created_by` bigint(20) DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `updated_by` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
   KEY `order_id` (`order_id`),
   KEY `payment_id` (`payment_id`),
   CONSTRAINT `order_confirmation_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `order_confirmation` (`order_id`, `user_id`, `photo`, `description`, `payment_id`, `payment_updated_at`, `from_bank_name`, `from_behalf_of`, `from_bill_no`, `status`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1,	NULL,	'',	'',	NULL,	NULL,	NULL,	NULL,	NULL,	0,	'2017-03-23 18:27:31',	1,	NULL,	1);
+INSERT INTO `order_confirmation` (`id`, `order_id`, `user_id`, `photo`, `description`, `payment_id`, `payment_updated_at`, `from_bank_name`, `from_behalf_of`, `from_bill_no`, `currency_id`, `nominal`, `status`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(1,	1,	NULL,	'',	'',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	0,	'2017-03-23 18:27:31',	1,	NULL,	1),
+(2,	2,	13,	'hendri-65b0plz9y7j0untddkqx.jpg',	'test',	1,	NULL,	'BCA',	'Hendri',	'1232433',	1,	50000.00,	1,	'2017-03-25 09:42:35',	1,	'2017-03-25 18:27:56',	1),
+(3,	3,	21,	'',	'test',	1,	NULL,	'BCA',	'Hendri Gunawan',	'1223435523',	1,	50000.00,	1,	'2017-03-25 17:49:23',	1,	'2017-03-25 18:20:16',	1),
+(4,	4,	NULL,	'',	'',	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	0,	'2017-03-26 03:32:30',	1,	NULL,	1);
 
 DROP TABLE IF EXISTS `page`;
 CREATE TABLE `page` (
@@ -1293,7 +1319,8 @@ CREATE TABLE `partner` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `partner` (`id`, `code`, `name`, `legal`, `photo`, `phone`, `address`, `city_id`, `province_id`, `description`, `public_email`, `status`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
-(1,	'PARTNER201703-000001',	'Art Techo Corporation',	0,	'art-techo-corporation-sohjpcm3owsit0tzg2tc.png',	'021 8748 8291',	'Jl Lapangan Tembak 300 Ciampea - Bogor',	169,	13,	'lorem ipsum dolor de lorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor de.',	'hello@atc.co.id',	1,	'2017-03-06 17:51:19',	1,	'2017-03-10 15:07:20',	1);
+(1,	'PARTNER201703-000001',	'Art Techo Corporation',	0,	'art-techo-corporation-sohjpcm3owsit0tzg2tc.png',	'021 8748 8291',	'Jl Lapangan Tembak 300 Ciampea - Bogor',	169,	13,	'lorem ipsum dolor de lorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor delorem ipsum dolor de.',	'hello@atc.co.id',	1,	'2017-03-06 17:51:19',	1,	'2017-03-10 15:07:20',	1),
+(2,	'PTR201703-000001',	'PT Javatek Mega',	0,	'pt-javatek-mega-kbbrsydgek3ls0ufvyja.jpg',	'021839811',	'Jl Baranang Siang Bogor',	186,	13,	'Testing Okee sip',	'hello@atd.com',	1,	'2017-03-26 12:23:56',	1,	NULL,	1);
 
 DROP TABLE IF EXISTS `partner_branch`;
 CREATE TABLE `partner_branch` (
@@ -1347,6 +1374,9 @@ CREATE TABLE `passion` (
   CONSTRAINT `passion_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+INSERT INTO `passion` (`id`, `job_type_id`, `user_id`, `created_at`) VALUES
+(1,	1,	16,	'2017-03-26 18:37:56'),
+(2,	2,	16,	'2017-03-26 18:38:07');
 
 DROP TABLE IF EXISTS `payment`;
 CREATE TABLE `payment` (
@@ -1417,9 +1447,10 @@ CREATE TABLE `profile` (
 INSERT INTO `profile` (`user_id`, `name`, `photo`, `public_email`, `phone`, `gender`, `gravatar_email`, `gravatar_id`, `location`, `website`, `hobby`, `married_status`, `bio`, `timezone`, `currency_id`, `salary`, `cv`, `cv_updated_at`, `status`) VALUES
 (1,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	0),
 (13,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	0),
-(16,	'Hendri Gunawan',	'hendri-gunawan-yjfsnj6afj6okq-zt-r.jpg',	NULL,	'08561471500',	1,	NULL,	NULL,	NULL,	NULL,	'Test',	1,	'Testing Doang',	NULL,	1,	5000000.00,	'hendri-gunawan-iztesbpeiwzbax3lf7x.pdf',	'2017-03-22 14:58:31',	1),
+(16,	'Hendri Gunawan',	'hendri-gunawan-yjfsnj6afj6okq-zt-r.jpg',	NULL,	'08561471500',	1,	NULL,	NULL,	NULL,	NULL,	'Test',	1,	'Testing Doang',	NULL,	1,	5000000.00,	'hendri-gunawan-c2o8kuari55g9m2wnaxq.pdf',	'2017-03-28 10:24:06',	1),
 (17,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	0),
-(18,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	0);
+(18,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	0),
+(21,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	1,	NULL,	NULL,	NULL,	NULL,	NULL,	NULL,	0);
 
 DROP TABLE IF EXISTS `province`;
 CREATE TABLE `province` (
@@ -1480,6 +1511,9 @@ CREATE TABLE `skill` (
   CONSTRAINT `skill_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+INSERT INTO `skill` (`id`, `user_id`, `name`, `created_at`, `created_by`, `updated_at`, `updated_by`) VALUES
+(1,	16,	'PHP',	'2017-03-26 18:33:58',	NULL,	NULL,	NULL),
+(2,	16,	'MySQL',	NULL,	NULL,	NULL,	NULL);
 
 DROP TABLE IF EXISTS `social_account`;
 CREATE TABLE `social_account` (
@@ -1533,11 +1567,12 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `user` (`id`, `username`, `email`, `password_hash`, `auth_key`, `confirmed_at`, `unconfirmed_email`, `blocked_at`, `registration_ip`, `created_at`, `updated_at`, `flags`, `last_login_at`, `category`) VALUES
-(1,	'admin',	'hendri.gnw@gmail.com',	'$2y$10$NG0aKRQ7PUu8LfzQbTiaC.Ae.3Ie8ERGbe9nuGpiUsvyx7xV2apZG',	'C1Hx8fAg_vgsvbQ47s6H1XJxDexAOXWM',	1488776878,	NULL,	NULL,	'::1',	1488776855,	1488776855,	0,	1490263717,	'superadmin'),
+(1,	'admin',	'hendri.gnw@gmail.com',	'$2y$10$NG0aKRQ7PUu8LfzQbTiaC.Ae.3Ie8ERGbe9nuGpiUsvyx7xV2apZG',	'C1Hx8fAg_vgsvbQ47s6H1XJxDexAOXWM',	1488776878,	NULL,	NULL,	'::1',	1488776855,	1488776855,	0,	1490522289,	'superadmin'),
 (13,	'hendri.gunawan',	'hendri.gunawan@gmail.com',	'$2y$10$NdMT6IcnHTmwVnpLPQ/hn.d4fpTLBkfvRo51xe9MKKDJBeOqfO27O',	's21BZZCcqs89yEB1w4W1gAxXgOdNAdgq',	1489142430,	NULL,	NULL,	'::1',	1489142430,	1489142430,	0,	1490173751,	'general-company'),
-(16,	'hendri.gnwn',	'hendri.gnwn@gmail.com',	'$2y$10$28QLRc.K6kURfBffgHwUCe3aG6320MFJO95aJCtTu0VQz3jCofcN6',	'EBG0HrWizyVe250yZ_JaCDV7sQ2qWs8l',	1489480936,	NULL,	NULL,	'::1',	1489480936,	1489480936,	0,	1490176845,	'applicant'),
+(16,	'hendri.gnwn',	'hendri.gnwn@gmail.com',	'$2y$10$28QLRc.K6kURfBffgHwUCe3aG6320MFJO95aJCtTu0VQz3jCofcN6',	'EBG0HrWizyVe250yZ_JaCDV7sQ2qWs8l',	1489480936,	NULL,	NULL,	'::1',	1489480936,	1489480936,	0,	1490695995,	'applicant'),
 (17,	'gunawan',	'gunawan@gmail.com',	'$2y$10$SjhwxPfQFDl.tzsLFaWA2OcX6eJS72F32XvQOxIH.LXLmWhwtW3sy',	'mhr4YMZJWc55djCiSeQ4sFLpTPp1r0aY',	1490172251,	NULL,	NULL,	'::1',	1490172251,	1490172251,	0,	NULL,	'applicant'),
-(18,	'gunawan123',	'gunawan123@gmail.com',	'$2y$10$iQVxVJEfnYHLNU54FEJ7XOMS9Kxo3TnsboXTw94dPtjwtphb4aW9K',	'ZLLjtl4iOOGp6Sz6-eFgZ95gbGpAmtK9',	1490172498,	NULL,	NULL,	'::1',	1490172436,	1490172436,	0,	NULL,	'applicant');
+(18,	'gunawan123',	'gunawan123@gmail.com',	'$2y$10$iQVxVJEfnYHLNU54FEJ7XOMS9Kxo3TnsboXTw94dPtjwtphb4aW9K',	'ZLLjtl4iOOGp6Sz6-eFgZ95gbGpAmtK9',	1490172498,	NULL,	NULL,	'::1',	1490172436,	1490172436,	0,	NULL,	'applicant'),
+(21,	'karya.anakbangsa',	'karya.anakbangsa@gmail.com',	'$2y$10$qV1yTRIfEjYV.t5vLcH7SepUKLq3f9Dwp0T2BlMonpp.7IKWC3.82',	'zSEgZWqZyFsRCnFMlwdb_677oDWUTdcm',	1490460412,	NULL,	NULL,	'::1',	1490460412,	1490460412,	0,	1490705938,	'general-company');
 
 DROP TABLE IF EXISTS `visitor`;
 CREATE TABLE `visitor` (
@@ -1552,4 +1587,4 @@ INSERT INTO `visitor` (`id`, `quantity`, `date`, `is_real`) VALUES
 (1,	2000,	'0000-00-00',	0),
 (2,	1,	'2017-03-06',	1);
 
--- 2017-03-23 12:07:06
+-- 2017-03-29 02:04:57
