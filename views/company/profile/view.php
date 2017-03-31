@@ -25,17 +25,32 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <div class="pull-right">
-            <?= Html::a(Yii::t('app.button', 'Update'), ['/company-dashboard/update-profile'], ['class' => 'btn btn-primary btn-sm']) ?>
-        </div>
         <h3 class="panel-title"><?= Yii::t('app.label', 'Profile Details') ?></h3>
     </div>
     <div class="panel-body">
+        <?= Html::a(Yii::t('app.button', 'Update'), ['/company-dashboard/update-profile'], ['class' => 'btn btn-primary']) ?>
+        <br/><br/>
         <?= DetailView::widget([
             'model' => $profile,
             'attributes' => [
+                'code',
                 'name',
-                
+                'address',
+                [
+                    'attribute' => 'city_id',
+                    'value' => isset($profile->city) ? $profile->city->name : $profile->city_id,
+                ],
+                'phone',
+                'sector_area',
+                'employee_quantity',
+                'website',
+                [
+                    'attribute' => 'photo',
+                    'value' => $profile->getPhotoImg(['width' => 200]),
+                    'format' => 'raw',
+                ],
+                'description',
+                'status:boolean',
             ]
         ]) ?>
     </div>

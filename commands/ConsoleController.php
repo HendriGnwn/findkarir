@@ -24,18 +24,6 @@ class ConsoleController extends Controller
         echo $message . "\n";
     }
     
-    /**
-     * blast email to subscribers
-     */
-    public function actionBlastEmailtoSubscriber()
-    {
-        echo "   > blast email to subscribers \n";
-        $schedules = ScheduledEmail::consoleBlastToSubscribers();
-        
-        $response = $schedules ? 'Success' : 'Failure';
-        echo "   > ".$response;
-    }
-    
     public function actionChangeOrderStatusToExpired()
     {
         echo "   > change order status to expired \n";
@@ -44,5 +32,15 @@ class ConsoleController extends Controller
         $response = $order ? 'Success' : 'Failure';
         
         echo "   > ".$response;
+    }
+    
+    public function actionViewJobRefreshCache()
+    {
+        echo "   > truncate `view_job`; \n";
+        echo "   > insert into `view_job` select * from `raw_view_job`; \n";
+        
+        \app\models\ViewJob::consoleRefreshCache();
+        
+        echo "   > Success";
     }
 }

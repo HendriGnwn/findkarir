@@ -10,6 +10,7 @@ use yii\helpers\Html;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+$user = Yii::$app->user->identity;
 
 ?>
 <!--=== Header ===-->
@@ -55,20 +56,30 @@ use yii\helpers\Html;
                         <?= Html::a(Yii::t('app.button', 'Companies'), ['/company/login']) ?>
                     </li>
                 <?php else: ?>
+                    <?php
+                    $url = ['/'];
+                    if ($user->getIsCategoryApplicant()) {
+                        $url = ['/user-dashboard/index'];
+                    } else if ($user->getIsCategoryGeneralCompany()) {
+                        $url = ['/company-dashboard/index'];
+                    } else if ($user->getIsCategoryMember()) {
+                        $url = ['/member-dashboard/index'];
+                    }
+                    ?>
                     <li class="topbar-devider"></li>
-                    <?php if (Yii::$app->user->identity->getIsCategoryApplicant()) { ?>
-                        <li>
-                            <?= Html::a(Yii::t('app.button', 'Hi').' '.Yii::$app->user->identity->getName(), ['/user-dashboard/index']) ?>
-                        </li>
-                    <?php } else if (Yii::$app->user->identity->getIsCategoryGeneralCompany()) { ?>
-                        <li>
-                            <?= Html::a(Yii::t('app.button', 'Hi').' '.Yii::$app->user->identity->getName(), ['/company-dashboard/index']) ?>
-                        </li>
-                    <?php } else if (Yii::$app->user->identity->getIsCategoryMember()) { ?>
-                        <li>
-                            <?= Html::a(Yii::t('app.button', 'Hi').' '.Yii::$app->user->identity->getName(), ['/member-dashboard/index']) ?>
-                        </li>
-                    <?php } ?>
+                    <li>
+                        <?= Html::a(Yii::t('app.button', 'Hi').' '.Yii::$app->user->identity->getName(), $url) ?>
+                        <ul class="languages hoverSelectorBlock">
+                            <li>
+                                <?= Html::beginForm(['/user/logout'], 'post') ?>
+                                <?= Html::submitButton(
+                                    Yii::t('app.button', 'Logout'),
+                                    ['class' => 'btn btn-default btn-block logout']
+                                ) ?>
+                                <?= Html::endForm() ?>
+                            </li>
+                        </ul>
+                    </li>
                 <?php endif; ?>
             </ul>
         </div>
@@ -131,3 +142,5 @@ use yii\helpers\Html;
     <!--/navbar-collapse-->
 </div>
 <!--=== End Header ===-->
+<br/><br/>
+<br/><br/>

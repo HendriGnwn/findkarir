@@ -51,7 +51,22 @@ class CompanyDashboardController extends BaseCompanyController
     
     public function actionUpdateProfile()
     {
-        return $this->render($this->viewPath . 'profile/update');
+        $model = $this->user->company;
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->photoFile = UploadedFile::getInstance($model, 'photoFile');
+			if ($model->save()) {
+				Yii::$app->session->setFlash('success', Yii::t('app', 'Data is successfully saved'));
+                return $this->redirect(['profile']);
+            }
+            goto render;
+        } else {
+            render:
+            return $this->render($this->viewPath . 'profile/update', [
+                'model' => $model,
+                'profile' => $this->user->company,
+            ]);
+        }
     }
     
     public function actionAccount()

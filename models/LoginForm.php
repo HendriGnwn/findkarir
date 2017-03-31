@@ -72,4 +72,20 @@ class LoginForm extends BaseLoginForm
 
         return $rules;
     }
+    
+    /** @inheritdoc */
+    public function beforeValidate()
+    {
+        if (parent::beforeValidate()) {
+            $this->user = $this->finder->findUserByUsernameOrEmail(trim($this->login));
+            if (!$this->user) {
+                $this->addError('login', Yii::t('app.message', 'Invalid login or password'));
+                return false;
+            }
+
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

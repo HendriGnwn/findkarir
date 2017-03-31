@@ -3,6 +3,9 @@
 namespace app\controllers;
 
 use app\models\Job;
+use app\models\search\ViewJobSearch;
+use app\models\ViewJob;
+use Yii;
 use yii\web\NotFoundHttpException;
 
 class JobController extends BaseController
@@ -14,7 +17,13 @@ class JobController extends BaseController
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $searchModel = new ViewJobSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
     
     public function actionDetail($code)
@@ -35,7 +44,7 @@ class JobController extends BaseController
      */
     protected function findModel($code)
     {
-        if (($model = Job::find()->where(['code' => $code])->jobPublished()->one()) !== null) {
+        if (($model = ViewJob::find()->where(['code' => $code])->actived()->one()) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
