@@ -29,6 +29,9 @@ class CompanyDashboardController extends BaseCompanyController
     
     public function actionJob()
     {
+        $searchModel = new \app\models\search\JobSearch();
+        //$dataProvider = $searchModel->search(Yii::$app->request->params);
+        
         return $this->render('job');
     }
     
