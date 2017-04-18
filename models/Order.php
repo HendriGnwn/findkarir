@@ -16,6 +16,7 @@ use yii\helpers\Html;
  * @property string $partner_id
  * @property string $description
  * @property integer $offer_id
+ * @property integer $company_limit
  * @property integer $offer_limit
  * @property string $offer_at
  * @property string $offer_expired_at
@@ -81,7 +82,7 @@ class Order extends BaseActiveRecord
             [['description', 'offer_id', 'amount', 'admin_fee', 'final_amount'], 'required'],
             [['user_id'], 'required', 'on' => self::SCENARIO_USER],
             [['partner_id'], 'required', 'on' => self::SCENARIO_PARTNER],
-            [['user_id', 'offer_id', 'status', 'currency_id', 'created_by', 'updated_by', 'partner_id', 'offer_limit'], 'integer'],
+            [['user_id', 'offer_id', 'status', 'currency_id', 'created_by', 'updated_by', 'partner_id', 'offer_limit', 'company_limit'], 'integer'],
             [['description'], 'string'],
             [['partner_id', 'currency_id', 'partner_id', 'code', 'offer_at', 'offer_expired_at', 'status_updated_at', 'status_paid_at', 'status_expired_at', 'created_at', 'updated_at'], 'safe'],
             [['amount', 'admin_fee', 'final_amount'], 'number'],
