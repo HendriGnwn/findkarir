@@ -55,6 +55,8 @@ use yii\widgets\ActiveForm;
         ]
     ]) ?>
     
+    <?= $form->field($model, 'company_limit')->textInput() ?>
+    
     <?= $form->field($model, 'offer_limit')->textInput() ?>
 
     <?= $form->field($model, 'offer_expired_at')->widget(DatePicker::className(), [
@@ -66,7 +68,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'currency_id')->widget(Select2::className(), [
         'theme' => Select2::THEME_DEFAULT,
-        'data' => ArrayHelper::map(Currency::find()->ordered()->all(), 'id', 'name'),
+        'data' => ArrayHelper::map(Currency::find()->actived()->ordered()->all(), 'id', 'name'),
         'options' => [
             'prompt' => 'Choose one',
             'readonly' => true,

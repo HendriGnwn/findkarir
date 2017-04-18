@@ -20,18 +20,23 @@ use yii\bootstrap\Nav;
     ],
     'items' => [
         [
-            'label'   => Yii::t('user', 'Listing User Orders'),
+            'label'   => Yii::t('app.menu', 'Listing User Orders'),
             'url'     => ['/fkadmin/order/index'],
         ],
         
         [
-            'label' => Yii::t('user', 'Listing Partner Orders'),
+            'label' => Yii::t('app.menu', 'Listing Partner Orders'),
             'url'   => ['/fkadmin/order/index-partner'],
         ],
         
         [
-            'label' => Yii::t('user', 'Listing Orders Confirmation'),
+            'label' => Yii::t('app.menu', 'Listing Orders Confirmation'),
             'url'   => ['/fkadmin/order/index-confirmation'],
+        ],
+        
+        [
+            'label' => Yii::t('app.menu', 'Orders History'),
+            'url'   => ['/fkadmin/order/index-history'],
         ],
     ],
 ]) ?>

@@ -14,6 +14,17 @@ use yii\widgets\DetailView;
         <h3 class="box-title">List Order Active</h3>
     </div>
     <div class="box-body">
+        <?php
+        if (is_null($order)) {
+            echo yii\bootstrap\Alert::widget([
+                'options' => [
+                    'class' => 'alert-info',
+                ],
+                'body' => Yii::t('app.message', 'Order active is not found.'),
+            ]);
+        } else {
+        ?>
+        
         <?= DetailView::widget([
             'model' => $order ? $order : [],
             'attributes' => [
@@ -37,6 +48,8 @@ use yii\widgets\DetailView;
                 'description',
             ],
         ]) ?>
+        
+        <?php } ?>
     </div>
     <div class="box-footer">
 

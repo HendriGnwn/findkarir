@@ -19,6 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="job-index">
     
+    <?= $this->render('_menu') ?>
+    
     <div class="box box-primary">
         <div class="box-header  with-border">
             <h3 class="box-title"><?= Html::encode($this->title) ?></h3>

@@ -63,6 +63,26 @@ class OrderController extends BaseController
     }
     
     /**
+     * Lists all Order models.
+     * @return mixed
+     */
+    public function actionIndexHistory()
+    {    
+        $searchModel = new OrderSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->query->andWhere([
+            'IN',
+            'status',
+            [Order::STATUS_BLOCKED, Order::STATUS_EXPIRED],
+        ]);
+
+        return $this->render('index-history', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    
+    /**
      * Displays a single Order model.
      * @param string $id
      * @return mixed

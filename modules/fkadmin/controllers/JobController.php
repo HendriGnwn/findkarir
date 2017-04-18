@@ -21,6 +21,23 @@ class JobController extends BaseController
     public function actionIndex()
     {
         $searchModel = new JobSearch();
+        $searchModel->status_payment = [Job::STATUS_PAYMENT_FREE];
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    
+    /**
+     * Lists all Job models.
+     * @return mixed
+     */
+    public function actionPremium()
+    {
+        $searchModel = new JobSearch();
+        $searchModel->status_payment = [Job::STATUS_PAYMENT_PAID, Job::STATUS_PAYMENT_WAITING];
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         
         return $this->render('index', [

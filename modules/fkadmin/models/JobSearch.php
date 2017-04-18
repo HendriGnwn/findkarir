@@ -18,8 +18,8 @@ class JobSearch extends Job
     public function rules()
     {
         return [
-            [['id', 'company_id', 'job_type_id', 'city_id', 'province_id', 'salary_currency_id', 'status', 'status_payment', 'created_by', 'updated_by'], 'integer'],
-            [['code', 'name', 'description', 'requirement', 'open_job_date', 'close_job_date', 'status_updated_at', 'status_payment_updated_at', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'company_id', 'job_type_id', 'city_id', 'province_id', 'salary_currency_id', 'status', 'created_by', 'updated_by'], 'integer'],
+            [['code', 'name', 'description', 'requirement', 'open_job_date', 'close_job_date', 'status_updated_at', 'status_payment_updated_at', 'created_at', 'updated_at', 'status_payment'], 'safe'],
             [['start_salary', 'end_salary'], 'number'],
         ];
     }
@@ -79,14 +79,25 @@ class JobSearch extends Job
             'close_job_date' => $this->close_job_date,
             'status' => $this->status,
             'status_updated_at' => $this->status_updated_at,
-            'status_payment' => $this->status_payment,
             'status_payment_updated_at' => $this->status_payment_updated_at,
             'created_at' => $this->created_at,
             'created_by' => $this->created_by,
             'updated_at' => $this->updated_at,
             'updated_by' => $this->updated_by,
         ]);
-
+        
+        if (is_array($this->status_payment)) {
+            $query->andFilterWhere([
+                'in',
+                'status_payment',
+                $this->status_payment,
+            ]);
+        } else {
+            $query->andFilterWhere([
+                'status_payment' => $this->status_payment,
+            ]);
+        }
+        
         $query->andFilterWhere(['like', 'code', $this->code])
             ->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'description', $this->description])

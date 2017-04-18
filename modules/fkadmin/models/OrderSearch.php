@@ -18,8 +18,8 @@ class OrderSearch extends Order
     public function rules()
     {
         return [
-            [['id', 'user_id', 'partner_id', 'offer_id', 'status', 'currency_id', 'created_by', 'updated_by'], 'integer'],
-            [['offer_at', 'code', 'description', 'offer_expired_at', 'status_updated_at', 'status_paid_at', 'status_expired_at', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'user_id', 'partner_id', 'offer_id', 'currency_id', 'created_by', 'updated_by'], 'integer'],
+            [['offer_at', 'code', 'description', 'offer_expired_at', 'status', 'status_updated_at', 'status_paid_at', 'status_expired_at', 'created_at', 'updated_at'], 'safe'],
             [['amount', 'admin_fee', 'final_amount'], 'number'],
         ];
     }
@@ -46,7 +46,6 @@ class OrderSearch extends Order
             'offer_id' => $this->offer_id,
             'offer_at' => $this->offer_at,
             'offer_expired_at' => $this->offer_expired_at,
-            'status' => $this->status,
             'status_updated_at' => $this->status_updated_at,
             'status_paid_at' => $this->status_paid_at,
             'status_expired_at' => $this->status_expired_at,
@@ -59,6 +58,18 @@ class OrderSearch extends Order
             'updated_at' => $this->updated_at,
             'updated_by' => $this->updated_by,
         ]);
+        
+        if (is_array($this->status)) {
+            $query->andFilterWhere([
+                'in',
+                'status',
+                $this->status,
+            ]);
+        } else {
+            $query->andFilterWhere([
+                'status' => $this->status,
+            ]);
+        }
 
         $query->andFilterWhere(['like', 'code', $this->code])
             ->andFilterWhere(['like', 'description', $this->description]);
@@ -93,9 +104,9 @@ class OrderSearch extends Order
             // $query->where('0=1');
             return $dataProvider;
         }
-
+        
         $query = $this->filterQuerySearch($query);
-
+        
         return $dataProvider;
     }
     
@@ -122,6 +133,11 @@ class OrderSearch extends Order
         $this->load($params);
         
         $query->andWhere(['partner_id' => null]);
+        $query->andWhere([
+            'NOT IN',
+            'status',
+            [self::STATUS_EXPIRED, self::STATUS_BLOCKED],
+        ]);
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -157,6 +173,11 @@ class OrderSearch extends Order
         $this->load($params);
         
         $query->andWhere(['user_id' => null]);
+        $query->andWhere([
+            'NOT IN',
+            'status',
+            [self::STATUS_EXPIRED, self::STATUS_BLOCKED],
+        ]);
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -192,6 +213,11 @@ class OrderSearch extends Order
         $this->load($params);
         
         $query->andWhere(['status' => Order::STATUS_CONFIRMED_BY_USER]);
+        $query->andWhere([
+            'NOT IN',
+            'status',
+            [self::STATUS_EXPIRED, self::STATUS_BLOCKED],
+        ]);
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails

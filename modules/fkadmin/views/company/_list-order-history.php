@@ -20,17 +20,36 @@ use yii\helpers\Url;
         <?= GridView::widget([
             'dataProvider' => new ActiveDataProvider([
                 'query' => $orders,
+                'sort' => [
+                    'defaultOrder' => [
+                        'offer_at' => SORT_DESC,
+                        'offer_expired_at' => SORT_DESC,
+                    ],
+                ],
             ]),
             //'filterModel' => $searchModel,
             'columns' => [
                 ['class' => 'yii\grid\SerialColumn'],
 
-                'id',
+                [
+                    'attribute' => 'offer_id',
+                    'content' => function ($model) {
+                        return isset($model->offer) ? $model->offer->name : $model->offer_id;
+                    }
+                ],
+                'offer_at',
+                'offer_expired_at',
+                [
+                    'attribute' => 'final_amount',
+                    'content' => function ($model) {
+                        return $model->getFormattedFinalAmount();
+                    }
+                ],
                 
                 [
                     'class' => 'yii\grid\ActionColumn',
                     'urlCreator' => function($action, $model, $key, $index) { 
-                        return Url::to(['/fkadmin/job/'.$action,'id'=>$key]);
+                        return Url::to(['/fkadmin/order/'.$action,'id'=>$key]);
                     },
                     'template' => '{view}',
                 ],

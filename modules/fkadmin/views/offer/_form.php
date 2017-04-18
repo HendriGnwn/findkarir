@@ -36,7 +36,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'currency_id')->widget(Select2::className(), [
         'theme' => Select2::THEME_DEFAULT,
-        'data' => ArrayHelper::map(Currency::find()->all(), 'id', 'name'),
+        'data' => ArrayHelper::map(Currency::find()->actived()->ordered()->all(), 'id', 'name'),
         'pluginOptions' => [
             'allowClear' => true
         ],

@@ -32,12 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['class' => 'yii\grid\SerialColumn'],
 
                     [
-                        'attribute' => 'user_id',
-                        'content' => function ($model) {
-                            return isset($model->user) ? $model->user->username : $model->user_id;
-                        }
+                        'attribute' => 'code',
+                        'options' => [
+                            'width' => '15%',
+                        ],
                     ],
-                    'code',
                     'name',
                     // 'address',
                     // 'city_id',

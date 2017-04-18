@@ -78,7 +78,7 @@ use yii\web\View;
     
     <?= $form->field($model, 'salary_currency_id')->widget(Select2::className(), [
         'theme' => Select2::THEME_DEFAULT,
-        'data' => ArrayHelper::map(Currency::find()->ordered()->all(), 'id', 'name'),
+        'data' => ArrayHelper::map(Currency::find()->actived()->ordered()->all(), 'id', 'name'),
         'options' => [
             'prompt' => 'Choose one',
         ]
