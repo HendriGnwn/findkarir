@@ -60,7 +60,7 @@ use yii\web\View;
 <?= $form->field($profile, 'hobby')->textarea() ?>
 <?= $form->field($profile, 'married_status')->dropDownList(Config::getMarriedStatus(), ['prompt'=>'-- Choose One --']) ?>
 <?= $form->field($profile, 'bio')->textarea() ?>
-<?= $form->field($profile, 'currency_id')->dropDownList(ArrayHelper::map(Currency::find()->ordered()->all(), 'id', 'name'), ['prompt'=>'-- Choose One --']) ?>
+<?= $form->field($profile, 'currency_id')->dropDownList(ArrayHelper::map(Currency::find()->actived()->ordered()->all(), 'id', 'name'), ['prompt'=>'-- Choose One --']) ?>
 <?= $form->field($profile, 'salary')->textInput() ?>
 
 <?php else: ?>

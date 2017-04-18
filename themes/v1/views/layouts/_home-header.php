@@ -96,7 +96,30 @@ $user = Yii::$app->user->identity;
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse mega-menu navbar-responsive-collapse">
-        <div class="container">
+        <div class="container"><!--
+                         End Company Pages 
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle icon-user" data-toggle="dropdown" title="SANDI WINATA">                         
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#">Profil</a>
+                                    
+                                </li>
+                                <li>
+                                    <a href="#">Pengaturan</a>
+                                    
+                                </li>
+                                <li>
+                                    <a href="#">Keluar</a>
+                                    
+                                </li>                               
+                            </ul>
+                        </li>                        
+                    </ul>
+                </div>-->
+                <!--/end container-->                
+<!--            </div>-->
             <?php
             $guest = Yii::$app->user->isGuest ? 
                 [
@@ -105,14 +128,28 @@ $user = Yii::$app->user->identity;
                 ]
              : 
                 [
-//                    '<li>'
-//                    . Html::beginForm(['/user/logout'], 'post')
-//                    . Html::submitButton(
-//                        'Logout (' . Yii::$app->user->identity->username . ')',
-//                        ['class' => 'btn btn-link logout']
-//                    )
-//                    . Html::endForm()
-//                    . '</li>'
+                    [
+                        'label' => Yii::t('app.menu', 'Hi').' '.$user->getName(),
+                        'url' => $url,
+                        'items' => [
+                            [
+                                'label' => Yii::t('app.menu', 'Profile'),
+                                'url' => $url,
+                            ],
+                            '<li>'
+                            . Html::beginForm(['/user/logout'], 'post')
+                            . Html::submitButton(
+                                Yii::t('app.button', 'Logout'),
+                                [
+                                    'class' => 'btn btn-default btn-xs btn-block logout',
+                                    'style' => 'padding:5px 15px !important; text-align:left;'
+                                ]
+                            )
+                            . Html::endForm()
+                            . '</li>'
+                        ],
+                    ]
+                    
                 ];
             
             $items = ArrayHelper::merge([
