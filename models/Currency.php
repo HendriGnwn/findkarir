@@ -13,6 +13,7 @@ use Yii;
  * @property string $symbol
  * @property string $rate
  * @property integer $order
+ * @property integer $status
  *
  * @property Profile[] $profiles
  */
