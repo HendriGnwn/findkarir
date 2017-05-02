@@ -7,7 +7,9 @@
 
 namespace app\commands;
 
-use app\models\ScheduledEmail;
+use app\models\Job;
+use app\models\Order;
+use app\models\ViewJob;
 use yii\console\Controller;
 
 /**
@@ -24,22 +26,38 @@ class ConsoleController extends Controller
         echo $message . "\n";
     }
     
+    /**
+     * change order status to expired
+     */
     public function actionChangeOrderStatusToExpired()
     {
         echo "   > change order status to expired \n";
-        $order = \app\models\Order::consoleChangeOrderStatusToExpired();
+        $order = Order::consoleChangeOrderStatusToExpired();
         
         $response = $order ? 'Success' : 'Failure';
         
         echo "   > ".$response;
     }
     
+    /**
+     * view job refresh
+     */
     public function actionViewJobRefreshCache()
     {
         echo "   > truncate `view_job`; \n";
         echo "   > insert into `view_job` select * from `raw_view_job`; \n";
         
-        \app\models\ViewJob::consoleRefreshCache();
+        ViewJob::consoleRefreshCache();
+        
+        echo "   > Success";
+    }
+    
+    /**
+     * jobs status payments managements
+     */
+    public function actionManageJobStatusPayments()
+    {
+        Job::consoleManageJobStatusPayments();
         
         echo "   > Success";
     }

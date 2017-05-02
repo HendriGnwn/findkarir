@@ -204,6 +204,34 @@ class Job extends BaseActiveRecord
         return parent::beforeSave($insert);
     }
     
+    public static function consoleManageJobStatusPayments()
+    {
+        $jobs = self::find()->all();
+        foreach ($jobs as $job) {
+            $company = $job->company;
+            if ($company->getIsUser()) {
+                if (isset($company->user->orderStillActive)) {
+                    $job->status_payment = self::STATUS_PAYMENT_PAID;
+                    $job->status_payment_updated_at = date('Y-m-d H:i:s');
+                    
+                    $job->save();
+                    continue;
+                }
+            } else if ($company->getIsPartner()) {
+                if (isset($company->partner->orderStillActive)) {
+                    $job->status_payment = self::STATUS_PAYMENT_PAID;
+                    $job->status_payment_updated_at = date('Y-m-d H:i:s');
+                    
+                    $job->save();
+                    continue;
+                }
+            }
+            $job->status_payment = self::STATUS_PAYMENT_FREE;
+            
+            $job->save();
+        }
+    }
+    
     /**
      * @return boolean
      */

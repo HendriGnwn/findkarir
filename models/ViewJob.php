@@ -208,7 +208,7 @@ class ViewJob extends BaseActiveRecord
     public static function consoleRefreshCache()
     {
         $query = 'TRUNCATE `view_job`;';
-        $query.= 'INSERT INTO `view_job` SELECT * FROM `raw_view_job`;';
+        $query.= 'INSERT INTO `view_job` SELECT * FROM `raw_view_job` ORDER BY `offer_order` ASC;';
         $command = Yii::$app->db->createCommand($query);
         $result = $command->execute();
         

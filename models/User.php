@@ -149,6 +149,27 @@ class User extends BaseUser
         }
         return $this->username;
 	}
+    
+    /**
+	 * returns name, return username if profile name is null
+	 * 
+	 * @return string
+	 */
+	public function getNameWithUsername()
+	{
+        switch ($this->category) {
+            case self::ROLE_GENERAL_COMPANY :
+                if(isset($this->company) && ($this->company->name != '')) {
+                    return $this->company->name . ' ('.$this->username.')';
+                }
+                return $this->username;
+        }
+        
+        if(isset($this->profile) && ($this->profile->name != '')) {
+            return $this->profile->name  . ' ('.$this->username.')';
+        }
+        return $this->username;
+	}
 	
 	/**
 	 * combine relation data

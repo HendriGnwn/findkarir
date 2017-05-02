@@ -109,8 +109,8 @@ $this->registerJs("
 			},
 			success: function(result) {
                 if (result) {
-                    //offerExpiredAt.val(result.offer_expired_at);
-                    offerExpiredAt.val('2017-04-02').trigger('change');
+                    offerExpiredAt.val(result.offer_expired_at).trigger('change');
+                    //offerExpiredAt.val('2017-04-02').trigger('change');
                     currencyId.val(result.currency_id).trigger('change');
                     amount.val(result.amount);
                     adminFee.val(result.admin_fee);
