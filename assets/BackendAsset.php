@@ -20,6 +20,7 @@ class BackendAsset extends AssetBundle
         'site/css.css'
     ];
     public $js = [
+		'js/main.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
