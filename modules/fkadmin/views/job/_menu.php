@@ -20,6 +20,10 @@ use yii\bootstrap\Nav;
     ],
     'items' => [
         [
+            'label'   => Yii::t('user', 'Jobs Actives [All]'),
+            'url'     => ['/fkadmin/job/actives'],
+        ],
+        [
             'label'   => Yii::t('user', 'Jobs [Free]'),
             'url'     => ['/fkadmin/job/index'],
         ],

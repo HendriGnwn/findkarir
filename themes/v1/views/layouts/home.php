@@ -4,8 +4,10 @@
 /* @var $content string */
 
 use app\assets\HomeAsset;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
+use app\models\City;
+use app\models\Config;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\Breadcrumbs;
@@ -27,7 +29,7 @@ $this->registerMetaTitle();
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
+    <title><?= Html::encode($this->title) ?> - <?= Config::getAppNameUrl() ?></title>
     <?php $this->head() ?>
 </head>
 <body class="header-fixed">
@@ -41,37 +43,44 @@ $this->registerMetaTitle();
             <!-- <div class="job-banner">
 				<h2>Temukan masa depan hebatmu disini bersama FindKarir ...</h2>
 			</div> -->
+            <?= Html::beginForm(['job/search'], 'GET') ?>
             <div class="job-img-inputs">
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-4 md-margin-bottom-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-tag"></i></span>
-                                <input type="text" placeholder="Posisi atau Perusahaan" class="form-control">
+                                <?= Html::textInput('search', null, [
+                                    'placeholder' => Yii::t('app.label', 'Position and Company'),
+                                    'class' => 'form-control',
+                                ]) ?>
                             </div>
                         </div>
                         <div class="col-sm-4 md-margin-bottom-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
                                 <?php
-                                $cities = \yii\helpers\ArrayHelper::map(app\models\City::find()->actived()->all(), 'id', 'name');
-                                echo \kartik\select2\Select2::widget([
+                                $cities = ArrayHelper::map(City::find()->actived()->all(), 'slug', 'name');
+                                echo Select2::widget([
                                     'data' => $cities,
-                                    'name' => 'es',
+                                    'name' => 'city',
                                     'options' => [
-                                        'prompt' => 'All in the City',
+                                        'prompt' => Yii::t('app.label', 'All in the City'),
                                     ],
-                                    'theme' => \kartik\select2\Select2::THEME_BOOTSTRAP,
+                                    'theme' => Select2::THEME_BOOTSTRAP,
                                 ]);
                                 ?>
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <button type="button" class="btn-u btn-block btn-u-blue btn-flat"> Cari </button>
+                            <?= Html::submitInput(Yii::t('app.button', 'Search'), [
+                                'class' => 'btn-u btn-block btn-u-blue btn-flat',
+                            ]) ?>
                         </div>
                     </div>
                 </div>
             </div>
+            <?= Html::endForm() ?>
         </div>
         <!--=== End Job Img ===-->
 

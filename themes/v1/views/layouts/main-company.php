@@ -17,7 +17,7 @@ use yii\widgets\Breadcrumbs;
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
+    <title><?= Html::encode($this->title) ?> - <?= \app\models\Config::getAppNameUrl() ?></title>
     <?php $this->head() ?>
 </head>
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">

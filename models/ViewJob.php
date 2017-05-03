@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "view_job".
@@ -200,6 +201,14 @@ class ViewJob extends BaseActiveRecord
     }
     
     /**
+     * @return ActiveQuery
+     */
+    public function getJobApplies()
+    {
+        return $this->hasMany(JobApply::className(), ['job_id' => 'id']);
+    }
+    
+    /**
      * insert into view_job
      * runs with console command / cron job
      * 
@@ -214,4 +223,24 @@ class ViewJob extends BaseActiveRecord
         
         return $result;
     }
+    
+	public function getStatusPaymentLabel()
+	{
+		$list = Job::statusPaymentLabels();
+		return $list[$this->status_payment] ? $list[$this->status_payment] : $this->status_payment;
+	}
+	
+	public function getStatusPaymentWithStyle()
+	{
+		switch ($this->status_payment) {
+			case Job::STATUS_PAYMENT_WAITING :
+				return Html::label($this->getStatusPaymentLabel(), null, ['class'=>'label label-warning label-sm']);
+			case Job::STATUS_PAYMENT_PAID :
+				return Html::label($this->getStatusPaymentLabel(), null, ['class'=>'label label-success label-sm']);
+            case Job::STATUS_PAYMENT_FREE :
+				return Html::label($this->getStatusPaymentLabel(), null, ['class'=>'label label-primary label-sm']);
+			default :
+				return Html::label($this->getStatusPaymentLabel(), null, ['class'=>'label label-default label-sm']);
+		}
+	}
 }

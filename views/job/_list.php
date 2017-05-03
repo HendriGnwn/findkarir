@@ -15,6 +15,6 @@ use yii\helpers\Html;
     </h2>
 
     <div class="item-excerpt">
-    <?= Html::encode($model->description); ?>
+    <?= ($model->description); ?>
     </div>
 </article>

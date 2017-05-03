@@ -2,18 +2,29 @@
 
 namespace app\modules\fkadmin\controllers;
 
-use Yii;
 use app\models\Job;
-use app\modules\fkadmin\models\JobSearch;
 use app\modules\fkadmin\controllers\BaseController;
+use app\modules\fkadmin\models\JobSearch;
+use app\modules\fkadmin\models\ViewJobSearch;
+use Yii;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * JobController implements the CRUD actions for Job model.
  */
 class JobController extends BaseController
 {
+    public function actionActives()
+    {
+        $searchModel = new ViewJobSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        
+        return $this->render('actives', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    
     /**
      * Lists all Job models.
      * @return mixed

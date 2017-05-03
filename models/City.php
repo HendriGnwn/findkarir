@@ -65,4 +65,9 @@ class City extends BaseActiveRecord
     {
         return $this->hasOne(Province::className(), ['id' => 'province_id']);
     }
+    
+    public function getSlug()
+    {
+        return \yii\helpers\Inflector::slug($this->name);
+    }
 }

@@ -153,7 +153,7 @@ $user = Yii::$app->user->identity;
                 ];
             
             $items = ArrayHelper::merge([
-                ['label' => Yii::t('app.menu', 'Search Jobs'), 'url' => ['/job/search']],
+                ['label' => Yii::t('app.menu', 'Search Jobs'), 'url' => ['/job/index']],
                 ['label' => Yii::t('app.menu', 'Company'), 'url' => ['/company/login']],
             ], $guest);
             $search = ['<li>

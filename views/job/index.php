@@ -11,6 +11,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'class' => 'list-wrapper',
         'id' => 'list-wrapper',
     ],
-    //'layout' => "{pager}\n{items}\n{summary}",
+    'layout' => "{pager}\n{items}\n{summary}",
     'itemView' => '_list',
 ]) ?>

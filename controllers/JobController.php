@@ -50,5 +50,17 @@ class JobController extends BaseController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    
+    /**
+     * 
+     */
+    public function actionSearch()
+    {
+        $request = Yii::$app->request;
+        $city = $request->get('city');
+        $search = $request->get('search');
+        $city = ucwords(str_replace('-', ' ', $city));
+        
+    }
 
 }

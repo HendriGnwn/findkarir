@@ -38,8 +38,8 @@ class ViewJobQuery extends ActiveQuery
     public function actived()
     {
         $this->andWhere(['status' => Job::STATUS_ACTIVE]);
-        $this->andWhere(['in', 'status_payment', [Job::STATUS_PAYMENT_PAID, Job::STATUS_PAYMENT_FREE]]);
-        $this->andWhere(['in', 'order_status', [Order::STATUS_PAID, Order::STATUS_FREE_FOR_PARTNER]]);
+        $this->andWhere(['<=', 'open_job_date', date('Y-m-d')]);
+        $this->andWhere(['>=', 'close_job_date', date('Y-m-d')]);
         
         return $this;
     }

@@ -1,5 +1,7 @@
 <?php
 
+use app\helpers\Url;
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -14,7 +16,7 @@
             <div class="row">
                 <!-- About -->
                 <div class="col-md-3 md-margin-bottom-40">
-                    <a href="index-2.html"><img id="logo-footer" class="footer-logo" src="../assets/img/logo1-default.png" alt="">
+                    <a href="<?= Url::home() ?>"><img id="logo-footer" class="footer-logo" src="<?= Url::to('data/img/logo.png') ?>" alt="" width="150px">
                     </a>
                     <p>About Unify dolor sit amet, consectetur adipiscing elit. Maecenas eget nisl id libero tincidunt sodales.</p>
                     <p>Duis eleifend fermentum ante ut aliquam. Cras mi risus, dignissim sed adipiscing ut, placerat non arcu.</p>
@@ -24,12 +26,12 @@
 
                 <div class="col-md-3 md-margin-bottom-40">
                     <div class="thumb-headline">
-                        <h2><b>Tentang Kami</b></h2>
+                        <h2><b><?= Yii::t('app.label', 'About Us') ?></b></h2>
                     </div>
                     <ul class="list-unstyled simple-list margin-bottom-20">
-                        <li><a href="#">Latar Belakang</a>
+                        <li><a href="#">Background</a>
                         </li>
-                        <li><a href="#">Berkarir Bersama Kami</a>
+                        <li><a href="#">Carier with us</a>
                         </li>
                     </ul>
                 </div>
@@ -37,14 +39,14 @@
 
                 <div class="col-md-3">
                     <div class="thumb-headline">
-                        <h2><b>Pencari Kerja</b></h2>
+                        <h2><b><?= Yii::t('app.label', 'Find Jobs') ?></b></h2>
                     </div>
                     <ul class="list-unstyled simple-list margin-bottom-20">
-                        <li><a href="#">Berdasarkan Posisi</a>
+                        <li><a href="#">Based on Position</a>
                         </li>
-                        <li><a href="#">Berdasarkan Lokasi</a>
+                        <li><a href="#">Based on Location</a>
                         </li>
-                        <li><a href="#">Berdasarkan Perusahaan</a>
+                        <li><a href="#">Based on Company</a>
                         </li>
                     </ul>
                 </div>
@@ -52,16 +54,12 @@
 
                 <div class="col-md-3">
                     <div class="thumb-headline">
-                        <h2><b>Perusahaan</b></h2>
+                        <h2><b><?= Yii::t('app.label', 'Companies') ?></b></h2>
                     </div>
                     <ul class="list-unstyled simple-list margin-bottom-20">
-                        <li><a href="#">Pasang Lowongan</a>
+                        <li><a href="#">Apply Jobs</a>
                         </li>
-                        <li><a href="#">Perencanaan Harga</a>
-                        </li>
-                        <li><a href="#">Mengapa Kami</a>
-                        </li>
-                        <li><a href="#">Syarat Penggunaan</a>
+                        <li><a href="#">Term and Conditions</a>
                         </li>
                     </ul>
                 </div>
@@ -75,7 +73,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <font face="proxima nova" size="3" color="#808080">&copy; FindKarir.com 2017. Hak cipta Dilindungi Undang-Undang</font>
+                    <p>&copy; FindKarir.com 2017. Hak cipta Dilindungi Undang-Undang</p>
                 </div>
                 <!-- Social Links -->
                 <div class="col-md-6">
